@@ -41,6 +41,7 @@ export async function generateMetadata({
   const keywords = t.raw("keywords") as string[];
 
   return {
+    metadataBase: new URL("https://ventocaffe.al"),
     title: {
       default: t("titleDefault"),
       template: t("titleTemplate"),

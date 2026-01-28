@@ -1,3 +1,7 @@
+// TODO: Next.js 16 deprecated middleware.ts in favor of proxy.ts
+// This file should be migrated once next-intl adds support for the proxy convention.
+// See: https://nextjs.org/docs/messages/middleware-to-proxy
+
 import { type NextRequest, NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 import { defaultLocale, locales, localePrefix } from "./i18n/config";
