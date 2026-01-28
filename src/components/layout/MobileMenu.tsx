@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { mainNavItems, languages } from "@/data/navigation";
+import Image from "next/image";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -84,7 +85,14 @@ export default function MobileMenu({
           onClick={onClose}
           className="font-serif text-xl tracking-tight mb-12"
         >
-          Vento Caffè
+          <Image
+              src="/images/logo.png"
+              alt="Vento Caffè"
+              width={120}
+              height={48}
+              className="h-10 w-auto"
+              priority
+            />
         </Link>
 
         {/* Navigation Links */}

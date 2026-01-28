@@ -43,7 +43,7 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm link-underline ${
+                className={`text-base font-medium link-underline ${
                   pathname === item.href ? "opacity-100" : "opacity-70 hover:opacity-100"
                 } transition-opacity`}
               >
