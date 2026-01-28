@@ -399,5 +399,30 @@
     "whatsappButton": "Na shkruani në WhatsApp",
     "emailButton": "Na shkruani me email",
     "emailText": "Ose na shkruani direkt në"
+  },
+  "auth": {
+    "login": "Hyr",
+    "loginTitle": "Mirëseerdhët përsëri",
+    "loginButton": "Hyr",
+    "signupTitle": "Krijo llogari",
+    "signupButton": "Krijo Llogari",
+    "forgotTitle": "Rivendos fjalëkalimin",
+    "forgotPassword": "Keni harruar fjalëkalimin?",
+    "forgotDescription": "Shkruani emailin tuaj dhe do t'ju dërgojmë një link për të rivendosur fjalëkalimin.",
+    "resetButton": "Dërgo Linkun",
+    "resetEmailSent": "Kontrolloni emailin për linkun e rivendosjes.",
+    "checkEmail": "Kontrolloni emailin për të konfirmuar llogarinë.",
+    "email": "Email",
+    "password": "Fjalëkalimi",
+    "fullName": "Emri i plotë",
+    "passwordHint": "Të paktën 6 karaktere",
+    "createAccount": "Krijo llogari",
+    "haveAccount": "Keni tashmë një llogari?",
+    "loginLink": "Hyni",
+    "backToLogin": "Kthehu te hyrja",
+    "signOut": "Dil",
+    "account": "Llogaria",
+    "loading": "Duke u ngarkuar...",
+    "close": "Mbyll"
   }
 }

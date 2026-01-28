@@ -1,7 +1,9 @@
 "use client";
 
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useRef, ReactNode } from "react";
 import { MACHINE_SLUG, getMachineSeed } from "@/data/products";
+import { useAuth } from "@/components/auth";
+import { saveCart as saveCartToServer, loadCart as loadCartFromServer } from "@/lib/actions/cart";
 
 export interface CartItem {
   productSlug: string;
@@ -177,31 +179,93 @@ const SUBSCRIPTION_STORAGE_KEY = "vento-caffe-subscription";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+  const { user } = useAuth();
+  const isInitialMount = useRef(true);
+  const previousUserId = useRef<string | null>(null);
 
-  // Load cart from localStorage on mount
+  // Load cart from localStorage or server on mount and when user changes
   useEffect(() => {
-    try {
-      const storedItems = localStorage.getItem(CART_STORAGE_KEY);
-      const storedSubscription = localStorage.getItem(SUBSCRIPTION_STORAGE_KEY);
-      
-      const items = storedItems ? JSON.parse(storedItems) : [];
-      const isSubscription = storedSubscription === "true";
-      
-      dispatch({ type: "LOAD_CART", payload: { items, isSubscription } });
-    } catch (error) {
-      console.error("Failed to load cart from storage:", error);
-    }
-  }, []);
+    const loadCart = async () => {
+      try {
+        if (user) {
+          // User is logged in - try to load from server
+          const { data: serverCart } = await loadCartFromServer();
+          
+          if (serverCart && serverCart.items.length > 0) {
+            // Use server cart if it has items
+            dispatch({ type: "LOAD_CART", payload: serverCart });
+            // Also save to localStorage for offline access
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(serverCart.items));
+            localStorage.setItem(SUBSCRIPTION_STORAGE_KEY, String(serverCart.isSubscription));
+          } else {
+            // Load from localStorage and sync to server
+            const storedItems = localStorage.getItem(CART_STORAGE_KEY);
+            const storedSubscription = localStorage.getItem(SUBSCRIPTION_STORAGE_KEY);
+            
+            const items = storedItems ? JSON.parse(storedItems) : [];
+            const isSubscription = storedSubscription === "true";
+            
+            dispatch({ type: "LOAD_CART", payload: { items, isSubscription } });
+            
+            // Sync local cart to server if there are items
+            if (items.length > 0) {
+              await saveCartToServer(items, isSubscription);
+            }
+          }
+        } else {
+          // No user - load from localStorage
+          const storedItems = localStorage.getItem(CART_STORAGE_KEY);
+          const storedSubscription = localStorage.getItem(SUBSCRIPTION_STORAGE_KEY);
+          
+          const items = storedItems ? JSON.parse(storedItems) : [];
+          const isSubscription = storedSubscription === "true";
+          
+          dispatch({ type: "LOAD_CART", payload: { items, isSubscription } });
+        }
+      } catch (error) {
+        console.error("Failed to load cart:", error);
+        // Fallback to localStorage
+        const storedItems = localStorage.getItem(CART_STORAGE_KEY);
+        const storedSubscription = localStorage.getItem(SUBSCRIPTION_STORAGE_KEY);
+        
+        const items = storedItems ? JSON.parse(storedItems) : [];
+        const isSubscription = storedSubscription === "true";
+        
+        dispatch({ type: "LOAD_CART", payload: { items, isSubscription } });
+      }
+    };
 
-  // Save cart to localStorage on change
-  useEffect(() => {
-    try {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
-      localStorage.setItem(SUBSCRIPTION_STORAGE_KEY, String(state.isSubscription));
-    } catch (error) {
-      console.error("Failed to save cart to storage:", error);
+    // Only reload cart when user changes
+    const currentUserId = user?.id ?? null;
+    if (isInitialMount.current || previousUserId.current !== currentUserId) {
+      loadCart();
+      previousUserId.current = currentUserId;
+      isInitialMount.current = false;
     }
-  }, [state.items, state.isSubscription]);
+  }, [user]);
+
+  // Save cart to localStorage and server on change
+  useEffect(() => {
+    // Skip initial mount
+    if (isInitialMount.current) return;
+
+    const saveCart = async () => {
+      try {
+        // Always save to localStorage
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
+        localStorage.setItem(SUBSCRIPTION_STORAGE_KEY, String(state.isSubscription));
+        
+        // Also save to server if user is logged in
+        if (user) {
+          await saveCartToServer(state.items, state.isSubscription);
+        }
+      } catch (error) {
+        console.error("Failed to save cart:", error);
+      }
+    };
+
+    saveCart();
+  }, [state.items, state.isSubscription, user]);
 
   const addItem = (item: CartItem) => dispatch({ type: "ADD_ITEM", payload: item });
   const removeItem = (productSlug: string) =>

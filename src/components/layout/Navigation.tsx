@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { mainNavItems } from "@/data/navigation";
 import { useCart } from "@/lib/cart";
+import { AuthButton } from "@/components/auth";
 import MobileMenu from "./MobileMenu";
 
 export default function Navigation() {
@@ -117,8 +118,11 @@ export default function Navigation() {
             />
           </Link>
 
-          {/* Right: Cart + Language */}
+          {/* Right: Auth + Cart + Language */}
           <div className="flex items-center justify-end gap-4">
+            {/* Auth Button */}
+            <AuthButton />
+
             {/* Cart Button */}
             <button
               onClick={toggleCart}

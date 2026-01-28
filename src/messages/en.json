@@ -399,5 +399,30 @@
     "whatsappButton": "WhatsApp Us",
     "emailButton": "Email Us",
     "emailText": "Or email us directly at"
+  },
+  "auth": {
+    "login": "Login",
+    "loginTitle": "Welcome back",
+    "loginButton": "Sign In",
+    "signupTitle": "Create account",
+    "signupButton": "Create Account",
+    "forgotTitle": "Reset password",
+    "forgotPassword": "Forgot password?",
+    "forgotDescription": "Enter your email and we'll send you a link to reset your password.",
+    "resetButton": "Send Reset Link",
+    "resetEmailSent": "Check your email for a password reset link.",
+    "checkEmail": "Check your email to confirm your account.",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full name",
+    "passwordHint": "Must be at least 6 characters",
+    "createAccount": "Create account",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Sign in",
+    "backToLogin": "Back to login",
+    "signOut": "Sign out",
+    "account": "Account",
+    "loading": "Loading...",
+    "close": "Close"
   }
 }

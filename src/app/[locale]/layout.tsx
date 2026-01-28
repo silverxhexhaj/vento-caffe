@@ -6,6 +6,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import "../globals.css";
 import { locales } from "@/i18n/config";
 import { CartProvider } from "@/lib/cart";
+import { AuthProvider } from "@/components/auth";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/layout/CartDrawer";
@@ -83,12 +84,14 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${inter.variable} ${playfair.variable}`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <CartProvider>
-            <Navigation />
-            <main id="main-content">{children}</main>
-            <Footer />
-            <CartDrawer />
-          </CartProvider>
+          <AuthProvider>
+            <CartProvider>
+              <Navigation />
+              <main id="main-content">{children}</main>
+              <Footer />
+              <CartDrawer />
+            </CartProvider>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

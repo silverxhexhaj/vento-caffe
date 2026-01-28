@@ -399,5 +399,30 @@
     "whatsappButton": "Scrivici su WhatsApp",
     "emailButton": "Scrivici via email",
     "emailText": "Oppure scrivici direttamente a"
+  },
+  "auth": {
+    "login": "Accedi",
+    "loginTitle": "Bentornato",
+    "loginButton": "Accedi",
+    "signupTitle": "Crea account",
+    "signupButton": "Crea Account",
+    "forgotTitle": "Reimposta password",
+    "forgotPassword": "Password dimenticata?",
+    "forgotDescription": "Inserisci la tua email e ti invieremo un link per reimpostare la password.",
+    "resetButton": "Invia Link",
+    "resetEmailSent": "Controlla la tua email per il link di reimpostazione.",
+    "checkEmail": "Controlla la tua email per confermare l'account.",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Nome completo",
+    "passwordHint": "Almeno 6 caratteri",
+    "createAccount": "Crea account",
+    "haveAccount": "Hai già un account?",
+    "loginLink": "Accedi",
+    "backToLogin": "Torna al login",
+    "signOut": "Esci",
+    "account": "Account",
+    "loading": "Caricamento...",
+    "close": "Chiudi"
   }
 }
