@@ -28,8 +28,8 @@
     "sq": "SQ"
   },
   "navigation": {
-    "home": "Ballina",
-    "shop": "Dyqani",
+    "home": "Home",
+    "shop": "Produktet",
     "about": "Rreth nesh",
     "skipToContent": "Shko te përmbajtja",
     "openMenu": "Hap menunë",
@@ -38,9 +38,9 @@
   },
   "common": {
     "shopNow": "Bli tani",
-    "shop": "Dyqani",
+    "shop": "Produktet",
     "about": "Rreth nesh",
-    "home": "Ballina",
+    "home": "Home",
     "contactUs": "Na kontaktoni",
     "viewProducts": "Shiko produktet",
     "orderNow": "Porosit tani",
@@ -106,7 +106,7 @@
       "priceLabel": "vetëm",
       "includes": [
         "150 cialde premium",
-        "Komplet gotash, sheqer dhe shkopinj përzierës",
+        "Komplet gotash, sheqer dhe lugë",
         "Makinë espresso FALAS"
       ],
       "machineValue": 170,
@@ -179,7 +179,7 @@
         {
           "number": "01",
           "title": "Zgjidh cialdet",
-          "description": "Zgjidh kutinë Classic ose Decaffeinato (150 cialde + komplet)"
+          "description": "Zgjidh kutinë Classic ose Decaffeinato (150 cialde + kit)"
         },
         {
           "number": "02",
@@ -198,29 +198,27 @@
       "subheading": "Na kontaktoni për të nisur abonimin tuaj",
       "whatsappNumber": "+355694825205",
       "whatsappMessage": "Përshëndetje! Jam i interesuar të nis një abonim cialdesh.",
-      "email": "info@ventocaffe.al"
+      "email": "ventocaffealbania@gmail.com"
     }
   },
   "products": {
     "classicCialde": {
       "name": "Kuti Cialde Klasike",
       "description": "Përzierja jonë karakteristike e kafesë italiane premium, e përzgjedhur me kujdes dhe e pjekur në perfeksion. Çdo cialde sjell një espresso të pasur e të plotë me nota çokollate dhe arrash të pjekura. Kafja perfekte e përditshme për adhuruesit e vërtetë të espressos.",
-      "contents": "150 cialde + komplet",
+      "contents": "150 cialde + kit",
       "highlights": [
-        "150 pods kafeje ESE premium",
-        "Përfshin gota, sheqer dhe shkopinj",
-        "Pjekje mesatare",
+        "150 pods kafeje ESE classic",
+        "Përfshin gota, sheqer dhe lugë",
         "E përputhshme me të gjitha makinat ESE"
       ]
     },
     "decaffeinatoCialde": {
       "name": "Kuti Cialde pa kafeinë",
       "description": "I gjithë shija, pa kafeinë. Cialdet tona pa kafeinë përdorin procesin natyral Swiss Water për të hequr kafeinën duke ruajtur shijet komplekse të kokrrave Arabica premium. Shijoni espresso autentike italiane në çdo kohë të ditës.",
-      "contents": "150 cialde + komplet",
+      "contents": "150 cialde + kit",
       "highlights": [
         "150 pods ESE pa kafeinë",
-        "Përfshin gota, sheqer dhe shkopinj",
-        "Proces pa kafeinë Swiss Water",
+        "Përfshin gota, sheqer dhe lugë",
         "E përputhshme me të gjitha makinat ESE"
       ]
     },
@@ -239,7 +237,7 @@
   "shopPage": {
     "metaTitle": "Dyqani - Cialde kafeje dhe makinë espresso",
     "metaDescription": "Cialde kafeje italiane premium me dorëzim mujor. Merrni një makinë espresso FALAS kur abonoheni në dorëzime mujore.",
-    "title": "Dyqani",
+    "title": "Produktet",
     "description": "Zgjidh kutinë tënde të preferuar të cialdeve dhe shijo espresso italiane premium në shtëpi. Abonohu çdo muaj dhe merr makinën e espressos falas.",
     "cialdeHeading": "Cialde kafeje",
     "machineHeading": "Makina e espressos",

@@ -42,9 +42,6 @@ export default async function ShopPage({ params }: ShopPageProps) {
 
         {/* Cialde Products Section */}
         <div className="mb-16">
-          <h2 className="text-lg uppercase tracking-wide mb-8">
-            {t("shopPage.cialdeHeading")}
-          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {cialdeProducts.map((product) => (
               <ProductCard key={product.slug} product={product} />
