@@ -7,6 +7,7 @@ import "../globals.css";
 import { locales } from "@/i18n/config";
 import { CartProvider } from "@/lib/cart";
 import { AuthProvider } from "@/components/auth";
+import { createClient } from "@/lib/supabase/server";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/layout/CartDrawer";
@@ -78,6 +79,10 @@ export default async function RootLayout({
   if (!locales.includes(locale as (typeof locales)[number])) {
     notFound();
   }
+
+  // Refresh auth session in layout
+  const supabase = await createClient();
+  await supabase.auth.getUser();
 
   const messages = await getMessages({ locale });
 
