@@ -23,6 +23,25 @@ export const content = {
     ctaHref: "/shop",
   },
   
+  directOffer: {
+    badge: "SPECIAL OFFER",
+    headline: "FREE Espresso Machine",
+    price: 55,
+    currency: "€",
+    priceLabel: "only",
+    includes: [
+      "150 premium cialde",
+      "Cups, sugar & stirrers kit",
+      "FREE espresso machine",
+    ],
+    machineValue: 170,
+    ctaText: "ORDER NOW",
+    ctaHref: "/shop/classic-cialde",
+    note: "Commit to 1 box/month",
+    whatsappNumber: "+355694825205",
+    whatsappMessage: "Hi! I want to order the €55 cialde box with the free espresso machine!",
+  },
+  
   brandStatement: {
     heading: "Authentic Italian espresso, delivered to your door.",
     subheading: "Premium cialde. Free machine. Monthly convenience.",
