@@ -31,10 +31,9 @@ export default function Navigation() {
       </a>
       
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-[var(--border)] ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20 ${
           isScrolled ? "bg-[var(--background)]/95 backdrop-blur-sm" : "bg-[var(--background)]"
         }`}
-        style={{ height: "var(--nav-height)" }}
       >
         <nav className="container h-full grid grid-cols-3 items-center">
           {/* Left: Navigation Links */}
@@ -84,7 +83,7 @@ export default function Navigation() {
               alt="Vento Caffè"
               width={120}
               height={48}
-              className="h-10 w-auto"
+              className="h-14 w-auto"
               priority
             />
           </Link>

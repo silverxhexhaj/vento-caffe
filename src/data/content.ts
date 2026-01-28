@@ -5,7 +5,19 @@ export const content = {
   },
   
   hero: {
-    mainText: ["ESPRESSO", "AT HOME", "MADE SIMPLE"],
+    mainText: ["ESPRESSO", "FOR YOUR"],
+    businessCategories: [
+      "HOTEL",
+      "OFFICE",
+      "SALON",
+      "AIRBNB",
+      "CLINIC",
+      "SPA",
+      "STUDIO",
+      "GYM",
+      "RESTAURANT",
+      "COWORKING",
+    ],
     description: "Premium coffee cialde delivered monthly. Commit to a box per month, and we'll give you the espresso machine for FREE.",
     ctaText: "SHOP NOW",
     ctaHref: "/shop",
