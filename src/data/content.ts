@@ -20,14 +20,6 @@ export const content = {
     subHeading: "selected",
   },
   
-  lifestyle: {
-    preHeading: "We are for",
-    heading: "unique",
-    subHeading: "aesthetics",
-    description: "We are for the beautiful and the good, to compose and to share. We are for unique aesthetics.",
-    cta: "Lifestyle",
-  },
-  
   about: {
     paragraphs: [
       "We are Vento, a brand of specialty coffee, roasted here in Milano. We also are places. Raw and singular coffee shops. We are multiple ranges, carefully selected. We are for unique aesthetics, sharp and minimalist.",
@@ -83,34 +75,6 @@ export const content = {
     { icon: "star", label: "Premium Selection", description: "High-end beans" },
     { icon: "refresh", label: "Fresh Roasted", description: "Weekly batches" },
   ],
-  
-  daily: {
-    heading: "Daily",
-    subHeading: "Welcome to Vento Caffè's Journal. Here we share moments, music, and inspiration.",
-    posts: [
-      {
-        slug: "morning-rituals",
-        title: "Morning Rituals",
-        excerpt: "The first cup of the day is a meditation. A pause before the world accelerates.",
-        image: "/images/daily/morning.jpg",
-        date: "2026-01-15",
-      },
-      {
-        slug: "origin-stories",
-        title: "Origin Stories",
-        excerpt: "Tracing the path from seed to cup. A journey through Ethiopian highlands.",
-        image: "/images/daily/origin.jpg",
-        date: "2026-01-10",
-      },
-      {
-        slug: "sound-of-brewing",
-        title: "The Sound of Brewing",
-        excerpt: "Music and coffee share a common rhythm. Both require patience and precision.",
-        image: "/images/daily/sound.jpg",
-        date: "2026-01-05",
-      },
-    ],
-  },
   
   collaborations: {
     heading: "Collaborations",

@@ -4,11 +4,10 @@ A minimalist marketing and e-commerce website for Vento Caffè, a specialty coff
 
 ## Features
 
-- **Homepage**: Manifesto hero, product preview, lifestyle section, stores preview, playlist marquee, newsletter signup
+- **Homepage**: Manifesto hero, product preview, lifestyle section, playlist marquee, newsletter signup
 - **Shop**: Product listing and detail pages with variant selector, quantity stepper, and add-to-cart functionality
 - **Cart**: Client-side cart with localStorage persistence
-- **Stores**: Location listings with addresses and hours
-- **Daily & Collaborations**: Editorial content sections
+- **Collaborations**: Editorial content section
 - **Responsive**: Mobile-first design with smooth transitions
 - **Accessible**: Semantic HTML, focus states, skip links, ARIA labels
 - **SEO**: Meta tags, Open Graph, structured data ready
@@ -47,20 +46,16 @@ src/
 │   ├── page.tsx           # Homepage
 │   ├── about/             # About page
 │   ├── shop/              # Shop listing & product detail
-│   ├── stores/            # Store locations
-│   ├── daily/             # Daily editorial
 │   ├── collaborations/    # Collaborations editorial
 │   └── legal/             # Legal pages
 ├── components/
 │   ├── layout/            # Navigation, Footer, CartDrawer
 │   ├── home/              # Homepage sections
 │   ├── shop/              # Product components
-│   ├── stores/            # Store components
 │   ├── editorial/         # Editorial card
 │   └── ui/                # Reusable UI components
 ├── data/                  # Content as TypeScript objects
 │   ├── products.ts        # Product catalog
-│   ├── stores.ts          # Store locations
 │   ├── content.ts         # Brand copy & content
 │   └── navigation.ts      # Navigation items
 └── lib/
@@ -91,21 +86,6 @@ All content is stored in TypeScript files in the `src/data/` directory. No datab
 }
 ```
 
-### Stores (`src/data/stores.ts`)
-
-```typescript
-{
-  id: "milano-centro",
-  name: "Vento Centro",
-  address: "Via Tortona 27",
-  city: "20144 Milano",
-  hours: "Mon-Fri 7:30-19:00",
-  openingSoon: false,        // Shows "Opening Soon" badge
-  image: "/images/stores/centro.jpg",
-  mapUrl: "https://google.com/maps/..."
-}
-```
-
 ### Brand Copy (`src/data/content.ts`)
 
 Edit hero text, brand statements, about page content, newsletter copy, footer text, and more.
@@ -116,7 +96,6 @@ Edit hero text, brand statements, about page content, newsletter copy, footer te
 2. Reference them in data files as `/images/filename.jpg`
 3. Recommended sizes:
    - Products: 800×800px (square)
-   - Stores: 1200×900px (4:3 ratio)
    - Editorial: 1200×800px (3:2 ratio)
 
 ## Design Tokens
