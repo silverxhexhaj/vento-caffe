@@ -5,7 +5,11 @@ export const content = {
   },
   
   hero: {
-    lines: ["We are Vento", "coffee", "roasted", "with wind"],
+    tagline: "We are Vento",
+    mainText: ["COFFEE", "ROASTED", "IN MILANO"],
+    description: "A brand of specialty coffee. We also are places. Raw and singular coffee shops. Sharp and minimalist.",
+    ctaText: "ABOUT US",
+    ctaHref: "/about",
   },
   
   brandStatement: {

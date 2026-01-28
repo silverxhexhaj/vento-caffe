@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { mainNavItems, languages } from "@/data/navigation";
 import { useCart } from "@/lib/cart";
@@ -30,22 +31,14 @@ export default function Navigation() {
       </a>
       
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-[var(--background)]/95 backdrop-blur-sm border-b border-[var(--border)]" : ""
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-[var(--border)] ${
+          isScrolled ? "bg-[var(--background)]/95 backdrop-blur-sm" : "bg-[var(--background)]"
         }`}
         style={{ height: "var(--nav-height)" }}
       >
-        <nav className="container h-full flex items-center justify-between">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="font-serif text-xl tracking-tight hover:opacity-70 transition-opacity"
-          >
-            Vento Caffè
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+        <nav className="container h-full grid grid-cols-3 items-center">
+          {/* Left: Navigation Links */}
+          <div className="hidden md:flex items-center gap-6">
             {mainNavItems.map((item) => (
               <Link
                 key={item.href}
@@ -59,8 +52,54 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* Right side: Language + Cart */}
-          <div className="flex items-center gap-4">
+          {/* Mobile: Menu Button (left side on mobile) */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="p-2 -ml-2"
+              aria-label="Open menu"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Center: Logo */}
+          <Link
+            href="/"
+            className="justify-self-center hover:opacity-70 transition-opacity"
+          >
+            <Image
+              src="/images/logo.png"
+              alt="Vento Caffè"
+              width={120}
+              height={48}
+              className="h-10 w-auto"
+              priority
+            />
+          </Link>
+
+          {/* Right: Cart + Language */}
+          <div className="flex items-center justify-end gap-4">
+            {/* Cart Button */}
+            <button
+              onClick={toggleCart}
+              className="text-sm link-underline flex items-center gap-1"
+              aria-label={`Cart with ${totalItems} items`}
+            >
+              cart ({totalItems})
+            </button>
+
             {/* Language Toggle - Desktop */}
             <div className="hidden md:flex items-center gap-1 text-sm">
               {languages.map((lang, index) => (
@@ -82,35 +121,6 @@ export default function Navigation() {
                 </span>
               ))}
             </div>
-
-            {/* Cart Button */}
-            <button
-              onClick={toggleCart}
-              className="text-sm link-underline flex items-center gap-1"
-              aria-label={`Cart with ${totalItems} items`}
-            >
-              cart ({totalItems})
-            </button>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="md:hidden p-2 -mr-2"
-              aria-label="Open menu"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
           </div>
         </nav>
       </header>
