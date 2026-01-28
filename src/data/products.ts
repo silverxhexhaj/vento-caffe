@@ -20,7 +20,7 @@ export const products: Product[] = [
     soldOut: false,
     featured: true,
     images: [
-      "/images/products/classic-cialde-1.jpg",
+      "/images/products/classic-cialde-1.png",
       "/images/products/classic-cialde-2.jpg",
     ],
     type: "cialde",
@@ -40,7 +40,7 @@ export const products: Product[] = [
     soldOut: false,
     featured: true,
     images: [
-      "/images/products/decaffeinato-cialde-1.jpg",
+      "/images/products/decaffeinato-cialde-1.png",
       "/images/products/decaffeinato-cialde-2.jpg",
     ],
     type: "cialde",
@@ -60,7 +60,7 @@ export const products: Product[] = [
     soldOut: false,
     featured: true,
     images: [
-      "/images/products/espresso-machine-1.jpg",
+      "/images/products/espresso-machine-1.png",
       "/images/products/espresso-machine-2.jpg",
     ],
     type: "machine",
