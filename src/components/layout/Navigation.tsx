@@ -1,19 +1,46 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { mainNavItems, languages } from "@/data/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { mainNavItems } from "@/data/navigation";
 import { useCart } from "@/lib/cart";
 import MobileMenu from "./MobileMenu";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState("en");
   const pathname = usePathname();
+  const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations();
   const { totalItems, toggleCart } = useCart();
+
+  const localePathname = useMemo(() => {
+    if (!pathname) return `/${locale}`;
+    const segments = pathname.split("/");
+    if (segments.length > 1) {
+      segments[1] = locale;
+    }
+    return segments.join("/") || `/${locale}`;
+  }, [locale, pathname]);
+
+  const buildLocaleHref = (href: string, targetLocale = locale) => {
+    const normalized = href === "/" ? "" : href;
+    return `/${targetLocale}${normalized}`;
+  };
+
+  const handleLanguageChange = (nextLocale: string) => {
+    if (nextLocale === locale) return;
+    const segments = localePathname.split("/");
+    if (segments.length > 1) {
+      segments[1] = nextLocale;
+    }
+    const nextPath = segments.join("/") || `/${nextLocale}`;
+    router.push(nextPath);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,7 +54,7 @@ export default function Navigation() {
   return (
     <>
       <a href="#main-content" className="skip-link">
-        Skip to content
+        {t("navigation.skipToContent")}
       </a>
       
       <header
@@ -41,12 +68,14 @@ export default function Navigation() {
             {mainNavItems.map((item) => (
               <Link
                 key={item.href}
-                href={item.href}
+                href={buildLocaleHref(item.href)}
                 className={`text-base font-medium link-underline ${
-                  pathname === item.href ? "opacity-100" : "opacity-70 hover:opacity-100"
+                  localePathname === buildLocaleHref(item.href)
+                    ? "opacity-100"
+                    : "opacity-70 hover:opacity-100"
                 } transition-opacity`}
               >
-                {item.label}
+                {t(item.label)}
               </Link>
             ))}
           </div>
@@ -56,7 +85,7 @@ export default function Navigation() {
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className="p-2 -ml-2"
-              aria-label="Open menu"
+              aria-label={t("navigation.openMenu")}
             >
               <svg
                 width="24"
@@ -75,7 +104,7 @@ export default function Navigation() {
 
           {/* Center: Logo */}
           <Link
-            href="/"
+            href={buildLocaleHref("/")}
             className="justify-self-center hover:opacity-70 transition-opacity"
           >
             <Image
@@ -94,27 +123,27 @@ export default function Navigation() {
             <button
               onClick={toggleCart}
               className="text-sm link-underline flex items-center gap-1"
-              aria-label={`Cart with ${totalItems} items`}
+              aria-label={t("cart.title", { totalItems })}
             >
-              cart ({totalItems})
+              {t("navigation.cartButton", { totalItems })}
             </button>
 
             {/* Language Toggle - Desktop */}
             <div className="hidden md:flex items-center gap-1 text-sm">
-              {languages.map((lang, index) => (
-                <span key={lang.code} className="flex items-center">
+              {["en", "it", "sq"].map((lang, index) => (
+                <span key={lang} className="flex items-center">
                   <button
-                    onClick={() => setCurrentLang(lang.code)}
+                    onClick={() => handleLanguageChange(lang)}
                     className={`link-underline ${
-                      currentLang === lang.code
+                      locale === lang
                         ? "opacity-100"
                         : "opacity-50 hover:opacity-100"
                     } transition-opacity`}
-                    aria-label={`Switch to ${lang.label}`}
+                    aria-label={t("languages." + lang)}
                   >
-                    {lang.label}
+                    {t("languages." + lang)}
                   </button>
-                  {index < languages.length - 1 && (
+                  {index < 2 && (
                     <span className="mx-1 opacity-30">/</span>
                   )}
                 </span>
@@ -128,8 +157,8 @@ export default function Navigation() {
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        currentLang={currentLang}
-        onLangChange={setCurrentLang}
+        currentLang={locale}
+        onLangChange={handleLanguageChange}
       />
 
       {/* Spacer for fixed header */}

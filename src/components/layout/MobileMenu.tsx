@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { mainNavItems, languages } from "@/data/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { mainNavItems } from "@/data/navigation";
 import Image from "next/image";
 
 interface MobileMenuProps {
@@ -18,6 +19,13 @@ export default function MobileMenu({
   currentLang,
   onLangChange,
 }: MobileMenuProps) {
+  const locale = useLocale();
+  const t = useTranslations();
+
+  const buildLocaleHref = (href: string) => {
+    const normalized = href === "/" ? "" : href;
+    return `/${locale}${normalized}`;
+  };
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
@@ -64,7 +72,7 @@ export default function MobileMenu({
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2"
-          aria-label="Close menu"
+          aria-label={t("navigation.closeMenu")}
         >
           <svg
             width="24"
@@ -81,7 +89,7 @@ export default function MobileMenu({
 
         {/* Logo */}
         <Link
-          href="/"
+          href={buildLocaleHref("/")}
           onClick={onClose}
           className="font-serif text-xl tracking-tight mb-12"
         >
@@ -101,11 +109,11 @@ export default function MobileMenu({
             {mainNavItems.map((item) => (
               <li key={item.href}>
                 <Link
-                  href={item.href}
+                  href={buildLocaleHref(item.href)}
                   onClick={onClose}
                   className="text-h2 font-serif link-underline"
                 >
-                  {item.label}
+                  {t(item.label)}
                 </Link>
               </li>
             ))}
@@ -114,17 +122,17 @@ export default function MobileMenu({
 
         {/* Language Toggle */}
         <div className="flex items-center gap-4 pt-8 border-t border-[var(--border)]">
-          {languages.map((lang) => (
+          {["en", "it", "sq"].map((lang) => (
             <button
-              key={lang.code}
-              onClick={() => onLangChange(lang.code)}
+              key={lang}
+              onClick={() => onLangChange(lang)}
               className={`text-sm ${
-                currentLang === lang.code
+                currentLang === lang
                   ? "opacity-100"
                   : "opacity-50 hover:opacity-100"
               } transition-opacity`}
             >
-              {lang.label}
+              {t("languages." + lang)}
             </button>
           ))}
         </div>

@@ -1,0 +1,403 @@
+{
+  "metadata": {
+    "titleDefault": "Vento Caffè | Cialde kafeje premium me dorëzim mujor",
+    "titleTemplate": "%s | Vento Caffè",
+    "description": "Cialde kafeje italiane premium me dorëzim mujor. Merrni një makinë espresso FALAS kur abonoheni. Espresso autentike në shtëpi, thjesht.",
+    "keywords": [
+      "cialde kafeje",
+      "ESE pods",
+      "makinë espresso",
+      "abonim kafeje",
+      "kafe italiane",
+      "dorëzim mujor",
+      "makinë espresso falas"
+    ],
+    "openGraph": {
+      "title": "Vento Caffè | Cialde kafeje premium me dorëzim mujor",
+      "description": "Cialde kafeje italiane premium me dorëzim mujor. Merrni një makinë espresso FALAS kur abonoheni.",
+      "locale": "sq_AL"
+    },
+    "twitter": {
+      "title": "Vento Caffè | Cialde kafeje premium me dorëzim mujor",
+      "description": "Cialde kafeje italiane premium me dorëzim mujor. Merrni një makinë espresso FALAS kur abonoheni."
+    }
+  },
+  "languages": {
+    "en": "EN",
+    "it": "IT",
+    "sq": "SQ"
+  },
+  "navigation": {
+    "home": "Ballina",
+    "shop": "Dyqani",
+    "about": "Rreth nesh",
+    "skipToContent": "Shko te përmbajtja",
+    "openMenu": "Hap menunë",
+    "closeMenu": "Mbyll menunë",
+    "cartButton": "shporta ({totalItems})"
+  },
+  "common": {
+    "shopNow": "Bli tani",
+    "shop": "Dyqani",
+    "about": "Rreth nesh",
+    "home": "Ballina",
+    "contactUs": "Na kontaktoni",
+    "viewProducts": "Shiko produktet",
+    "orderNow": "Porosit tani",
+    "free": "FALAS",
+    "soldOut": "S'ka në stok",
+    "soldOutUpper": "S'KA NË STOK",
+    "freeWithSubscription": "Falas me abonim",
+    "orFreeWithSubscription": "ose FALAS me abonim",
+    "orFreeWithMonthlySubscription": "ose FALAS me abonim mujor cialde",
+    "espressoMachine": "Makina e espressos",
+    "coffeeCialde": "Cialde kafeje",
+    "quantity": "Sasia",
+    "deliveryTime": "2-3 ditë pune",
+    "monthlyAvailable": "Në dispozicion mujor",
+    "freeWithMonthly": "Falas me mujor",
+    "subscribeMonthly": "Abonohu çdo muaj",
+    "getFreeMachine": "Merr makinën falas",
+    "contactViaWhatsapp": "Na kontakto në WhatsApp",
+    "contactUsAboutSubscription": "Na kontaktoni për abonimin",
+    "orderViaWhatsapp": "Porosit në WhatsApp",
+    "questionsChat": "Pyetje? Bisedo me ne"
+  },
+  "hero": {
+    "machineValueNote": "vlerë e përfshirë {free}"
+  },
+  "freeMachineOffer": {
+    "machineBadgeLabel": "Makinë"
+  },
+  "footer": {
+    "copyright": "© {year} Vento Caffè"
+  },
+  "newsletter": {
+    "emailLabel": "Adresa e emailit"
+  },
+  "content": {
+    "brand": {
+      "name": "Vento Caffè",
+      "tagline": "Espresso në shtëpi, thjesht"
+    },
+    "hero": {
+      "mainText": ["ESPRESSO", "PËR"],
+      "businessCategories": [
+        "HOTEL",
+        "ZYRË",
+        "SALLON",
+        "AIRBNB",
+        "KLINIKË",
+        "SPA",
+        "STUDIO",
+        "PALESTËR",
+        "RESTORANT",
+        "COWORKING"
+      ],
+      "description": "Cialde kafeje premium me dorëzim mujor. Abonohu për një kuti në muaj dhe ne do të të japim makinën e espressos FALAS.",
+      "ctaText": "BLI TANI",
+      "ctaHref": "/shop"
+    },
+    "directOffer": {
+      "badge": "OFERTË SPECIALE",
+      "headline": "Makinë espresso FALAS",
+      "price": 55,
+      "currency": "€",
+      "priceLabel": "vetëm",
+      "includes": [
+        "150 cialde premium",
+        "Komplet gotash, sheqer dhe shkopinj përzierës",
+        "Makinë espresso FALAS"
+      ],
+      "machineValue": 170,
+      "ctaText": "POROSIT TANI",
+      "ctaHref": "/shop/classic-cialde",
+      "note": "Abonohu për 1 kuti/muaj",
+      "whatsappNumber": "+355694825205",
+      "whatsappMessage": "Përshëndetje! Dua të porosis kutinë e cialdeve €55 me makinën e espressos falas!"
+    },
+    "brandStatement": {
+      "heading": "Espresso autentike italiane, e dorëzuar në derën tuaj.",
+      "subheading": "Cialde premium. Makinë falas. Komoditet mujor.",
+      "cta": "Mëso më shumë"
+    },
+    "productSection": {
+      "preHeading": "Cialde cilësore,",
+      "heading": "të dorëzuara",
+      "subHeading": "çdo muaj"
+    },
+    "freeMachineOffer": {
+      "heading": "Makinë espresso falas",
+      "subheading": "Oferta jonë speciale",
+      "description": "Abonohu duke blerë vetëm 1 kuti cialde në muaj dhe ne do të të japim një makinë espresso profesionale krejtësisht FALAS. Pa tarifa të fshehura, pa kontrata — vetëm kafe e shkëlqyer.",
+      "benefits": [
+        "Makinë espresso profesionale 15-bar",
+        "Pa kosto fillestare për makinën",
+        "Porosi mujore fleksibël",
+        "Anulo në çdo kohë"
+      ],
+      "ctaText": "Na kontaktoni",
+      "secondaryCta": "Shiko produktet",
+      "whatsappNumber": "+355694825205",
+      "whatsappMessage": "Përshëndetje! Jam i interesuar për ofertën e makinës së espressos falas me abonim mujor cialde."
+    },
+    "about": {
+      "paragraphs": [
+        "Ne jemi Vento Caffè dhe sjellim espresso autentike italiane direkt në shtëpinë ose zyrën tuaj. Misioni ynë është i thjeshtë: ta bëjmë kafenë premium të aksesueshme dhe të përshtatshme përmes abonimit të cialdeve.",
+        "Ne besojmë se të gjithë meritojnë një espresso perfekte. Prandaj ofrojmë makinën tonë profesionale të espressos FALAS kur angazhoheni për një kuti cialde mujore. Pa kontrata të ndërlikuara, pa tarifa të fshehura — vetëm kafe e shkëlqyer e dorëzuar në derën tuaj."
+      ],
+      "founders": {
+        "heading": "Themeluesit",
+        "names": ["Marco Bianchi", "Lucia Rossi"]
+      }
+    },
+    "newsletter": {
+      "heading": "Buletini",
+      "subHeading": "Qëndro në kontakt",
+      "placeholder": "Shkruani emailin tuaj",
+      "buttonText": "Shko",
+      "successMessage": "Faleminderit për abonimin!"
+    },
+    "footer": {
+      "tagline": "Cialde kafeje premium me dorëzim mujor. Makinë falas me abonim.",
+      "bottomLine": "Merrni kohën tuaj. Shijoni espresson.",
+      "legal": [
+        { "label": "Politika e privatësisë", "href": "/legal/privacy" },
+        { "label": "Kushtet dhe termat", "href": "/legal/terms" },
+        { "label": "Dërgesa dhe kthime", "href": "/legal/shipping" }
+      ]
+    },
+    "trustBadges": [
+      { "icon": "gift", "label": "Makinë falas", "description": "Me abonim" },
+      { "icon": "truck", "label": "Dorëzim mujor", "description": "Deri te dera juaj" },
+      { "icon": "star", "label": "Cialde premium", "description": "Cilësi italiane" },
+      { "icon": "refresh", "label": "Rirenditje e lehtë", "description": "WhatsApp ose online" }
+    ],
+    "subscription": {
+      "heading": "Si funksionon",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Zgjidh cialdet",
+          "description": "Zgjidh kutinë Classic ose Decaffeinato (150 cialde + komplet)"
+        },
+        {
+          "number": "02",
+          "title": "Merr makinën falas",
+          "description": "Abonohu për porosi mujore dhe merr makinën e espressos FALAS"
+        },
+        {
+          "number": "03",
+          "title": "Shijo & Rirendit",
+          "description": "Shijo espresso perfekte dhe rirendit lehtësisht në WhatsApp ose online"
+        }
+      ]
+    },
+    "contact": {
+      "heading": "Fillo",
+      "subheading": "Na kontaktoni për të nisur abonimin tuaj",
+      "whatsappNumber": "+355694825205",
+      "whatsappMessage": "Përshëndetje! Jam i interesuar të nis një abonim cialdesh.",
+      "email": "info@ventocaffe.al"
+    }
+  },
+  "products": {
+    "classicCialde": {
+      "name": "Kuti Cialde Klasike",
+      "description": "Përzierja jonë karakteristike e kafesë italiane premium, e përzgjedhur me kujdes dhe e pjekur në perfeksion. Çdo cialde sjell një espresso të pasur e të plotë me nota çokollate dhe arrash të pjekura. Kafja perfekte e përditshme për adhuruesit e vërtetë të espressos.",
+      "contents": "150 cialde + komplet",
+      "highlights": [
+        "150 pods kafeje ESE premium",
+        "Përfshin gota, sheqer dhe shkopinj",
+        "Pjekje mesatare",
+        "E përputhshme me të gjitha makinat ESE"
+      ]
+    },
+    "decaffeinatoCialde": {
+      "name": "Kuti Cialde pa kafeinë",
+      "description": "I gjithë shija, pa kafeinë. Cialdet tona pa kafeinë përdorin procesin natyral Swiss Water për të hequr kafeinën duke ruajtur shijet komplekse të kokrrave Arabica premium. Shijoni espresso autentike italiane në çdo kohë të ditës.",
+      "contents": "150 cialde + komplet",
+      "highlights": [
+        "150 pods ESE pa kafeinë",
+        "Përfshin gota, sheqer dhe shkopinj",
+        "Proces pa kafeinë Swiss Water",
+        "E përputhshme me të gjitha makinat ESE"
+      ]
+    },
+    "espressoMachine": {
+      "name": "Makina e espressos",
+      "description": "Një makinë espresso profesionale me pods ESE e projektuar për thjeshtësi dhe cilësi. Kompakte, elegante dhe e fuqishme — përgatit espresso të nivelit bar në shtëpi ose në zyrë me një shtypje të vetme. Pa rrëmujë, pa mbetje, vetëm kafe perfekte.",
+      "highlights": [
+        "Presion pompe 15 bar",
+        "E përputhshme me pods ESE",
+        "Dizajn kompakt",
+        "Garanci 1-vjeçare",
+        "FALAS me abonim mujor"
+      ]
+    }
+  },
+  "shopPage": {
+    "metaTitle": "Dyqani - Cialde kafeje dhe makinë espresso",
+    "metaDescription": "Cialde kafeje italiane premium me dorëzim mujor. Merrni një makinë espresso FALAS kur abonoheni në dorëzime mujore.",
+    "title": "Dyqani",
+    "description": "Zgjidh kutinë tënde të preferuar të cialdeve dhe shijo espresso italiane premium në shtëpi. Abonohu çdo muaj dhe merr makinën e espressos falas.",
+    "cialdeHeading": "Cialde kafeje",
+    "machineHeading": "Makina e espressos",
+    "infoCardTitle": "Falas me abonim",
+    "infoCardDescription": "Kur angazhoheni të porosisni të paktën 1 kuti cialdesh në muaj, ne do t'ju dërgojmë këtë makinë espresso profesionale krejtësisht falas."
+  },
+  "aboutPage": {
+    "metaDescription": "Ne jemi Vento Caffè, duke sjellë espresso autentike italiane direkt në shtëpinë ose zyrën tuaj përmes abonimit të cialdeve.",
+    "values": {
+      "quality": {
+        "title": "Cilësi",
+        "description": "Ne përzgjedhim vetëm kafe italiane premium, të përpunuar me kujdes në pods ESE që japin një espresso të qëndrueshme dhe të nivelit bar çdo herë."
+      },
+      "convenience": {
+        "title": "Komoditet",
+        "description": "Dorëzimi mujor do të thotë se nuk do të mbeteni kurrë pa kafe. Abonimi ynë i thjeshtë përfshin gjithçka që ju nevojitet — cialde, gota, sheqer dhe shkopinj."
+      },
+      "value": {
+        "title": "Vlerë",
+        "description": "Merrni një makinë espresso profesionale krejtësisht falas kur abonoheni. Pa kosto fillestare, pa tarifa të fshehura — vetëm kafe e shkëlqyer e dorëzuar në derën tuaj."
+      }
+    },
+    "cta": {
+      "title": "Gati për të filluar?",
+      "description": "Na kontaktoni sot për të nisur abonimin mujor të cialdeve dhe për të marrë makinën tuaj të espressos falas."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Politika e privatësisë",
+      "description": "Politika e privatësisë për Vento Caffè",
+      "lastUpdated": "Përditësuar së fundi: Janar 2026",
+      "sections": {
+        "informationCollect": {
+          "title": "Informacioni që mbledhim",
+          "body": "Ne mbledhim informacionin që ju na jepni drejtpërdrejt, si kur krijoni një llogari, bëni një blerje, regjistroheni në buletinin tonë ose na kontaktoni për mbështetje."
+        },
+        "useInformation": {
+          "title": "Si e përdorim informacionin tuaj",
+          "body": "Ne e përdorim informacionin e mbledhur për të përpunuar porositë tuaja, për të komunikuar me ju dhe për të përmirësuar shërbimet tona."
+        },
+        "contact": {
+          "title": "Na kontaktoni",
+          "body": "Nëse keni pyetje për këtë Politikë Privatësie, ju lutemi na kontaktoni në hello@ventocaffe.com"
+        }
+      }
+    },
+    "shipping": {
+      "title": "Dërgesa dhe kthime",
+      "description": "Politika e dërgesave dhe kthimeve për Vento Caffè",
+      "lastUpdated": "Përditësuar së fundi: Janar 2026",
+      "sections": {
+        "shipping": {
+          "title": "Dërgesa",
+          "body": "Ne dërgojmë në të gjithë Evropën. Dorëzimi standard zgjat 2-3 ditë pune brenda Italisë dhe 4-7 ditë pune për pjesën tjetër të Evropës."
+        },
+        "freeShipping": {
+          "title": "Dërgesa falas",
+          "body": "Dërgesë falas për të gjitha porositë mbi €50 brenda Italisë dhe €75 për pjesën tjetër të Evropës."
+        },
+        "returns": {
+          "title": "Kthimet",
+          "body": "Për shkak të natyrës së prishshme të produkteve tona, nuk mund të pranojmë kthime për kafenë. Nëse merrni një produkt të dëmtuar ose të gabuar, ju lutemi na kontaktoni brenda 48 orëve nga dorëzimi."
+        },
+        "contact": {
+          "title": "Na kontaktoni",
+          "body": "Nëse keni pyetje për dërgesat ose kthimet, ju lutemi na kontaktoni në hello@ventocaffe.com"
+        }
+      }
+    },
+    "terms": {
+      "title": "Kushtet dhe termat",
+      "description": "Kushtet dhe termat për Vento Caffè",
+      "lastUpdated": "Përditësuar së fundi: Janar 2026",
+      "sections": {
+        "acceptance": {
+          "title": "Pranimi i kushteve",
+          "body": "Duke hyrë dhe përdorur këtë faqe, ju pranoni dhe bini dakord të jeni të detyruar nga termat dhe dispozitat e këtij marrëveshjeje."
+        },
+        "pricing": {
+          "title": "Produktet dhe çmimet",
+          "body": "Të gjitha çmimet janë në Euro dhe përfshijnë taksat e aplikueshme. Ne rezervojmë të drejtën për të ndryshuar çmimet në çdo kohë pa njoftim paraprak."
+        },
+        "contact": {
+          "title": "Na kontaktoni",
+          "body": "Nëse keni pyetje për këto Kushte, ju lutemi na kontaktoni në hello@ventocaffe.com"
+        }
+      }
+    }
+  },
+  "cart": {
+    "title": "Shporta ({totalItems})",
+    "close": "Mbyll shportën",
+    "empty": "Shporta juaj është bosh",
+    "shopNow": "Bli tani",
+    "freeBadge": "Falas",
+    "remove": "Hiq",
+    "decreaseQuantity": "Ule sasinë",
+    "increaseQuantity": "Rrit sasinë",
+    "whatsappIntro": "Përshëndetje! Dua të bëj një porosi:",
+    "whatsappTotal": "Totali: {total}",
+    "whatsappSubscriptionNote": "Dua të abonohen për dorëzim mujor.",
+    "subscribeMonthlyLabel": "Abonohu çdo muaj",
+    "subscribeMonthlyDescription": "Merr një makinë espresso falas me porosinë tënde",
+    "machineLabel": "Makina e espressos",
+    "total": "Totali",
+    "orderWhatsapp": "Porosit në WhatsApp",
+    "statusMonthly": "Porosi me abonim mujor",
+    "statusOneTime": "Blerje një herë"
+  },
+  "productPage": {
+    "notFoundTitle": "Produkti nuk u gjet",
+    "price": "{price}",
+    "priceWithSubscription": "{price} ose FALAS me abonim"
+  },
+  "productCard": {
+    "soldOut": "S'ka në stok",
+    "freeWithSubscription": "Falas me abonim",
+    "orFreeWithSubscription": "ose FALAS me abonim"
+  },
+  "productDetail": {
+    "breadcrumbShop": "Dyqani",
+    "soldOut": "S'ka në stok",
+    "freeWithMonthlySubscription": "ose FALAS me abonim mujor cialde",
+    "subscribeMonthlyHeadline": "Abonohu çdo muaj dhe merr makinën falas",
+    "subscribeMonthlyDescription": "Angazhohu të porosisësh të paktën 1 kuti në muaj dhe merr një makinë espresso profesionale krejtësisht falas.",
+    "machineLabel": "Makina e espressos",
+    "machineFree": "FALAS",
+    "machineCtaTitle": "Dëshiron këtë makinë falas?",
+    "machineCtaDescription": "Abonohu për dorëzimin mujor të cialdeve dhe merr këtë makinë espresso pa kosto.",
+    "addToCart": "Shto në shportë — {price}",
+    "freeAddedNote": "Makina espresso falas do të shtohet në shportën tuaj",
+    "soldOutButton": "S'KA NË STOK",
+    "soldOutNote": "Na kontaktoni për t'u njoftuar kur ky produkt të jetë përsëri në stok.",
+    "typeLabel": "Lloji",
+    "contentsLabel": "Përmbajtja",
+    "deliveryLabel": "Dorëzimi",
+    "subscriptionLabel": "Abonimi",
+    "deliveryValue": "2-3 ditë pune",
+    "subscriptionMonthly": "Në dispozicion mujor",
+    "subscriptionFreeMonthly": "Falas me mujor"
+  },
+  "quantityStepper": {
+    "label": "Sasia",
+    "decrease": "Ule sasinë",
+    "increase": "Rrit sasinë"
+  },
+  "productGallery": {
+    "imageAlt": "{productName} - Imazhi {index}",
+    "viewImage": "Shiko imazhin {index}",
+    "thumbnailAlt": "{productName} miniaturë {index}"
+  },
+  "subscriptionCta": {
+    "title": "Gati për të filluar?",
+    "description": "Na kontaktoni sot për të nisur abonimin mujor të cialdeve dhe për të marrë makinën tuaj të espressos falas.",
+    "contactButton": "Na kontaktoni",
+    "whatsappButton": "Na shkruani në WhatsApp",
+    "emailButton": "Na shkruani me email",
+    "emailText": "Ose na shkruani direkt në"
+  }
+}

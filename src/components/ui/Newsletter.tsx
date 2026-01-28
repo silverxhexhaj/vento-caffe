@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { content } from "@/data/content";
+import { useTranslations } from "next-intl";
+import { getContent } from "@/data/content";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations();
+  const content = getContent(t);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -37,7 +40,7 @@ export default function Newsletter() {
         placeholder={content.newsletter.placeholder}
         required
         className="input flex-1"
-        aria-label="Email address"
+        aria-label={t("newsletter.emailLabel")}
       />
       <button
         type="submit"

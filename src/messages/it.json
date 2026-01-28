@@ -1,0 +1,403 @@
+{
+  "metadata": {
+    "titleDefault": "Vento Caffè | Cialde di caffè premium consegnate mensilmente",
+    "titleTemplate": "%s | Vento Caffè",
+    "description": "Cialde di caffè italiano premium consegnate mensilmente. Ottieni una macchina da espresso GRATIS quando ti abboni. Espresso autentico a casa, in modo semplice.",
+    "keywords": [
+      "cialde di caffè",
+      "pod ESE",
+      "macchina da espresso",
+      "abbonamento caffè",
+      "caffè italiano",
+      "consegna mensile",
+      "macchina da espresso gratis"
+    ],
+    "openGraph": {
+      "title": "Vento Caffè | Cialde di caffè premium consegnate mensilmente",
+      "description": "Cialde di caffè italiano premium consegnate mensilmente. Ottieni una macchina da espresso GRATIS quando ti abboni.",
+      "locale": "it_IT"
+    },
+    "twitter": {
+      "title": "Vento Caffè | Cialde di caffè premium consegnate mensilmente",
+      "description": "Cialde di caffè italiano premium consegnate mensilmente. Ottieni una macchina da espresso GRATIS quando ti abboni."
+    }
+  },
+  "languages": {
+    "en": "EN",
+    "it": "IT",
+    "sq": "SQ"
+  },
+  "navigation": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "Chi siamo",
+    "skipToContent": "Vai al contenuto",
+    "openMenu": "Apri menu",
+    "closeMenu": "Chiudi menu",
+    "cartButton": "carrello ({totalItems})"
+  },
+  "common": {
+    "shopNow": "Acquista ora",
+    "shop": "Shop",
+    "about": "Chi siamo",
+    "home": "Home",
+    "contactUs": "Contattaci",
+    "viewProducts": "Vedi prodotti",
+    "orderNow": "Ordina ora",
+    "free": "GRATIS",
+    "soldOut": "Esaurito",
+    "soldOutUpper": "Esaurito",
+    "freeWithSubscription": "Gratis con abbonamento",
+    "orFreeWithSubscription": "o GRATIS con abbonamento",
+    "orFreeWithMonthlySubscription": "o GRATIS con abbonamento mensile di cialde",
+    "espressoMachine": "Macchina da espresso",
+    "coffeeCialde": "Cialde di caffè",
+    "quantity": "Quantità",
+    "deliveryTime": "2-3 giorni lavorativi",
+    "monthlyAvailable": "Disponibile mensilmente",
+    "freeWithMonthly": "Gratis con mensile",
+    "subscribeMonthly": "Abbonati mensilmente",
+    "getFreeMachine": "Ottieni la macchina gratis",
+    "contactViaWhatsapp": "Contatta via WhatsApp",
+    "contactUsAboutSubscription": "Contattaci per l'abbonamento",
+    "orderViaWhatsapp": "Ordina via WhatsApp",
+    "questionsChat": "Domande? Chatta con noi"
+  },
+  "hero": {
+    "machineValueNote": "valore incluso {free}"
+  },
+  "freeMachineOffer": {
+    "machineBadgeLabel": "Macchina"
+  },
+  "footer": {
+    "copyright": "© {year} Vento Caffè"
+  },
+  "newsletter": {
+    "emailLabel": "Indirizzo email"
+  },
+  "content": {
+    "brand": {
+      "name": "Vento Caffè",
+      "tagline": "Espresso a casa, in modo semplice"
+    },
+    "hero": {
+      "mainText": ["ESPRESSO", "PER IL TUO"],
+      "businessCategories": [
+        "HOTEL",
+        "UFFICIO",
+        "SALONE",
+        "AIRBNB",
+        "CLINICA",
+        "SPA",
+        "STUDIO",
+        "PALESTRA",
+        "RISTORANTE",
+        "COWORKING"
+      ],
+      "description": "Cialde di caffè premium consegnate ogni mese. Impegnati per una scatola al mese e ti daremo la macchina da espresso GRATIS.",
+      "ctaText": "ACQUISTA ORA",
+      "ctaHref": "/shop"
+    },
+    "directOffer": {
+      "badge": "OFFERTA SPECIALE",
+      "headline": "Macchina da espresso GRATIS",
+      "price": 55,
+      "currency": "€",
+      "priceLabel": "solo",
+      "includes": [
+        "150 cialde premium",
+        "Kit di tazze, zucchero e palette",
+        "Macchina da espresso GRATIS"
+      ],
+      "machineValue": 170,
+      "ctaText": "ORDINA ORA",
+      "ctaHref": "/shop/classic-cialde",
+      "note": "Impegnati per 1 scatola/mese",
+      "whatsappNumber": "+355694825205",
+      "whatsappMessage": "Ciao! Vorrei ordinare la scatola di cialde da €55 con la macchina da espresso gratuita!"
+    },
+    "brandStatement": {
+      "heading": "Autentico espresso italiano, consegnato a casa tua.",
+      "subheading": "Cialde premium. Macchina gratuita. Comodità mensile.",
+      "cta": "Scopri di più"
+    },
+    "productSection": {
+      "preHeading": "Cialde di qualità,",
+      "heading": "consegnate",
+      "subHeading": "mensilmente"
+    },
+    "freeMachineOffer": {
+      "heading": "Macchina da espresso gratis",
+      "subheading": "La nostra offerta speciale",
+      "description": "Impegnati ad acquistare solo 1 scatola di cialde al mese e ti daremo una macchina da espresso professionale completamente GRATIS. Nessuna commissione nascosta, nessun contratto: solo ottimo caffè.",
+      "benefits": [
+        "Macchina da espresso professionale da 15 bar",
+        "Nessun costo iniziale per la macchina",
+        "Ordini mensili flessibili",
+        "Annulla in qualsiasi momento"
+      ],
+      "ctaText": "Contattaci",
+      "secondaryCta": "Vedi prodotti",
+      "whatsappNumber": "+355694825205",
+      "whatsappMessage": "Ciao! Sono interessato all'offerta della macchina da espresso gratuita con abbonamento mensile di cialde."
+    },
+    "about": {
+      "paragraphs": [
+        "Siamo Vento Caffè e portiamo l'autentico espresso italiano direttamente a casa o in ufficio. La nostra missione è semplice: rendere il caffè premium accessibile e conveniente attraverso il nostro servizio di abbonamento alle cialde.",
+        "Crediamo che tutti meritino un espresso perfetto. Per questo offriamo la nostra macchina da espresso professionale GRATIS quando ti impegni per una scatola di cialde mensile. Nessun contratto complicato, nessun costo nascosto: solo ottimo caffè consegnato alla tua porta."
+      ],
+      "founders": {
+        "heading": "Fondatori",
+        "names": ["Marco Bianchi", "Lucia Rossi"]
+      }
+    },
+    "newsletter": {
+      "heading": "Newsletter",
+      "subHeading": "Resta in contatto",
+      "placeholder": "Inserisci la tua email",
+      "buttonText": "Vai",
+      "successMessage": "Grazie per l'iscrizione!"
+    },
+    "footer": {
+      "tagline": "Cialde di caffè premium consegnate mensilmente. Macchina gratuita con abbonamento.",
+      "bottomLine": "Prenditi il tuo tempo. Goditi il tuo espresso.",
+      "legal": [
+        { "label": "Informativa sulla privacy", "href": "/legal/privacy" },
+        { "label": "Termini e condizioni", "href": "/legal/terms" },
+        { "label": "Spedizioni e resi", "href": "/legal/shipping" }
+      ]
+    },
+    "trustBadges": [
+      { "icon": "gift", "label": "Macchina gratis", "description": "Con abbonamento" },
+      { "icon": "truck", "label": "Consegna mensile", "description": "Direttamente a casa tua" },
+      { "icon": "star", "label": "Cialde premium", "description": "Qualità italiana" },
+      { "icon": "refresh", "label": "Riordino facile", "description": "WhatsApp o online" }
+    ],
+    "subscription": {
+      "heading": "Come funziona",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Scegli le tue cialde",
+          "description": "Seleziona la scatola Classic o Decaffeinato (150 cialde + kit)"
+        },
+        {
+          "number": "02",
+          "title": "Ottieni la macchina gratis",
+          "description": "Impegnati con ordini mensili e ricevi la tua macchina da espresso GRATIS"
+        },
+        {
+          "number": "03",
+          "title": "Gusta & riordina",
+          "description": "Gusta un espresso perfetto e riordina facilmente via WhatsApp o online"
+        }
+      ]
+    },
+    "contact": {
+      "heading": "Inizia",
+      "subheading": "Contattaci per attivare il tuo abbonamento",
+      "whatsappNumber": "+355694825205",
+      "whatsappMessage": "Ciao! Sono interessato ad iniziare un abbonamento di cialde.",
+      "email": "info@ventocaffe.al"
+    }
+  },
+  "products": {
+    "classicCialde": {
+      "name": "Box Cialde Classiche",
+      "description": "La nostra miscela esclusiva di caffè italiano premium, selezionato con cura e tostato alla perfezione. Ogni cialda offre un espresso ricco e corposo con note di cioccolato e frutta secca tostata. Il caffè quotidiano perfetto per i veri amanti dell'espresso.",
+      "contents": "150 cialde + kit",
+      "highlights": [
+        "150 cialde ESE premium",
+        "Include tazze, zucchero e palette",
+        "Miscela a tostatura media",
+        "Compatibile con tutte le macchine ESE"
+      ]
+    },
+    "decaffeinatoCialde": {
+      "name": "Box Cialde Decaffeinate",
+      "description": "Tutto il gusto, senza caffeina. Le nostre cialde decaffeinate utilizzano il processo naturale Swiss Water per rimuovere la caffeina preservando i sapori complessi dei chicchi Arabica premium. Gusta l'autentico espresso italiano in qualsiasi momento della giornata.",
+      "contents": "150 cialde + kit",
+      "highlights": [
+        "150 cialde ESE decaffeinate",
+        "Include tazze, zucchero e palette",
+        "Processo decaffeinato Swiss Water",
+        "Compatibile con tutte le macchine ESE"
+      ]
+    },
+    "espressoMachine": {
+      "name": "Macchina da espresso",
+      "description": "Una macchina da espresso professionale ESE progettata per semplicità e qualità. Compatta, elegante e potente: prepara un espresso da bar a casa o in ufficio con il tocco di un pulsante. Nessun disordine, nessuno spreco, solo caffè perfetto.",
+      "highlights": [
+        "Pressione della pompa 15 bar",
+        "Compatibile con cialde ESE",
+        "Design compatto",
+        "Garanzia di 1 anno",
+        "GRATIS con abbonamento mensile"
+      ]
+    }
+  },
+  "shopPage": {
+    "metaTitle": "Shop - Cialde di caffè e macchina da espresso",
+    "metaDescription": "Cialde di caffè italiano premium consegnate mensilmente. Ottieni una macchina da espresso GRATIS quando ti abboni alle consegne mensili.",
+    "title": "Shop",
+    "description": "Scegli la tua scatola di cialde preferita e goditi un espresso italiano premium a casa. Abbonati mensilmente e ricevi la tua macchina da espresso gratis.",
+    "cialdeHeading": "Cialde di caffè",
+    "machineHeading": "Macchina da espresso",
+    "infoCardTitle": "Gratis con abbonamento",
+    "infoCardDescription": "Quando ti impegni a ordinare almeno 1 scatola di cialde al mese, ti invieremo questa macchina da espresso professionale completamente gratuita."
+  },
+  "aboutPage": {
+    "metaDescription": "Siamo Vento Caffè e portiamo l'autentico espresso italiano direttamente a casa o in ufficio attraverso il nostro abbonamento alle cialde.",
+    "values": {
+      "quality": {
+        "title": "Qualità",
+        "description": "Selezioniamo solo caffè italiano premium, lavorato con cura in cialde ESE che garantiscono un espresso costante e di qualità da bar ogni volta."
+      },
+      "convenience": {
+        "title": "Comodità",
+        "description": "La consegna mensile significa non restare mai senza caffè. Il nostro abbonamento include tutto ciò che serve: cialde, tazze, zucchero e palette."
+      },
+      "value": {
+        "title": "Valore",
+        "description": "Ricevi una macchina da espresso professionale completamente gratuita quando ti abboni. Nessun costo iniziale, nessuna commissione nascosta: solo ottimo caffè consegnato alla tua porta."
+      }
+    },
+    "cta": {
+      "title": "Pronto per iniziare?",
+      "description": "Contattaci oggi per attivare il tuo abbonamento mensile di cialde e ricevere la tua macchina da espresso gratuita."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Informativa sulla privacy",
+      "description": "Informativa sulla privacy per Vento Caffè",
+      "lastUpdated": "Ultimo aggiornamento: gennaio 2026",
+      "sections": {
+        "informationCollect": {
+          "title": "Informazioni che raccogliamo",
+          "body": "Raccogliamo le informazioni che ci fornisci direttamente, ad esempio quando crei un account, effettui un acquisto, ti iscrivi alla nostra newsletter o ci contatti per assistenza."
+        },
+        "useInformation": {
+          "title": "Come utilizziamo le tue informazioni",
+          "body": "Utilizziamo le informazioni raccolte per elaborare i tuoi ordini, comunicare con te e migliorare i nostri servizi."
+        },
+        "contact": {
+          "title": "Contattaci",
+          "body": "Se hai domande su questa Informativa sulla privacy, contattaci all'indirizzo hello@ventocaffe.com"
+        }
+      }
+    },
+    "shipping": {
+      "title": "Spedizioni e resi",
+      "description": "Politica di spedizione e reso per Vento Caffè",
+      "lastUpdated": "Ultimo aggiornamento: gennaio 2026",
+      "sections": {
+        "shipping": {
+          "title": "Spedizione",
+          "body": "Spediamo in tutta Europa. La consegna standard richiede 2-3 giorni lavorativi in Italia e 4-7 giorni lavorativi per il resto d'Europa."
+        },
+        "freeShipping": {
+          "title": "Spedizione gratuita",
+          "body": "Spedizione gratuita per tutti gli ordini oltre €50 in Italia e €75 nel resto d'Europa."
+        },
+        "returns": {
+          "title": "Resi",
+          "body": "A causa della natura deperibile dei nostri prodotti, non possiamo accettare resi sul caffè. Se ricevi un prodotto danneggiato o errato, contattaci entro 48 ore dalla consegna."
+        },
+        "contact": {
+          "title": "Contattaci",
+          "body": "Se hai domande su spedizioni o resi, contattaci all'indirizzo hello@ventocaffe.com"
+        }
+      }
+    },
+    "terms": {
+      "title": "Termini e condizioni",
+      "description": "Termini e condizioni per Vento Caffè",
+      "lastUpdated": "Ultimo aggiornamento: gennaio 2026",
+      "sections": {
+        "acceptance": {
+          "title": "Accettazione dei termini",
+          "body": "Accedendo e utilizzando questo sito web, accetti e concordi di essere vincolato dai termini e dalle disposizioni del presente accordo."
+        },
+        "pricing": {
+          "title": "Prodotti e prezzi",
+          "body": "Tutti i prezzi sono in Euro e includono le tasse applicabili. Ci riserviamo il diritto di modificare i prezzi in qualsiasi momento senza preavviso."
+        },
+        "contact": {
+          "title": "Contattaci",
+          "body": "Se hai domande su questi Termini, contattaci all'indirizzo hello@ventocaffe.com"
+        }
+      }
+    }
+  },
+  "cart": {
+    "title": "Carrello ({totalItems})",
+    "close": "Chiudi carrello",
+    "empty": "Il tuo carrello è vuoto",
+    "shopNow": "Acquista ora",
+    "freeBadge": "Gratis",
+    "remove": "Rimuovi",
+    "decreaseQuantity": "Diminuisci quantità",
+    "increaseQuantity": "Aumenta quantità",
+    "whatsappIntro": "Ciao! Vorrei effettuare un ordine:",
+    "whatsappTotal": "Totale: {total}",
+    "whatsappSubscriptionNote": "Voglio abbonarmi alla consegna mensile.",
+    "subscribeMonthlyLabel": "Abbonati mensilmente",
+    "subscribeMonthlyDescription": "Ricevi una macchina da espresso gratuita con il tuo ordine",
+    "machineLabel": "Macchina da espresso",
+    "total": "Totale",
+    "orderWhatsapp": "Ordina via WhatsApp",
+    "statusMonthly": "Ordine con abbonamento mensile",
+    "statusOneTime": "Acquisto singolo"
+  },
+  "productPage": {
+    "notFoundTitle": "Prodotto non trovato",
+    "price": "{price}",
+    "priceWithSubscription": "{price} o GRATIS con abbonamento"
+  },
+  "productCard": {
+    "soldOut": "Esaurito",
+    "freeWithSubscription": "Gratis con abbonamento",
+    "orFreeWithSubscription": "o GRATIS con abbonamento"
+  },
+  "productDetail": {
+    "breadcrumbShop": "Shop",
+    "soldOut": "Esaurito",
+    "freeWithMonthlySubscription": "o GRATIS con abbonamento mensile di cialde",
+    "subscribeMonthlyHeadline": "Abbonati mensilmente e ottieni la macchina gratis",
+    "subscribeMonthlyDescription": "Impegnati a ordinare almeno 1 scatola al mese e ricevi una macchina da espresso professionale completamente gratuita.",
+    "machineLabel": "Macchina da espresso",
+    "machineFree": "GRATIS",
+    "machineCtaTitle": "Vuoi questa macchina gratis?",
+    "machineCtaDescription": "Abbonati alla consegna mensile di cialde e ottieni questa macchina da espresso senza costi.",
+    "addToCart": "Aggiungi al carrello — {price}",
+    "freeAddedNote": "La macchina da espresso gratuita verrà aggiunta al tuo carrello",
+    "soldOutButton": "Esaurito",
+    "soldOutNote": "Contattaci per essere avvisato quando questo prodotto sarà di nuovo disponibile.",
+    "typeLabel": "Tipo",
+    "contentsLabel": "Contenuto",
+    "deliveryLabel": "Consegna",
+    "subscriptionLabel": "Abbonamento",
+    "deliveryValue": "2-3 giorni lavorativi",
+    "subscriptionMonthly": "Disponibile mensilmente",
+    "subscriptionFreeMonthly": "Gratis con mensile"
+  },
+  "quantityStepper": {
+    "label": "Quantità",
+    "decrease": "Diminuisci quantità",
+    "increase": "Aumenta quantità"
+  },
+  "productGallery": {
+    "imageAlt": "{productName} - Immagine {index}",
+    "viewImage": "Visualizza immagine {index}",
+    "thumbnailAlt": "{productName} miniatura {index}"
+  },
+  "subscriptionCta": {
+    "title": "Pronto per iniziare?",
+    "description": "Contattaci oggi per attivare il tuo abbonamento mensile di cialde e ricevere la tua macchina da espresso gratuita.",
+    "contactButton": "Contattaci",
+    "whatsappButton": "Scrivici su WhatsApp",
+    "emailButton": "Scrivici via email",
+    "emailText": "Oppure scrivici direttamente a"
+  }
+}

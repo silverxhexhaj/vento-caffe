@@ -1,10 +1,18 @@
 import Link from "next/link";
-import { content } from "@/data/content";
-import { footerLinks } from "@/data/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { getContent } from "@/data/content";
 import Newsletter from "@/components/ui/Newsletter";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const locale = useLocale();
+  const t = useTranslations();
+  const content = getContent(t);
+
+  const buildLocaleHref = (href: string) => {
+    const normalized = href === "/" ? "" : href;
+    return `/${locale}${normalized}`;
+  };
 
   return (
     <footer className="border-t border-[var(--border)]">
@@ -33,10 +41,10 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           {/* Legal Links */}
           <nav className="flex flex-wrap gap-4 text-xs text-muted">
-            {footerLinks.map((link) => (
+            {content.footer.legal.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={buildLocaleHref(link.href)}
                 className="hover:text-[var(--foreground)] transition-colors"
               >
                 {link.label}
@@ -46,7 +54,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-xs text-muted">
-            © {currentYear} Vento Caffè
+            {t("footer.copyright", { year: currentYear })}
           </p>
         </div>
       </div>

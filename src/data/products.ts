@@ -1,3 +1,21 @@
+export type Translator = {
+  (key: string, values?: Record<string, string | number>): string;
+  raw: (key: string) => unknown;
+};
+
+interface ProductSeed {
+  slug: string;
+  price: number;
+  soldOut: boolean;
+  featured: boolean;
+  images: string[];
+  type: "cialde" | "machine";
+  nameKey: string;
+  descriptionKey: string;
+  contentsKey?: string;
+  highlightsKey?: string;
+}
+
 export interface Product {
   slug: string;
   name: string;
@@ -11,31 +29,21 @@ export interface Product {
   highlights?: string[];
 }
 
-export const products: Product[] = [
+const productSeeds: ProductSeed[] = [
   {
     slug: "classic-cialde",
-    name: "Classic Cialde Box",
-    description: "Our signature blend of premium Italian coffee, carefully selected and roasted to perfection. Each cialde delivers a rich, full-bodied espresso with notes of chocolate and toasted nuts. The perfect everyday coffee for true espresso lovers.",
     price: 55,
     soldOut: false,
     featured: true,
-    images: [
-      "/images/products/classic-cialde-1.png",
-      "/images/products/classic-cialde-2.jpg",
-    ],
+    images: ["/images/products/classic-cialde-1.png", "/images/products/classic-cialde-2.jpg"],
     type: "cialde",
-    contents: "150 cialde + kit",
-    highlights: [
-      "150 premium ESE coffee pods",
-      "Includes cups, sugar, and stirrers",
-      "Medium roast blend",
-      "Compatible with all ESE machines",
-    ],
+    nameKey: "products.classicCialde.name",
+    descriptionKey: "products.classicCialde.description",
+    contentsKey: "products.classicCialde.contents",
+    highlightsKey: "products.classicCialde.highlights",
   },
   {
     slug: "decaffeinato-cialde",
-    name: "Decaffeinato Cialde Box",
-    description: "All the flavor, none of the caffeine. Our decaffeinated cialde use a natural Swiss Water process to remove caffeine while preserving the complex flavors of premium Arabica beans. Enjoy authentic Italian espresso any time of day.",
     price: 65,
     soldOut: false,
     featured: true,
@@ -44,18 +52,13 @@ export const products: Product[] = [
       "/images/products/decaffeinato-cialde-2.jpg",
     ],
     type: "cialde",
-    contents: "150 cialde + kit",
-    highlights: [
-      "150 decaf ESE coffee pods",
-      "Includes cups, sugar, and stirrers",
-      "Swiss Water decaf process",
-      "Compatible with all ESE machines",
-    ],
+    nameKey: "products.decaffeinatoCialde.name",
+    descriptionKey: "products.decaffeinatoCialde.description",
+    contentsKey: "products.decaffeinatoCialde.contents",
+    highlightsKey: "products.decaffeinatoCialde.highlights",
   },
   {
     slug: "espresso-machine",
-    name: "Espresso Machine",
-    description: "A professional-grade ESE pod espresso machine designed for simplicity and quality. Compact, elegant, and powerful—brew barista-quality espresso at home or in the office with the push of a button. No mess, no waste, just perfect coffee.",
     price: 170,
     soldOut: false,
     featured: true,
@@ -64,30 +67,54 @@ export const products: Product[] = [
       "/images/products/espresso-machine-2.jpg",
     ],
     type: "machine",
-    highlights: [
-      "15 bar pump pressure",
-      "ESE pod compatible",
-      "Compact design",
-      "1-year warranty",
-      "FREE with monthly subscription",
-    ],
+    nameKey: "products.espressoMachine.name",
+    descriptionKey: "products.espressoMachine.description",
+    highlightsKey: "products.espressoMachine.highlights",
   },
 ];
 
 export const MACHINE_SLUG = "espresso-machine";
+export const productSlugs = productSeeds.map((product) => product.slug);
 
-export function getProductBySlug(slug: string): Product | undefined {
-  return products.find((p) => p.slug === slug);
+const resolveProduct = (seed: ProductSeed, t: Translator): Product => ({
+  slug: seed.slug,
+  name: t(seed.nameKey),
+  description: t(seed.descriptionKey),
+  price: seed.price,
+  soldOut: seed.soldOut,
+  featured: seed.featured,
+  images: seed.images,
+  type: seed.type,
+  contents: seed.contentsKey ? t(seed.contentsKey) : undefined,
+  highlights: seed.highlightsKey
+    ? (t.raw(seed.highlightsKey) as string[])
+    : undefined,
+});
+
+export const getProductSeedBySlug = (slug: string) =>
+  productSeeds.find((product) => product.slug === slug);
+
+export function getProductBySlug(slug: string, t: Translator): Product | undefined {
+  const seed = getProductSeedBySlug(slug);
+  return seed ? resolveProduct(seed, t) : undefined;
 }
 
-export function getFeaturedProducts(): Product[] {
-  return products.filter((p) => p.featured);
+export function getProducts(t: Translator): Product[] {
+  return productSeeds.map((seed) => resolveProduct(seed, t));
 }
 
-export function getCialdeProducts(): Product[] {
-  return products.filter((p) => p.type === "cialde");
+export function getFeaturedProducts(t: Translator): Product[] {
+  return getProducts(t).filter((p) => p.featured);
 }
 
-export function getMachineProduct(): Product | undefined {
-  return products.find((p) => p.type === "machine");
+export function getCialdeProducts(t: Translator): Product[] {
+  return getProducts(t).filter((p) => p.type === "cialde");
+}
+
+export function getMachineProduct(t: Translator): Product | undefined {
+  return getProducts(t).find((p) => p.type === "machine");
+}
+
+export function getMachineSeed() {
+  return productSeeds.find((product) => product.type === "machine");
 }

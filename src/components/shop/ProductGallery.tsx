@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface ProductGalleryProps {
   images: string[];
@@ -10,6 +11,7 @@ interface ProductGalleryProps {
 
 export default function ProductGallery({ images, productName }: ProductGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const t = useTranslations();
 
   // Use placeholder if no images
   const displayImages = images.length > 0 ? images : ["/images/placeholder.svg"];
@@ -20,7 +22,10 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
       <div className="relative aspect-square bg-[var(--border)] overflow-hidden">
         <Image
           src={displayImages[selectedIndex]}
-          alt={`${productName} - Image ${selectedIndex + 1}`}
+          alt={t("productGallery.imageAlt", {
+            productName,
+            index: selectedIndex + 1,
+          })}
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
@@ -40,11 +45,14 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
                   ? "ring-1 ring-[var(--foreground)]"
                   : "opacity-60 hover:opacity-100"
               }`}
-              aria-label={`View image ${index + 1}`}
+              aria-label={t("productGallery.viewImage", { index: index + 1 })}
             >
               <Image
                 src={image}
-                alt={`${productName} thumbnail ${index + 1}`}
+                alt={t("productGallery.thumbnailAlt", {
+                  productName,
+                  index: index + 1,
+                })}
                 fill
                 className="object-cover"
                 sizes="64px"

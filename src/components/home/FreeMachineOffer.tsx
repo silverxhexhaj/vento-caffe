@@ -1,9 +1,17 @@
 import Link from "next/link";
-import { content } from "@/data/content";
+import { useLocale, useTranslations } from "next-intl";
+import { getContent } from "@/data/content";
 
 export default function FreeMachineOffer() {
-  const { freeMachineOffer } = content;
-  
+  const locale = useLocale();
+  const t = useTranslations();
+  const { freeMachineOffer } = getContent(t);
+
+  const buildLocaleHref = (href: string) => {
+    const normalized = href === "/" ? "" : href;
+    return `/${locale}${normalized}`;
+  };
+
   const whatsappUrl = `https://wa.me/${freeMachineOffer.whatsappNumber.replace(/\+/g, "")}?text=${encodeURIComponent(freeMachineOffer.whatsappMessage)}`;
 
   return (
@@ -56,7 +64,7 @@ export default function FreeMachineOffer() {
                 {freeMachineOffer.ctaText}
               </a>
               <Link
-                href="/shop"
+                href={buildLocaleHref("/shop")}
                 className="inline-flex items-center gap-2 px-6 py-3 border border-[var(--background)] font-medium uppercase tracking-wide text-sm hover:bg-[var(--background)] hover:text-[var(--foreground)] transition-colors"
               >
                 {freeMachineOffer.secondaryCta}
@@ -83,8 +91,10 @@ export default function FreeMachineOffer() {
             
             {/* Price Badge */}
             <div className="absolute -top-4 -right-4 bg-[var(--background)] text-[var(--foreground)] px-4 py-2">
-              <p className="text-xs uppercase tracking-wider opacity-70">Machine</p>
-              <p className="text-2xl font-bold">FREE</p>
+              <p className="text-xs uppercase tracking-wider opacity-70">
+                {t("freeMachineOffer.machineBadgeLabel")}
+              </p>
+              <p className="text-2xl font-bold">{t("common.free")}</p>
             </div>
           </div>
         </div>

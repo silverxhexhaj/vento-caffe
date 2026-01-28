@@ -1,137 +1,102 @@
-export const content = {
+export type Translator = {
+  (key: string, values?: Record<string, string | number>): string;
+  raw: (key: string) => unknown;
+};
+
+export const getContent = (t: Translator) => ({
   brand: {
-    name: "Vento Caffè",
-    tagline: "Espresso at home, made simple",
+    name: t("content.brand.name"),
+    tagline: t("content.brand.tagline"),
   },
-  
+
   hero: {
-    mainText: ["ESPRESSO", "FOR YOUR"],
-    businessCategories: [
-      "HOTEL",
-      "OFFICE",
-      "SALON",
-      "AIRBNB",
-      "CLINIC",
-      "SPA",
-      "STUDIO",
-      "GYM",
-      "RESTAURANT",
-      "COWORKING",
-    ],
-    description: "Premium coffee cialde delivered monthly. Commit to a box per month, and we'll give you the espresso machine for FREE.",
-    ctaText: "SHOP NOW",
-    ctaHref: "/shop",
+    mainText: t.raw("content.hero.mainText") as string[],
+    businessCategories: t.raw("content.hero.businessCategories") as string[],
+    description: t("content.hero.description"),
+    ctaText: t("content.hero.ctaText"),
+    ctaHref: t("content.hero.ctaHref"),
   },
-  
+
   directOffer: {
-    badge: "SPECIAL OFFER",
-    headline: "FREE Espresso Machine",
-    price: 55,
-    currency: "€",
-    priceLabel: "only",
-    includes: [
-      "150 premium cialde",
-      "Cups, sugar & stirrers kit",
-      "FREE espresso machine",
-    ],
-    machineValue: 170,
-    ctaText: "ORDER NOW",
-    ctaHref: "/shop/classic-cialde",
-    note: "Commit to 1 box/month",
-    whatsappNumber: "+355694825205",
-    whatsappMessage: "Hi! I want to order the €55 cialde box with the free espresso machine!",
+    badge: t("content.directOffer.badge"),
+    headline: t("content.directOffer.headline"),
+    price: t.raw("content.directOffer.price") as number,
+    currency: t("content.directOffer.currency"),
+    priceLabel: t("content.directOffer.priceLabel"),
+    includes: t.raw("content.directOffer.includes") as string[],
+    machineValue: t.raw("content.directOffer.machineValue") as number,
+    ctaText: t("content.directOffer.ctaText"),
+    ctaHref: t("content.directOffer.ctaHref"),
+    note: t("content.directOffer.note"),
+    whatsappNumber: t("content.directOffer.whatsappNumber"),
+    whatsappMessage: t("content.directOffer.whatsappMessage"),
   },
-  
+
   brandStatement: {
-    heading: "Authentic Italian espresso, delivered to your door.",
-    subheading: "Premium cialde. Free machine. Monthly convenience.",
-    cta: "Learn more",
+    heading: t("content.brandStatement.heading"),
+    subheading: t("content.brandStatement.subheading"),
+    cta: t("content.brandStatement.cta"),
   },
-  
+
   productSection: {
-    preHeading: "Quality cialde,",
-    heading: "delivered",
-    subHeading: "monthly",
+    preHeading: t("content.productSection.preHeading"),
+    heading: t("content.productSection.heading"),
+    subHeading: t("content.productSection.subHeading"),
   },
-  
+
   freeMachineOffer: {
-    heading: "Free Espresso Machine",
-    subheading: "Our special offer",
-    description: "Commit to purchasing just 1 cialde box per month, and we'll give you a professional espresso machine completely FREE. No hidden fees, no contracts—just great coffee.",
-    benefits: [
-      "Professional 15-bar espresso machine",
-      "No upfront cost for the machine",
-      "Flexible monthly ordering",
-      "Cancel anytime",
-    ],
-    ctaText: "Contact Us",
-    secondaryCta: "View Products",
-    whatsappNumber: "+355694825205",
-    whatsappMessage: "Hi! I'm interested in the free espresso machine offer with monthly cialde subscription.",
+    heading: t("content.freeMachineOffer.heading"),
+    subheading: t("content.freeMachineOffer.subheading"),
+    description: t("content.freeMachineOffer.description"),
+    benefits: t.raw("content.freeMachineOffer.benefits") as string[],
+    ctaText: t("content.freeMachineOffer.ctaText"),
+    secondaryCta: t("content.freeMachineOffer.secondaryCta"),
+    whatsappNumber: t("content.freeMachineOffer.whatsappNumber"),
+    whatsappMessage: t("content.freeMachineOffer.whatsappMessage"),
   },
-  
+
   about: {
-    paragraphs: [
-      "We are Vento Caffè, bringing authentic Italian espresso directly to your home or office. Our mission is simple: make premium coffee accessible and convenient through our cialde subscription service.",
-      "We believe everyone deserves a perfect espresso. That's why we offer our professional espresso machine FREE when you commit to a monthly cialde box. No complicated contracts, no hidden fees—just great coffee delivered to your door.",
-    ],
+    paragraphs: t.raw("content.about.paragraphs") as string[],
     founders: {
-      heading: "Founders",
-      names: ["Marco Bianchi", "Lucia Rossi"],
+      heading: t("content.about.founders.heading"),
+      names: t.raw("content.about.founders.names") as string[],
     },
   },
-  
+
   newsletter: {
-    heading: "Newsletter",
-    subHeading: "Stay in touch",
-    placeholder: "Enter your email",
-    buttonText: "Go",
-    successMessage: "Thank you for subscribing!",
+    heading: t("content.newsletter.heading"),
+    subHeading: t("content.newsletter.subHeading"),
+    placeholder: t("content.newsletter.placeholder"),
+    buttonText: t("content.newsletter.buttonText"),
+    successMessage: t("content.newsletter.successMessage"),
   },
-  
+
   footer: {
-    tagline: "Premium coffee cialde delivered monthly. Free machine with subscription.",
-    bottomLine: "Take your time. Enjoy your espresso.",
-    legal: [
-      { label: "Privacy Policy", href: "/legal/privacy" },
-      { label: "Terms & Conditions", href: "/legal/terms" },
-      { label: "Shipping & Returns", href: "/legal/shipping" },
-    ],
+    tagline: t("content.footer.tagline"),
+    bottomLine: t("content.footer.bottomLine"),
+    legal: t.raw("content.footer.legal") as { label: string; href: string }[],
   },
-  
-  trustBadges: [
-    { icon: "gift", label: "Free Machine", description: "With subscription" },
-    { icon: "truck", label: "Monthly Delivery", description: "Right to your door" },
-    { icon: "star", label: "Premium Cialde", description: "Italian quality" },
-    { icon: "refresh", label: "Easy Reorder", description: "WhatsApp or online" },
-  ],
-  
+
+  trustBadges: t.raw("content.trustBadges") as {
+    icon: string;
+    label: string;
+    description: string;
+  }[],
+
   subscription: {
-    heading: "How It Works",
-    steps: [
-      {
-        number: "01",
-        title: "Choose Your Cialde",
-        description: "Select Classic or Decaffeinato box (150 cialde + kit)",
-      },
-      {
-        number: "02",
-        title: "Get Free Machine",
-        description: "Commit to monthly orders and receive your espresso machine FREE",
-      },
-      {
-        number: "03",
-        title: "Enjoy & Reorder",
-        description: "Enjoy perfect espresso and easily reorder via WhatsApp or online",
-      },
-    ],
+    heading: t("content.subscription.heading"),
+    steps: t.raw("content.subscription.steps") as {
+      number: string;
+      title: string;
+      description: string;
+    }[],
   },
-  
+
   contact: {
-    heading: "Get Started",
-    subheading: "Contact us to set up your subscription",
-    whatsappNumber: "+355694825205",
-    whatsappMessage: "Hi! I'm interested in starting a cialde subscription.",
-    email: "info@ventocaffe.al",
+    heading: t("content.contact.heading"),
+    subheading: t("content.contact.subheading"),
+    whatsappNumber: t("content.contact.whatsappNumber"),
+    whatsappMessage: t("content.contact.whatsappMessage"),
+    email: t("content.contact.email"),
   },
-};
+});

@@ -1,4 +1,5 @@
-import { content } from "@/data/content";
+import { useTranslations } from "next-intl";
+import { getContent } from "@/data/content";
 
 const icons: Record<string, React.ReactNode> = {
   truck: (
@@ -38,6 +39,9 @@ const icons: Record<string, React.ReactNode> = {
 };
 
 export default function TrustBadges() {
+  const t = useTranslations();
+  const content = getContent(t);
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-y border-[var(--border)]">
       {content.trustBadges.map((badge) => (

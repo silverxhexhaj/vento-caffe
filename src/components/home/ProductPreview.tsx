@@ -1,10 +1,19 @@
 import Link from "next/link";
-import { content } from "@/data/content";
+import { useLocale, useTranslations } from "next-intl";
+import { getContent } from "@/data/content";
 import { getFeaturedProducts } from "@/data/products";
 import ProductCard from "@/components/shop/ProductCard";
 
 export default function ProductPreview() {
-  const featuredProducts = getFeaturedProducts();
+  const locale = useLocale();
+  const t = useTranslations();
+  const content = getContent(t);
+  const featuredProducts = getFeaturedProducts(t);
+
+  const buildLocaleHref = (href: string) => {
+    const normalized = href === "/" ? "" : href;
+    return `/${locale}${normalized}`;
+  };
 
   return (
     <section className="section">
@@ -30,8 +39,8 @@ export default function ProductPreview() {
         </div>
 
         {/* Shop CTA */}
-        <Link href="/shop" className="btn">
-          Shop
+        <Link href={buildLocaleHref("/shop")} className="btn">
+          {t("common.shop")}
         </Link>
       </div>
     </section>

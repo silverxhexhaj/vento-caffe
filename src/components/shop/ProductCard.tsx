@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
 import { Product } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 
@@ -8,11 +9,18 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const locale = useLocale();
+  const t = useTranslations();
   const isMachine = product.type === "machine";
-  
+
+  const buildLocaleHref = (href: string) => {
+    const normalized = href === "/" ? "" : href;
+    return `/${locale}${normalized}`;
+  };
+
   return (
     <Link
-      href={`/shop/${product.slug}`}
+      href={buildLocaleHref(`/shop/${product.slug}`)}
       className="group block"
     >
       {/* Product Image */}
@@ -26,12 +34,14 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
         {product.soldOut && (
           <div className="absolute inset-0 bg-[var(--background)]/80 flex items-center justify-center">
-            <span className="text-sm uppercase tracking-widest">Sold out</span>
+            <span className="text-sm uppercase tracking-widest">
+              {t("productCard.soldOut")}
+            </span>
           </div>
         )}
         {isMachine && !product.soldOut && (
           <div className="absolute top-4 right-4 bg-[var(--foreground)] text-[var(--background)] px-3 py-1 text-xs uppercase tracking-wider">
-            Free with subscription
+            {t("productCard.freeWithSubscription")}
           </div>
         )}
       </div>
@@ -46,10 +56,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         )}
         <p className="text-sm">
           {product.soldOut ? (
-            <span className="text-muted">Sold out</span>
+            <span className="text-muted">{t("productCard.soldOut")}</span>
           ) : isMachine ? (
             <span>
-              {formatPrice(product.price)} <span className="text-muted">or FREE with subscription</span>
+              {formatPrice(product.price)}{" "}
+              <span className="text-muted">
+                {t("productCard.orFreeWithSubscription")}
+              </span>
             </span>
           ) : (
             formatPrice(product.price)

@@ -4,20 +4,9 @@ export interface NavItem {
 }
 
 export const mainNavItems: NavItem[] = [
-  { label: "Home", href: "/" },
-  { label: "Shop", href: "/shop" },
-  { label: "About", href: "/about" },
-];
-
-export const languages = [
-  { code: "en", label: "EN" },
-  { code: "it", label: "IT" },
-];
-
-export const footerLinks = [
-  { label: "Privacy Policy", href: "/legal/privacy" },
-  { label: "Terms & Conditions", href: "/legal/terms" },
-  { label: "Shipping & Returns", href: "/legal/shipping" },
+  { label: "navigation.home", href: "/" },
+  { label: "navigation.shop", href: "/shop" },
+  { label: "navigation.about", href: "/about" },
 ];
 
 export const socialLinks = [

@@ -1,0 +1,403 @@
+{
+  "metadata": {
+    "titleDefault": "Vento Caffè | Premium Coffee Cialde Delivered Monthly",
+    "titleTemplate": "%s | Vento Caffè",
+    "description": "Premium Italian coffee cialde delivered monthly. Get a FREE espresso machine when you subscribe. Authentic espresso at home, made simple.",
+    "keywords": [
+      "coffee cialde",
+      "ESE pods",
+      "espresso machine",
+      "coffee subscription",
+      "Italian coffee",
+      "monthly delivery",
+      "free espresso machine"
+    ],
+    "openGraph": {
+      "title": "Vento Caffè | Premium Coffee Cialde Delivered Monthly",
+      "description": "Premium Italian coffee cialde delivered monthly. Get a FREE espresso machine when you subscribe.",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "title": "Vento Caffè | Premium Coffee Cialde Delivered Monthly",
+      "description": "Premium Italian coffee cialde delivered monthly. Get a FREE espresso machine when you subscribe."
+    }
+  },
+  "languages": {
+    "en": "EN",
+    "it": "IT",
+    "sq": "SQ"
+  },
+  "navigation": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "About",
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "cartButton": "cart ({totalItems})"
+  },
+  "common": {
+    "shopNow": "Shop Now",
+    "shop": "Shop",
+    "about": "About",
+    "home": "Home",
+    "contactUs": "Contact Us",
+    "viewProducts": "View Products",
+    "orderNow": "Order Now",
+    "free": "FREE",
+    "soldOut": "Sold out",
+    "soldOutUpper": "Sold Out",
+    "freeWithSubscription": "Free with subscription",
+    "orFreeWithSubscription": "or FREE with subscription",
+    "orFreeWithMonthlySubscription": "or FREE with monthly cialde subscription",
+    "espressoMachine": "Espresso Machine",
+    "coffeeCialde": "Coffee Cialde",
+    "quantity": "Quantity",
+    "deliveryTime": "2-3 business days",
+    "monthlyAvailable": "Monthly available",
+    "freeWithMonthly": "Free with monthly",
+    "subscribeMonthly": "Subscribe Monthly",
+    "getFreeMachine": "Get Free Machine",
+    "contactViaWhatsapp": "Contact via WhatsApp",
+    "contactUsAboutSubscription": "Contact us about subscription",
+    "orderViaWhatsapp": "Order via WhatsApp",
+    "questionsChat": "Questions? Chat with us"
+  },
+  "hero": {
+    "machineValueNote": "value included {free}"
+  },
+  "freeMachineOffer": {
+    "machineBadgeLabel": "Machine"
+  },
+  "footer": {
+    "copyright": "© {year} Vento Caffè"
+  },
+  "newsletter": {
+    "emailLabel": "Email address"
+  },
+  "content": {
+    "brand": {
+      "name": "Vento Caffè",
+      "tagline": "Espresso at home, made simple"
+    },
+    "hero": {
+      "mainText": ["ESPRESSO", "FOR YOUR"],
+      "businessCategories": [
+        "HOTEL",
+        "OFFICE",
+        "SALON",
+        "AIRBNB",
+        "CLINIC",
+        "SPA",
+        "STUDIO",
+        "GYM",
+        "RESTAURANT",
+        "COWORKING"
+      ],
+      "description": "Premium coffee cialde delivered monthly. Commit to a box per month, and we'll give you the espresso machine for FREE.",
+      "ctaText": "SHOP NOW",
+      "ctaHref": "/shop"
+    },
+    "directOffer": {
+      "badge": "SPECIAL OFFER",
+      "headline": "FREE Espresso Machine",
+      "price": 55,
+      "currency": "€",
+      "priceLabel": "only",
+      "includes": [
+        "150 premium cialde",
+        "Cups, sugar & stirrers kit",
+        "FREE espresso machine"
+      ],
+      "machineValue": 170,
+      "ctaText": "ORDER NOW",
+      "ctaHref": "/shop/classic-cialde",
+      "note": "Commit to 1 box/month",
+      "whatsappNumber": "+355694825205",
+      "whatsappMessage": "Hi! I want to order the €55 cialde box with the free espresso machine!"
+    },
+    "brandStatement": {
+      "heading": "Authentic Italian espresso, delivered to your door.",
+      "subheading": "Premium cialde. Free machine. Monthly convenience.",
+      "cta": "Learn more"
+    },
+    "productSection": {
+      "preHeading": "Quality cialde,",
+      "heading": "delivered",
+      "subHeading": "monthly"
+    },
+    "freeMachineOffer": {
+      "heading": "Free Espresso Machine",
+      "subheading": "Our special offer",
+      "description": "Commit to purchasing just 1 cialde box per month, and we'll give you a professional espresso machine completely FREE. No hidden fees, no contracts—just great coffee.",
+      "benefits": [
+        "Professional 15-bar espresso machine",
+        "No upfront cost for the machine",
+        "Flexible monthly ordering",
+        "Cancel anytime"
+      ],
+      "ctaText": "Contact Us",
+      "secondaryCta": "View Products",
+      "whatsappNumber": "+355694825205",
+      "whatsappMessage": "Hi! I'm interested in the free espresso machine offer with monthly cialde subscription."
+    },
+    "about": {
+      "paragraphs": [
+        "We are Vento Caffè, bringing authentic Italian espresso directly to your home or office. Our mission is simple: make premium coffee accessible and convenient through our cialde subscription service.",
+        "We believe everyone deserves a perfect espresso. That's why we offer our professional espresso machine FREE when you commit to a monthly cialde box. No complicated contracts, no hidden fees—just great coffee delivered to your door."
+      ],
+      "founders": {
+        "heading": "Founders",
+        "names": ["Marco Bianchi", "Lucia Rossi"]
+      }
+    },
+    "newsletter": {
+      "heading": "Newsletter",
+      "subHeading": "Stay in touch",
+      "placeholder": "Enter your email",
+      "buttonText": "Go",
+      "successMessage": "Thank you for subscribing!"
+    },
+    "footer": {
+      "tagline": "Premium coffee cialde delivered monthly. Free machine with subscription.",
+      "bottomLine": "Take your time. Enjoy your espresso.",
+      "legal": [
+        { "label": "Privacy Policy", "href": "/legal/privacy" },
+        { "label": "Terms & Conditions", "href": "/legal/terms" },
+        { "label": "Shipping & Returns", "href": "/legal/shipping" }
+      ]
+    },
+    "trustBadges": [
+      { "icon": "gift", "label": "Free Machine", "description": "With subscription" },
+      { "icon": "truck", "label": "Monthly Delivery", "description": "Right to your door" },
+      { "icon": "star", "label": "Premium Cialde", "description": "Italian quality" },
+      { "icon": "refresh", "label": "Easy Reorder", "description": "WhatsApp or online" }
+    ],
+    "subscription": {
+      "heading": "How It Works",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Choose Your Cialde",
+          "description": "Select Classic or Decaffeinato box (150 cialde + kit)"
+        },
+        {
+          "number": "02",
+          "title": "Get Free Machine",
+          "description": "Commit to monthly orders and receive your espresso machine FREE"
+        },
+        {
+          "number": "03",
+          "title": "Enjoy & Reorder",
+          "description": "Enjoy perfect espresso and easily reorder via WhatsApp or online"
+        }
+      ]
+    },
+    "contact": {
+      "heading": "Get Started",
+      "subheading": "Contact us to set up your subscription",
+      "whatsappNumber": "+355694825205",
+      "whatsappMessage": "Hi! I'm interested in starting a cialde subscription.",
+      "email": "info@ventocaffe.al"
+    }
+  },
+  "products": {
+    "classicCialde": {
+      "name": "Classic Cialde Box",
+      "description": "Our signature blend of premium Italian coffee, carefully selected and roasted to perfection. Each cialde delivers a rich, full-bodied espresso with notes of chocolate and toasted nuts. The perfect everyday coffee for true espresso lovers.",
+      "contents": "150 cialde + kit",
+      "highlights": [
+        "150 premium ESE coffee pods",
+        "Includes cups, sugar, and stirrers",
+        "Medium roast blend",
+        "Compatible with all ESE machines"
+      ]
+    },
+    "decaffeinatoCialde": {
+      "name": "Decaffeinato Cialde Box",
+      "description": "All the flavor, none of the caffeine. Our decaffeinated cialde use a natural Swiss Water process to remove caffeine while preserving the complex flavors of premium Arabica beans. Enjoy authentic Italian espresso any time of day.",
+      "contents": "150 cialde + kit",
+      "highlights": [
+        "150 decaf ESE coffee pods",
+        "Includes cups, sugar, and stirrers",
+        "Swiss Water decaf process",
+        "Compatible with all ESE machines"
+      ]
+    },
+    "espressoMachine": {
+      "name": "Espresso Machine",
+      "description": "A professional-grade ESE pod espresso machine designed for simplicity and quality. Compact, elegant, and powerful—brew barista-quality espresso at home or in the office with the push of a button. No mess, no waste, just perfect coffee.",
+      "highlights": [
+        "15 bar pump pressure",
+        "ESE pod compatible",
+        "Compact design",
+        "1-year warranty",
+        "FREE with monthly subscription"
+      ]
+    }
+  },
+  "shopPage": {
+    "metaTitle": "Shop - Coffee Cialde & Espresso Machine",
+    "metaDescription": "Premium Italian coffee cialde delivered monthly. Get a FREE espresso machine when you subscribe to monthly deliveries.",
+    "title": "Shop",
+    "description": "Choose your preferred cialde box and enjoy premium Italian espresso at home. Subscribe monthly and get your espresso machine for free.",
+    "cialdeHeading": "Coffee Cialde",
+    "machineHeading": "Espresso Machine",
+    "infoCardTitle": "Free with Subscription",
+    "infoCardDescription": "When you commit to ordering at least 1 cialde box per month, we'll send you this professional espresso machine completely free."
+  },
+  "aboutPage": {
+    "metaDescription": "We are Vento Caffè, bringing authentic Italian espresso directly to your home or office through our cialde subscription service.",
+    "values": {
+      "quality": {
+        "title": "Quality",
+        "description": "We source only premium Italian coffee, carefully selected and processed into ESE pods that deliver consistent, barista-quality espresso every time."
+      },
+      "convenience": {
+        "title": "Convenience",
+        "description": "Monthly delivery means you never run out of coffee. Our simple subscription model includes everything you need—cialde, cups, sugar, and stirrers."
+      },
+      "value": {
+        "title": "Value",
+        "description": "Get a professional espresso machine completely free when you subscribe. No upfront cost, no hidden fees—just great coffee delivered to your door."
+      }
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "description": "Contact us today to set up your monthly cialde subscription and receive your free espresso machine."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "Privacy policy for Vento Caffè",
+      "lastUpdated": "Last updated: January 2026",
+      "sections": {
+        "informationCollect": {
+          "title": "Information We Collect",
+          "body": "We collect information you provide directly to us, such as when you create an account, make a purchase, sign up for our newsletter, or contact us for support."
+        },
+        "useInformation": {
+          "title": "How We Use Your Information",
+          "body": "We use the information we collect to process your orders, communicate with you, and improve our services."
+        },
+        "contact": {
+          "title": "Contact Us",
+          "body": "If you have any questions about this Privacy Policy, please contact us at hello@ventocaffe.com"
+        }
+      }
+    },
+    "shipping": {
+      "title": "Shipping & Returns",
+      "description": "Shipping and return policy for Vento Caffè",
+      "lastUpdated": "Last updated: January 2026",
+      "sections": {
+        "shipping": {
+          "title": "Shipping",
+          "body": "We ship throughout Europe. Standard delivery takes 2-3 business days within Italy and 4-7 business days for the rest of Europe."
+        },
+        "freeShipping": {
+          "title": "Free Shipping",
+          "body": "Free shipping on all orders over €50 within Italy and €75 for the rest of Europe."
+        },
+        "returns": {
+          "title": "Returns",
+          "body": "Due to the perishable nature of our products, we cannot accept returns on coffee. If you receive a damaged or incorrect product, please contact us within 48 hours of delivery."
+        },
+        "contact": {
+          "title": "Contact Us",
+          "body": "If you have any questions about shipping or returns, please contact us at hello@ventocaffe.com"
+        }
+      }
+    },
+    "terms": {
+      "title": "Terms & Conditions",
+      "description": "Terms and conditions for Vento Caffè",
+      "lastUpdated": "Last updated: January 2026",
+      "sections": {
+        "acceptance": {
+          "title": "Acceptance of Terms",
+          "body": "By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement."
+        },
+        "pricing": {
+          "title": "Products and Pricing",
+          "body": "All prices are in Euros and include applicable taxes. We reserve the right to modify prices at any time without prior notice."
+        },
+        "contact": {
+          "title": "Contact Us",
+          "body": "If you have any questions about these Terms, please contact us at hello@ventocaffe.com"
+        }
+      }
+    }
+  },
+  "cart": {
+    "title": "Cart ({totalItems})",
+    "close": "Close cart",
+    "empty": "Your cart is empty",
+    "shopNow": "Shop Now",
+    "freeBadge": "Free",
+    "remove": "Remove",
+    "decreaseQuantity": "Decrease quantity",
+    "increaseQuantity": "Increase quantity",
+    "whatsappIntro": "Hi! I'd like to place an order:",
+    "whatsappTotal": "Total: {total}",
+    "whatsappSubscriptionNote": "I want to subscribe for monthly delivery.",
+    "subscribeMonthlyLabel": "Subscribe Monthly",
+    "subscribeMonthlyDescription": "Get a free espresso machine with your order",
+    "machineLabel": "Espresso Machine",
+    "total": "Total",
+    "orderWhatsapp": "Order via WhatsApp",
+    "statusMonthly": "Monthly subscription order",
+    "statusOneTime": "One-time purchase"
+  },
+  "productPage": {
+    "notFoundTitle": "Product Not Found",
+    "price": "{price}",
+    "priceWithSubscription": "{price} or FREE with subscription"
+  },
+  "productCard": {
+    "soldOut": "Sold out",
+    "freeWithSubscription": "Free with subscription",
+    "orFreeWithSubscription": "or FREE with subscription"
+  },
+  "productDetail": {
+    "breadcrumbShop": "Shop",
+    "soldOut": "Sold out",
+    "freeWithMonthlySubscription": "or FREE with monthly cialde subscription",
+    "subscribeMonthlyHeadline": "Subscribe Monthly & Get Free Machine",
+    "subscribeMonthlyDescription": "Commit to ordering at least 1 box per month and receive a professional espresso machine completely free.",
+    "machineLabel": "Espresso Machine",
+    "machineFree": "FREE",
+    "machineCtaTitle": "Want this machine for free?",
+    "machineCtaDescription": "Subscribe to monthly cialde delivery and get this espresso machine at no cost.",
+    "addToCart": "Add to Cart — {price}",
+    "freeAddedNote": "Free espresso machine will be added to your cart",
+    "soldOutButton": "Sold Out",
+    "soldOutNote": "Contact us to be notified when this product is back in stock.",
+    "typeLabel": "Type",
+    "contentsLabel": "Contents",
+    "deliveryLabel": "Delivery",
+    "subscriptionLabel": "Subscription",
+    "deliveryValue": "2-3 business days",
+    "subscriptionMonthly": "Monthly available",
+    "subscriptionFreeMonthly": "Free with monthly"
+  },
+  "quantityStepper": {
+    "label": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity"
+  },
+  "productGallery": {
+    "imageAlt": "{productName} - Image {index}",
+    "viewImage": "View image {index}",
+    "thumbnailAlt": "{productName} thumbnail {index}"
+  },
+  "subscriptionCta": {
+    "title": "Ready to get started?",
+    "description": "Contact us today to set up your monthly cialde subscription and receive your free espresso machine.",
+    "contactButton": "Contact Us",
+    "whatsappButton": "WhatsApp Us",
+    "emailButton": "Email Us",
+    "emailText": "Or email us directly at"
+  }
+}

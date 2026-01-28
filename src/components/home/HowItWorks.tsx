@@ -1,7 +1,9 @@
-import { content } from "@/data/content";
+import { useTranslations } from "next-intl";
+import { getContent } from "@/data/content";
 
 export default function HowItWorks() {
-  const { subscription } = content;
+  const t = useTranslations();
+  const { subscription } = getContent(t);
 
   return (
     <section className="section">

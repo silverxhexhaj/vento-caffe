@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from "react";
-import { MACHINE_SLUG, getMachineProduct } from "@/data/products";
+import { MACHINE_SLUG, getMachineSeed } from "@/data/products";
 
 export interface CartItem {
   productSlug: string;
@@ -93,11 +93,11 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       if (isSubscription && hasCialde) {
         // Add free machine if subscription is enabled and has cialde
         if (machineIndex === -1) {
-          const machine = getMachineProduct();
+          const machine = getMachineSeed();
           if (machine) {
             newItems.push({
               productSlug: machine.slug,
-              productName: machine.name,
+              productName: machine.slug,
               productType: "machine",
               quantity: 1,
               price: 0,
@@ -115,7 +115,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         }
       } else if (!isSubscription && machineIndex >= 0) {
         // Remove free machine or restore price if subscription is disabled
-        const machine = getMachineProduct();
+        const machine = getMachineSeed();
         if (newItems[machineIndex].isFreeWithSubscription) {
           // Remove the free machine
           newItems = newItems.filter((item) => item.productSlug !== MACHINE_SLUG);
