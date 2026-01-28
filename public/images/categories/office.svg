@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="officeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1f2e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2d3548;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f1219;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="officePattern" patternUnits="userSpaceOnUse" width="60" height="60">
+      <rect width="60" height="60" fill="transparent"/>
+      <line x1="0" y1="60" x2="60" y2="60" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+      <line x1="60" y1="0" x2="60" y2="60" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#officeGrad)"/>
+  <rect width="1920" height="1080" fill="url(#officePattern)"/>
+  <g opacity="0.05" transform="translate(860, 440)">
+    <rect x="40" y="60" width="120" height="140" rx="4" fill="white"/>
+    <rect x="50" y="75" width="100" height="8" rx="2" fill="rgba(0,0,0,0.3)"/>
+    <rect x="50" y="95" width="80" height="8" rx="2" fill="rgba(0,0,0,0.3)"/>
+    <rect x="50" y="115" width="90" height="8" rx="2" fill="rgba(0,0,0,0.3)"/>
+    <rect x="50" y="135" width="70" height="8" rx="2" fill="rgba(0,0,0,0.3)"/>
+  </g>
+</svg>

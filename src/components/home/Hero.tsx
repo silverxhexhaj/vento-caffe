@@ -1,13 +1,32 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { getContent } from "@/data/content";
 import { RotatingText } from "@/components/ui/RotatingText";
+
+// Background images matching businessCategories order:
+// HOTEL, OFFICE, SALON, AIRBNB, CLINIC, SPA, STUDIO, GYM, RESTAURANT, COWORKING
+const categoryImages = [
+  '/images/categories/hotel.png',
+  '/images/categories/office.png',
+  '/images/categories/salon.png',
+  '/images/categories/airbnb.png',
+  '/images/categories/clinic.png',
+  '/images/categories/spa.png',
+  '/images/categories/studio.png',
+  '/images/categories/gym.png',
+  '/images/categories/restaurant.png',
+  '/images/categories/coworking.png',
+];
 
 export default function Hero() {
   const locale = useLocale();
   const t = useTranslations();
   const content = getContent(t);
   const { directOffer } = content;
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const buildLocaleHref = (href: string) => {
     const normalized = href === "/" ? "" : href;
@@ -17,13 +36,32 @@ export default function Hero() {
   const whatsappUrl = `https://wa.me/${directOffer.whatsappNumber.replace(/\+/g, "")}?text=${encodeURIComponent(directOffer.whatsappMessage)}`;
 
   return (
-    <section className="min-h-screen flex items-center justify-center py-12">
-      <div className="container">
+    <section className="min-h-screen flex items-center justify-center py-12 relative overflow-hidden">
+      {/* Background Images with Crossfade */}
+      <div className="absolute inset-0 z-0">
+        {categoryImages.map((img, index) => (
+          <div
+            key={img}
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+              index === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              backgroundImage: `url(${img})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        ))}
+        {/* Dark overlay for text contrast */}
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
+
+      <div className="container relative z-10">
         <h1 className="sr-only">{t("metadata.titleDefault")}</h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Side - Branding */}
-          <div className="text-center lg:text-left">
+          <div className="text-center lg:text-left text-white">
             {/* Main Bold Typography */}
             <div className="mb-8" aria-hidden="true">
               <span className="block text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.9] tracking-tight">
@@ -33,12 +71,16 @@ export default function Hero() {
                 {content.hero.mainText[1]}
               </span>
               <span className="block text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.9] tracking-tight">
-                <RotatingText words={content.hero.businessCategories} />
+                <RotatingText 
+                  words={content.hero.businessCategories} 
+                  interval={2000}
+                  onIndexChange={setCurrentIndex}
+                />
               </span>
             </div>
             
             {/* Description */}
-            <p className="max-w-xl mx-auto lg:mx-0 text-base md:text-lg text-[var(--foreground)] leading-relaxed">
+            <p className="max-w-xl mx-auto lg:mx-0 text-base md:text-lg text-white/90 leading-relaxed">
               {content.hero.description}
             </p>
           </div>

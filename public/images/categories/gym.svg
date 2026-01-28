@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="gymGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a1a1a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4a2828;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0f0f;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="gymPattern" patternUnits="userSpaceOnUse" width="60" height="60">
+      <rect width="60" height="60" fill="transparent"/>
+      <line x1="0" y1="30" x2="60" y2="30" stroke="rgba(255,255,255,0.02)" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#gymGrad)"/>
+  <rect width="1920" height="1080" fill="url(#gymPattern)"/>
+  <g opacity="0.05" transform="translate(860, 440)">
+    <rect x="40" y="90" width="120" height="20" rx="4" fill="white"/>
+    <rect x="50" y="70" width="15" height="60" rx="2" fill="white"/>
+    <rect x="135" y="70" width="15" height="60" rx="2" fill="white"/>
+    <rect x="35" y="80" width="25" height="40" rx="4" fill="white"/>
+    <rect x="140" y="80" width="25" height="40" rx="4" fill="white"/>
+  </g>
+</svg>

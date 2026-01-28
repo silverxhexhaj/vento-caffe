@@ -70,7 +70,10 @@
     "machineBadgeLabel": "Macchina"
   },
   "footer": {
-    "copyright": "© {year} Vento Caffè"
+    "copyright": "© {year} Vento Caffè",
+    "socialInstagram": "Seguici su Instagram",
+    "socialFacebook": "Seguici su Facebook",
+    "socialWhatsApp": "Contattaci su WhatsApp"
   },
   "newsletter": {
     "emailLabel": "Indirizzo email"

@@ -5,9 +5,10 @@ import { useState, useEffect } from "react";
 interface RotatingTextProps {
   words: string[];
   interval?: number;
+  onIndexChange?: (index: number) => void;
 }
 
-export function RotatingText({ words, interval = 2500 }: RotatingTextProps) {
+export function RotatingText({ words, interval = 2500, onIndexChange }: RotatingTextProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -16,13 +17,17 @@ export function RotatingText({ words, interval = 2500 }: RotatingTextProps) {
       setIsAnimating(true);
       
       setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % words.length);
+        setCurrentIndex((prev) => {
+          const newIndex = (prev + 1) % words.length;
+          onIndexChange?.(newIndex);
+          return newIndex;
+        });
         setIsAnimating(false);
       }, 300);
     }, interval);
 
     return () => clearInterval(timer);
-  }, [words.length, interval]);
+  }, [words.length, interval, onIndexChange]);
 
   return (
     <span className="inline-block relative">
