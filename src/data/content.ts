@@ -35,7 +35,7 @@ export const content = {
     ],
     ctaText: "Contact Us",
     secondaryCta: "View Products",
-    whatsappNumber: "+355699999999",
+    whatsappNumber: "+355694825205",
     whatsappMessage: "Hi! I'm interested in the free espresso machine offer with monthly cialde subscription.",
   },
   
@@ -99,7 +99,7 @@ export const content = {
   contact: {
     heading: "Get Started",
     subheading: "Contact us to set up your subscription",
-    whatsappNumber: "+355699999999",
+    whatsappNumber: "+355694825205",
     whatsappMessage: "Hi! I'm interested in starting a cialde subscription.",
     email: "info@ventocaffe.al",
   },
