@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Product, grindOptions } from "@/data/products";
+import { Product, MACHINE_SLUG, getMachineProduct } from "@/data/products";
+import { content } from "@/data/content";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/utils";
 import ProductGallery from "@/components/shop/ProductGallery";
-import VariantSelector from "@/components/shop/VariantSelector";
 import QuantityStepper from "@/components/shop/QuantityStepper";
 import TrustBadges from "@/components/shop/TrustBadges";
 
@@ -15,9 +15,15 @@ interface ProductDetailProps {
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
-  const [selectedGrind, setSelectedGrind] = useState(grindOptions[0].id);
   const [quantity, setQuantity] = useState(1);
-  const { addItem } = useCart();
+  const [wantsSubscription, setWantsSubscription] = useState(false);
+  const { addItem, setSubscription, isSubscription } = useCart();
+  
+  const isMachine = product.type === "machine";
+  const isCialde = product.type === "cialde";
+  const { freeMachineOffer } = content;
+  
+  const whatsappUrl = `https://wa.me/${freeMachineOffer.whatsappNumber.replace(/\+/g, "")}?text=${encodeURIComponent(freeMachineOffer.whatsappMessage)}`;
 
   const handleAddToCart = () => {
     if (product.soldOut) return;
@@ -25,11 +31,20 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     addItem({
       productSlug: product.slug,
       productName: product.name,
-      grind: selectedGrind,
+      productType: product.type,
       quantity,
       price: product.price,
       image: product.images[0] || "/images/placeholder.svg",
     });
+    
+    // If user selected subscription, enable it in cart
+    if (wantsSubscription && isCialde) {
+      setSubscription(true);
+    }
+  };
+
+  const handleSubscriptionToggle = () => {
+    setWantsSubscription(!wantsSubscription);
   };
 
   return (
@@ -51,32 +66,95 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Right: Product Info */}
           <div className="space-y-8">
-            {/* Name & Notes */}
+            {/* Name & Contents */}
             <div>
               <h1 className="text-h1 font-serif mb-2">{product.name}</h1>
-              <p className="text-lg text-muted">{product.tastingNotes}</p>
+              {product.contents && (
+                <p className="text-lg text-muted">{product.contents}</p>
+              )}
             </div>
 
             {/* Price */}
             <div>
-              <p className="text-h3">
-                {product.soldOut ? (
-                  <span className="text-muted">Sold out</span>
-                ) : (
-                  <>from {formatPrice(product.price)}</>
-                )}
-              </p>
+              {product.soldOut ? (
+                <p className="text-h3 text-muted">Sold out</p>
+              ) : isMachine ? (
+                <div>
+                  <p className="text-h3">{formatPrice(product.price)}</p>
+                  <p className="text-sm text-muted mt-1">or FREE with monthly cialde subscription</p>
+                </div>
+              ) : (
+                <p className="text-h3">{formatPrice(product.price)}</p>
+              )}
             </div>
 
             {/* Description */}
             <p className="text-muted leading-relaxed">{product.description}</p>
 
-            {/* Variant Selector */}
-            {!product.soldOut && (
-              <VariantSelector
-                selectedGrind={selectedGrind}
-                onGrindChange={setSelectedGrind}
-              />
+            {/* Highlights */}
+            {product.highlights && (
+              <ul className="space-y-2">
+                {product.highlights.map((highlight, index) => (
+                  <li key={index} className="flex items-center gap-3 text-sm">
+                    <svg className="w-4 h-4 text-muted flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* Subscription Option for Cialde */}
+            {!product.soldOut && isCialde && (
+              <div className="border border-[var(--border)] p-6">
+                <label className="flex items-start gap-4 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={wantsSubscription}
+                    onChange={handleSubscriptionToggle}
+                    className="mt-1 w-5 h-5 border-2 border-[var(--border)] rounded-none accent-[var(--foreground)]"
+                  />
+                  <div className="flex-1">
+                    <span className="font-medium block mb-1">
+                      Subscribe Monthly & Get Free Machine
+                    </span>
+                    <span className="text-sm text-muted block">
+                      Commit to ordering at least 1 box per month and receive a professional espresso machine completely free.
+                    </span>
+                  </div>
+                </label>
+                
+                {wantsSubscription && (
+                  <div className="mt-4 pt-4 border-t border-[var(--border)]">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted">Espresso Machine</span>
+                      <span className="font-medium text-green-600">FREE</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Machine-specific CTA */}
+            {!product.soldOut && isMachine && (
+              <div className="border border-[var(--border)] p-6 bg-[var(--foreground)]/5">
+                <p className="font-medium mb-2">Want this machine for free?</p>
+                <p className="text-sm text-muted mb-4">
+                  Subscribe to monthly cialde delivery and get this espresso machine at no cost.
+                </p>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-medium hover:underline"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                  Contact us about subscription
+                </a>
+              </div>
             )}
 
             {/* Quantity & Add to Cart */}
@@ -92,6 +170,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 >
                   Add to Cart — {formatPrice(product.price * quantity)}
                 </button>
+                
+                {wantsSubscription && isCialde && (
+                  <p className="text-xs text-center text-muted">
+                    Free espresso machine will be added to your cart
+                  </p>
+                )}
               </div>
             )}
 
@@ -102,7 +186,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   Sold Out
                 </button>
                 <p className="text-sm text-muted text-center">
-                  Sign up for our newsletter to be notified when this product is back in stock.
+                  Contact us to be notified when this product is back in stock.
                 </p>
               </div>
             )}
@@ -114,23 +198,25 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <TrustBadges />
         </div>
 
-        {/* Product Specs */}
+        {/* Product Type Indicator */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
-            <p className="text-xs uppercase tracking-widest text-muted mb-2">Origin</p>
-            <p className="text-sm">{product.origin}</p>
+            <p className="text-xs uppercase tracking-widest text-muted mb-2">Type</p>
+            <p className="text-sm capitalize">{product.type === "cialde" ? "Coffee Cialde" : "Espresso Machine"}</p>
+          </div>
+          {product.contents && (
+            <div>
+              <p className="text-xs uppercase tracking-widest text-muted mb-2">Contents</p>
+              <p className="text-sm">{product.contents}</p>
+            </div>
+          )}
+          <div>
+            <p className="text-xs uppercase tracking-widest text-muted mb-2">Delivery</p>
+            <p className="text-sm">2-3 business days</p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-widest text-muted mb-2">Variety</p>
-            <p className="text-sm">{product.variety}</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-widest text-muted mb-2">Process</p>
-            <p className="text-sm">{product.process}</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-widest text-muted mb-2">Weight</p>
-            <p className="text-sm">{product.weight}</p>
+            <p className="text-xs uppercase tracking-widest text-muted mb-2">Subscription</p>
+            <p className="text-sm">{isCialde ? "Monthly available" : "Free with monthly"}</p>
           </div>
         </div>
       </div>

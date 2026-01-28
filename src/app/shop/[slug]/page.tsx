@@ -23,12 +23,17 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     };
   }
 
+  const typeLabel = product.type === "cialde" ? "Coffee Cialde" : "Espresso Machine";
+  const priceLabel = product.type === "machine" 
+    ? `€${product.price} or FREE with subscription` 
+    : `€${product.price}`;
+
   return {
     title: product.name,
-    description: `${product.name} - ${product.tastingNotes}. ${product.description}`,
+    description: `${product.name} - ${typeLabel}. ${product.description}`,
     openGraph: {
       title: `${product.name} | Vento Caffè`,
-      description: `${product.tastingNotes}. From €${product.price}`,
+      description: `${typeLabel}. ${priceLabel}`,
       images: product.images[0] ? [product.images[0]] : [],
     },
   };

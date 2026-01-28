@@ -20,33 +20,35 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Vento Caffè | Specialty Coffee Roasted in Milano",
+    default: "Vento Caffè | Premium Coffee Cialde Delivered Monthly",
     template: "%s | Vento Caffè",
   },
   description:
-    "A brand of specialty coffee, roasted in Milano. Raw and singular coffee shops. Sharp and minimalist.",
+    "Premium Italian coffee cialde delivered monthly. Get a FREE espresso machine when you subscribe. Authentic espresso at home, made simple.",
   keywords: [
-    "specialty coffee",
-    "coffee roasters",
-    "Milano",
+    "coffee cialde",
+    "ESE pods",
+    "espresso machine",
+    "coffee subscription",
     "Italian coffee",
-    "coffee shop",
+    "monthly delivery",
+    "free espresso machine",
   ],
   authors: [{ name: "Vento Caffè" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ventocaffe.com",
+    url: "https://ventocaffe.al",
     siteName: "Vento Caffè",
-    title: "Vento Caffè | Specialty Coffee Roasted in Milano",
+    title: "Vento Caffè | Premium Coffee Cialde Delivered Monthly",
     description:
-      "A brand of specialty coffee, roasted in Milano. Raw and singular coffee shops. Sharp and minimalist.",
+      "Premium Italian coffee cialde delivered monthly. Get a FREE espresso machine when you subscribe.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vento Caffè | Specialty Coffee Roasted in Milano",
+    title: "Vento Caffè | Premium Coffee Cialde Delivered Monthly",
     description:
-      "A brand of specialty coffee, roasted in Milano. Raw and singular coffee shops. Sharp and minimalist.",
+      "Premium Italian coffee cialde delivered monthly. Get a FREE espresso machine when you subscribe.",
   },
   robots: {
     index: true,

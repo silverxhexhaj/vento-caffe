@@ -8,6 +8,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const isMachine = product.type === "machine";
+  
   return (
     <Link
       href={`/shop/${product.slug}`}
@@ -27,6 +29,11 @@ export default function ProductCard({ product }: ProductCardProps) {
             <span className="text-sm uppercase tracking-widest">Sold out</span>
           </div>
         )}
+        {isMachine && !product.soldOut && (
+          <div className="absolute top-4 right-4 bg-[var(--foreground)] text-[var(--background)] px-3 py-1 text-xs uppercase tracking-wider">
+            Free with subscription
+          </div>
+        )}
       </div>
 
       {/* Product Info */}
@@ -34,12 +41,18 @@ export default function ProductCard({ product }: ProductCardProps) {
         <h3 className="text-sm uppercase tracking-wide font-medium mb-1 group-hover:underline">
           {product.name}
         </h3>
-        <p className="text-sm text-muted mb-2">{product.tastingNotes}</p>
+        {product.contents && (
+          <p className="text-sm text-muted mb-2">{product.contents}</p>
+        )}
         <p className="text-sm">
           {product.soldOut ? (
             <span className="text-muted">Sold out</span>
+          ) : isMachine ? (
+            <span>
+              {formatPrice(product.price)} <span className="text-muted">or FREE with subscription</span>
+            </span>
           ) : (
-            <>from {formatPrice(product.price)}</>
+            formatPrice(product.price)
           )}
         </p>
       </div>

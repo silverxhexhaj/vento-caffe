@@ -1,57 +1,53 @@
 export const content = {
   brand: {
     name: "Vento Caffè",
-    tagline: "Coffee, roasted with wind",
+    tagline: "Espresso at home, made simple",
   },
   
   hero: {
-    mainText: ["COFFEE", "ROASTED", "IN NAPOLI"],
-    description: "A brand of specialty coffee. We also are places. Raw and singular coffee shops. Sharp and minimalist.",
-    ctaText: "ABOUT US",
-    ctaHref: "/about",
+    mainText: ["ESPRESSO", "AT HOME", "MADE SIMPLE"],
+    description: "Premium coffee cialde delivered monthly. Commit to a box per month, and we'll give you the espresso machine for FREE.",
+    ctaText: "SHOP NOW",
+    ctaHref: "/shop",
   },
   
   brandStatement: {
-    heading: "A brand of specialty coffee. We also are places.",
-    subheading: "Raw and singular coffee shops. Sharp and minimalist.",
-    cta: "About us",
+    heading: "Authentic Italian espresso, delivered to your door.",
+    subheading: "Premium cialde. Free machine. Monthly convenience.",
+    cta: "Learn more",
   },
   
   productSection: {
-    preHeading: "We are multiple ranges,",
-    heading: "carefully",
-    subHeading: "selected",
+    preHeading: "Quality cialde,",
+    heading: "delivered",
+    subHeading: "monthly",
+  },
+  
+  freeMachineOffer: {
+    heading: "Free Espresso Machine",
+    subheading: "Our special offer",
+    description: "Commit to purchasing just 1 cialde box per month, and we'll give you a professional espresso machine completely FREE. No hidden fees, no contracts—just great coffee.",
+    benefits: [
+      "Professional 15-bar espresso machine",
+      "No upfront cost for the machine",
+      "Flexible monthly ordering",
+      "Cancel anytime",
+    ],
+    ctaText: "Contact Us",
+    secondaryCta: "View Products",
+    whatsappNumber: "+355699999999",
+    whatsappMessage: "Hi! I'm interested in the free espresso machine offer with monthly cialde subscription.",
   },
   
   about: {
     paragraphs: [
-      "We are Vento, a brand of specialty coffee, roasted here in Milano. We also are places. Raw and singular coffee shops. We are multiple ranges, carefully selected. We are for unique aesthetics, sharp and minimalist.",
-      "We are for sustainable engagement and for full responsibility. We are for the beautiful and the good, to compose and to share. We are for architectural lines, and for expressive and subtle beans. We are for sincere and vibrant experiences, constantly reinvented.",
+      "We are Vento Caffè, bringing authentic Italian espresso directly to your home or office. Our mission is simple: make premium coffee accessible and convenient through our cialde subscription service.",
+      "We believe everyone deserves a perfect espresso. That's why we offer our professional espresso machine FREE when you commit to a monthly cialde box. No complicated contracts, no hidden fees—just great coffee delivered to your door.",
     ],
     founders: {
       heading: "Founders",
       names: ["Marco Bianchi", "Lucia Rossi"],
     },
-  },
-  
-  playlist: {
-    heading: "Enjoy",
-    subHeading: "playlist",
-    spotifyUrl: "https://open.spotify.com/playlist/37i9dQZF1DXbITWG1ZJKYt",
-    tracks: [
-      "Circles,",
-      "Illmatic,",
-      "Greatest Hits,",
-      "The Infamous,",
-      "It was a good Day,",
-      "Don't be a menace,",
-      "LOVE. ft. Zacari,",
-      "Her Acaí,",
-      "Timeless,",
-      "Why don't you,",
-      "Sodade,",
-      "The otherside,",
-    ],
   },
   
   newsletter: {
@@ -63,8 +59,8 @@ export const content = {
   },
   
   footer: {
-    tagline: "Specialty coffee roasted in Milano. Open 7/7.",
-    bottomLine: "Take your time. Enjoy your coffee.",
+    tagline: "Premium coffee cialde delivered monthly. Free machine with subscription.",
+    bottomLine: "Take your time. Enjoy your espresso.",
     legal: [
       { label: "Privacy Policy", href: "/legal/privacy" },
       { label: "Terms & Conditions", href: "/legal/terms" },
@@ -73,37 +69,38 @@ export const content = {
   },
   
   trustBadges: [
-    { icon: "truck", label: "Fast Delivery", description: "2-3 business days" },
-    { icon: "shield", label: "Secure Payment", description: "SSL encrypted" },
-    { icon: "star", label: "Premium Selection", description: "High-end beans" },
-    { icon: "refresh", label: "Fresh Roasted", description: "Weekly batches" },
+    { icon: "gift", label: "Free Machine", description: "With subscription" },
+    { icon: "truck", label: "Monthly Delivery", description: "Right to your door" },
+    { icon: "star", label: "Premium Cialde", description: "Italian quality" },
+    { icon: "refresh", label: "Easy Reorder", description: "WhatsApp or online" },
   ],
   
-  collaborations: {
-    heading: "Collaborations",
-    subHeading: "Partnerships with creators, artists, and kindred spirits.",
-    posts: [
+  subscription: {
+    heading: "How It Works",
+    steps: [
       {
-        slug: "ceramic-studio",
-        title: "Ceramic Studio Milano",
-        excerpt: "Handcrafted cups for the perfect pour. A collaboration in clay and coffee.",
-        image: "/images/collabs/ceramic.jpg",
-        date: "2026-01-20",
+        number: "01",
+        title: "Choose Your Cialde",
+        description: "Select Classic or Decaffeinato box (150 cialde + kit)",
       },
       {
-        slug: "sound-design",
-        title: "Ambient Sound Design",
-        excerpt: "Curating the sonic landscape of our spaces. Coffee tastes better with the right frequency.",
-        image: "/images/collabs/sound.jpg",
-        date: "2026-01-12",
+        number: "02",
+        title: "Get Free Machine",
+        description: "Commit to monthly orders and receive your espresso machine FREE",
       },
       {
-        slug: "local-bakery",
-        title: "Forno Antico",
-        excerpt: "Traditional pastries meet modern coffee. A partnership baked with care.",
-        image: "/images/collabs/bakery.jpg",
-        date: "2026-01-08",
+        number: "03",
+        title: "Enjoy & Reorder",
+        description: "Enjoy perfect espresso and easily reorder via WhatsApp or online",
       },
     ],
+  },
+  
+  contact: {
+    heading: "Get Started",
+    subheading: "Contact us to set up your subscription",
+    whatsappNumber: "+355699999999",
+    whatsappMessage: "Hi! I'm interested in starting a cialde subscription.",
+    email: "info@ventocaffe.al",
   },
 };

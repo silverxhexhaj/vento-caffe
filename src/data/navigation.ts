@@ -4,9 +4,8 @@ export interface NavItem {
 }
 
 export const mainNavItems: NavItem[] = [
-  { label: "About", href: "/about" },
   { label: "Shop", href: "/shop" },
-  { label: "Collaborations", href: "/collaborations" },
+  { label: "About", href: "/about" },
 ];
 
 export const languages = [
@@ -22,5 +21,5 @@ export const footerLinks = [
 
 export const socialLinks = [
   { label: "Instagram", href: "https://instagram.com/ventocaffe", icon: "instagram" },
-  { label: "Spotify", href: "https://open.spotify.com", icon: "spotify" },
+  { label: "WhatsApp", href: "https://wa.me/355699999999", icon: "whatsapp" },
 ];

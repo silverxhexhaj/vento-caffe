@@ -27,6 +27,14 @@ const icons: Record<string, React.ReactNode> = {
       <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
     </svg>
   ),
+  gift: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="3" y="8" width="18" height="4" rx="1" />
+      <rect x="5" y="12" width="14" height="9" rx="1" />
+      <line x1="12" y1="8" x2="12" y2="21" />
+      <path d="M12 8c-1.5 0-3-1.5-3-3s1.5-3 3-3 3 1.5 3 3-1.5 3-3 3" />
+    </svg>
+  ),
 };
 
 export default function TrustBadges() {
@@ -35,7 +43,7 @@ export default function TrustBadges() {
       {content.trustBadges.map((badge) => (
         <div key={badge.label} className="flex flex-col items-center text-center">
           <div className="mb-2 text-muted">
-            {icons[badge.icon]}
+            {icons[badge.icon] || icons.star}
           </div>
           <p className="text-xs uppercase tracking-widest font-medium mb-1">
             {badge.label}
