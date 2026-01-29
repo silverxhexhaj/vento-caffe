@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { locales } from "@/i18n/config";
 import { getProductBySlug, productSlugs } from "@/data/products";
+import { formatPrice } from "@/lib/utils";
 import ProductDetail from "./ProductDetail";
 
 interface ProductPageProps {
@@ -35,8 +36,8 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       : t("common.espressoMachine");
   const priceLabel =
     product.type === "machine"
-      ? t("productPage.priceWithSubscription", { price: `€${product.price}` })
-      : t("productPage.price", { price: `€${product.price}` });
+      ? t("productPage.priceWithSubscription", { price: formatPrice(product.price) })
+      : t("productPage.price", { price: formatPrice(product.price) });
 
   return {
     title: product.name,

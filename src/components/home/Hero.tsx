@@ -93,7 +93,7 @@ export default function Hero() {
               {/* Price Section */}
               <div className="mb-6">
                 <div className="flex items-baseline gap-3 justify-center lg:justify-start flex-wrap">
-                  <span className="text-5xl md:text-6xl font-bold">{directOffer.currency}{directOffer.price}</span>
+                  <span className="text-5xl md:text-6xl font-bold">{directOffer.price}{directOffer.currency}</span>
                 </div>
               </div>
               

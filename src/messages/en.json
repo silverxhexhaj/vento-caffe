@@ -103,21 +103,21 @@
     "directOffer": {
       "badge": "SPECIAL OFFER",
       "headline": "FREE Espresso Machine",
-      "price": 55,
-      "currency": "€",
+      "price": 5500,
+      "currency": " Lekë",
       "priceLabel": "only",
       "includes": [
         "150 premium cialde + kit",
         "FREE espresso machine",
         "Delivery monthly included",
-        "minimum 1 box per month"
+        "Minimum 1 box per month"
       ],
-      "machineValue": 170,
+      "machineValue": 15500,
       "ctaText": "ORDER NOW",
       "ctaHref": "/shop/classic-cialde",
       "note": "Commit to 1 box/month",
       "whatsappNumber": "+355694825205",
-      "whatsappMessage": "Hi! I want to order the €55 cialde box with the free espresso machine!"
+      "whatsappMessage": "Hi! I want to order the 5,500 Lekë cialde box with the free espresso machine!"
     },
     "brandStatement": {
       "heading": "Authentic Italian espresso, delivered to your door.",
@@ -301,7 +301,7 @@
         },
         "freeShipping": {
           "title": "Free Shipping",
-          "body": "Free shipping on all orders over €50 within Italy and €75 for the rest of Europe."
+          "body": "Free shipping on all orders over 5,000 Lekë within Albania and 7,500 Lekë for the rest of Europe."
         },
         "returns": {
           "title": "Returns",
@@ -324,7 +324,7 @@
         },
         "pricing": {
           "title": "Products and Pricing",
-          "body": "All prices are in Euros and include applicable taxes. We reserve the right to modify prices at any time without prior notice."
+          "body": "All prices are in Lekë and include applicable taxes. We reserve the right to modify prices at any time without prior notice."
         },
         "contact": {
           "title": "Contact Us",

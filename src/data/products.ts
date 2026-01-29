@@ -32,7 +32,7 @@ export interface Product {
 const productSeeds: ProductSeed[] = [
   {
     slug: "classic-cialde",
-    price: 55,
+    price: 5500,
     soldOut: false,
     featured: true,
     images: ["/images/products/classic-cialde-1.png", "/images/products/classic-cialde-2.jpg"],
@@ -44,7 +44,7 @@ const productSeeds: ProductSeed[] = [
   },
   {
     slug: "decaffeinato-cialde",
-    price: 65,
+    price: 6500,
     soldOut: false,
     featured: true,
     images: [
@@ -59,7 +59,7 @@ const productSeeds: ProductSeed[] = [
   },
   {
     slug: "espresso-machine",
-    price: 170,
+    price: 15500,
     soldOut: false,
     featured: true,
     images: [

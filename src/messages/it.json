@@ -103,21 +103,21 @@
     "directOffer": {
       "badge": "OFFERTA SPECIALE",
       "headline": "Macchina da espresso GRATIS",
-      "price": 55,
-      "currency": "€",
+      "price": 5500,
+      "currency": " Lekë",
       "priceLabel": "solo",
       "includes": [
         "150 cialde premium + kit",
         "Macchina da espresso GRATIS",
         "Consegna mensile inclusa",
-        "almeno 1 scatola al mese"
+        "Almeno 1 scatola al mese"
       ],
-      "machineValue": 170,
+      "machineValue": 15500,
       "ctaText": "ORDINA ORA",
       "ctaHref": "/shop/classic-cialde",
       "note": "Impegnati per 1 scatola/mese",
       "whatsappNumber": "+355694825205",
-      "whatsappMessage": "Ciao! Vorrei ordinare la scatola di cialde da €55 con la macchina da espresso gratuita!"
+      "whatsappMessage": "Ciao! Vorrei ordinare la scatola di cialde da 5.500 Lekë con la macchina da espresso gratuita!"
     },
     "brandStatement": {
       "heading": "Autentico espresso italiano, consegnato a casa tua.",
@@ -301,7 +301,7 @@
         },
         "freeShipping": {
           "title": "Spedizione gratuita",
-          "body": "Spedizione gratuita per tutti gli ordini oltre €50 in Italia e €75 nel resto d'Europa."
+          "body": "Spedizione gratuita per tutti gli ordini oltre 5.000 Lekë in Albania e 7.500 Lekë nel resto d'Europa."
         },
         "returns": {
           "title": "Resi",
@@ -324,7 +324,7 @@
         },
         "pricing": {
           "title": "Prodotti e prezzi",
-          "body": "Tutti i prezzi sono in Euro e includono le tasse applicabili. Ci riserviamo il diritto di modificare i prezzi in qualsiasi momento senza preavviso."
+          "body": "Tutti i prezzi sono in Lekë e includono le tasse applicabili. Ci riserviamo il diritto di modificare i prezzi in qualsiasi momento senza preavviso."
         },
         "contact": {
           "title": "Contattaci",

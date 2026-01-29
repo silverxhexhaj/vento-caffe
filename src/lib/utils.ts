@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatPrice(price: number): string {
-  return `€${price}`;
+  return `${price.toLocaleString()} Lekë`;
 }
 
 export function formatDate(dateString: string): string {

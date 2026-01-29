@@ -103,21 +103,21 @@
     "directOffer": {
       "badge": "OFERTË SPECIALE",
       "headline": "Makinë espresso FALAS",
-      "price": 55,
-      "currency": "€",
+      "price": 5500,
+      "currency": " Lekë",
       "priceLabel": "vetëm",
       "includes": [
         "150 cialde premium + kit",
         "Makinë espresso FALAS",
         "Dorëzim mujor i përfshirë",
-        "minimum 1 kuti në muaj"
+        "Minimumi 1 kuti në muaj"
       ],
-      "machineValue": 170,
+      "machineValue": 15500,
       "ctaText": "POROSIT TANI",
       "ctaHref": "/shop/classic-cialde",
       "note": "Abonohu për 1 kuti/muaj",
       "whatsappNumber": "+355694825205",
-      "whatsappMessage": "Përshëndetje! Dua të porosis kutinë e cialdeve €55 me makinën e espressos falas!"
+      "whatsappMessage": "Përshëndetje! Dua të porosis kutinë e cialdeve 5,500 Lekë me makinën e espressos falas!"
     },
     "brandStatement": {
       "heading": "Espresso autentike italiane, e dorëzuar në derën tuaj.",
@@ -299,7 +299,7 @@
         },
         "freeShipping": {
           "title": "Dërgesa falas",
-          "body": "Dërgesë falas për të gjitha porositë mbi €50 brenda Italisë dhe €75 për pjesën tjetër të Evropës."
+          "body": "Dërgesë falas për të gjitha porositë mbi 5,000 Lekë brenda Shqipërisë dhe 7,500 Lekë për pjesën tjetër të Evropës."
         },
         "returns": {
           "title": "Kthimet",
@@ -322,7 +322,7 @@
         },
         "pricing": {
           "title": "Produktet dhe çmimet",
-          "body": "Të gjitha çmimet janë në Euro dhe përfshijnë taksat e aplikueshme. Ne rezervojmë të drejtën për të ndryshuar çmimet në çdo kohë pa njoftim paraprak."
+          "body": "Të gjitha çmimet janë në Lekë dhe përfshijnë taksat e aplikueshme. Ne rezervojmë të drejtën për të ndryshuar çmimet në çdo kohë pa njoftim paraprak."
         },
         "contact": {
           "title": "Na kontaktoni",
