@@ -59,7 +59,7 @@ export default function Hero() {
       <div className="container relative z-10">
         <h1 className="sr-only">{t("metadata.titleDefault")}</h1>
         
-        <div className="max-w-4xl text-center lg:text-left text-white flex flex-col gap-6 md:gap-2">
+        <div className="max-w-4xl text-left text-white flex flex-col gap-6 md:gap-2">
           {/* Main Bold Typography */}
           <div className="mb-6 flex flex-col gap-2 " aria-hidden="true">
             <span className="block text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
@@ -76,9 +76,9 @@ export default function Hero() {
           </div>
           
           <div >
-            <div className="text-center flex flex-col align-center md:align-start">
+            <div className="flex flex-col justify-start">
               {/* Includes List */}
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 mb-6 sm:mb-8 max-w-lg">
                 {directOffer.includes.map((item, index) => (
                   <li key={index} className="flex items-center gap-3">
                     <svg className="w-5 h-5 flex-shrink-0 text-white/80" viewBox="0 0 20 20" fill="currentColor">
@@ -92,14 +92,14 @@ export default function Hero() {
               </ul>
               {/* Price Section */}
               <div className="mb-6">
-                <div className="flex items-baseline gap-3 justify-center lg:justify-start flex-wrap">
+                <div className="flex items-baseline gap-3 justify-start flex-wrap">
                   <span className="text-4xl sm:text-5xl md:text-6xl font-bold">{directOffer.price}{directOffer.currency}</span>
                 </div>
               </div>
               
             </div>
               {/* CTA Button */}
-            <div className="flex items-center justify-center lg:justify-start gap-4 mb-4">
+            <div className="flex items-center justify-start gap-4 mb-4">
               <Link 
                 href={buildLocaleHref(directOffer.ctaHref)} 
                 className="bg-white text-black font-bold px-8 py-4 text-lg hover:bg-white/90 transition-colors"
