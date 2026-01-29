@@ -238,7 +238,7 @@
     }
   },
   "shopPage": {
-    "metaTitle": "Dyqani - Cialde kafeje dhe makinë espresso",
+    "metaTitle": "Produktet - Cialde kafeje dhe makinë espresso",
     "metaDescription": "Cialde kafeje italiane premium me dorëzim mujor. Merrni një makinë espresso FALAS kur abonoheni në dorëzime mujore.",
     "title": "Produktet",
     "description": "Zgjidh kutinë tënde të preferuar të cialdeve dhe shijo espresso italiane premium në shtëpi. Abonohu çdo muaj dhe merr makinën e espressos falas.",
@@ -362,7 +362,7 @@
     "orFreeWithSubscription": "ose FALAS me abonim"
   },
   "productDetail": {
-    "breadcrumbShop": "Dyqani",
+    "breadcrumbShop": "Produktet",
     "soldOut": "S'ka në stok",
     "freeWithMonthlySubscription": "ose FALAS me abonim mujor cialde",
     "subscribeMonthlyHeadline": "Abonohu çdo muaj dhe merr makinën falas",

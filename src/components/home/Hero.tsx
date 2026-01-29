@@ -59,18 +59,16 @@ export default function Hero() {
       <div className="container relative z-10">
         <h1 className="sr-only">{t("metadata.titleDefault")}</h1>
         
-        <div className="max-w-2xl text-center lg:text-left text-white">
+        <div className="max-w-4xl text-center lg:text-left text-white">
           {/* Main Bold Typography */}
-          <div className="mb-6" aria-hidden="true">
-            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.9] tracking-tight">
+          <div className="mb-6 flex flex-col gap-2" aria-hidden="true">
+            <span className="block text-5xl md:text-6xl font-bold tracking-tight">
               {content.hero.mainText[0]}
             </span>
-            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.9] tracking-tight">
-              {content.hero.mainText[1]}
-            </span>
-            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.9] tracking-tight">
-              <RotatingText 
-                words={content.hero.businessCategories} 
+            <span className="block text-5xl md:text-6xl font-bold leading-[0.9] tracking-tight">
+              {content.hero.mainText[1]}{" "}
+              <RotatingText
+                words={content.hero.businessCategories}
                 interval={2000}
                 onIndexChange={setCurrentIndex}
               />

@@ -11,6 +11,7 @@ export const getContent = (t: Translator) => ({
 
   hero: {
     mainText: t.raw("content.hero.mainText") as string[],
+    mainText2: t.raw("content.hero.mainText2") as string[],
     businessCategories: t.raw("content.hero.businessCategories") as string[],
     description: t("content.hero.description"),
     ctaText: t("content.hero.ctaText"),
