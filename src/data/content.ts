@@ -38,9 +38,7 @@ export const getContent = (t: Translator) => ({
   },
 
   productSection: {
-    preHeading: t("content.productSection.preHeading"),
     heading: t("content.productSection.heading"),
-    subHeading: t("content.productSection.subHeading"),
   },
 
   freeMachineOffer: {

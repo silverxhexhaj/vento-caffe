@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { getContent } from "@/data/content";
-import Newsletter from "@/components/ui/Newsletter";
 
 function InstagramIcon() {
   return (
@@ -91,21 +90,9 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-[var(--border)]">
-      {/* Newsletter Section */}
-      <div className="container section">
-        <div className="max-w-md">
-          <p className="text-xs uppercase tracking-widest text-muted mb-2">
-            {content.newsletter.heading}
-          </p>
-          <h2 className="text-h2 font-serif mb-6">
-            {content.newsletter.subHeading}
-          </h2>
-          <Newsletter />
-        </div>
-      </div>
-
       {/* Main Footer: Logo + Tagline | Social Links */}
-      <div className="container py-12 border-t border-[var(--border)]">
+      <div className="container">
+        <div className="py-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           {/* Brand Section */}
           <div className="flex flex-col gap-4">
@@ -118,12 +105,9 @@ export default function Footer() {
                 alt={content.brand.name}
                 width={100}
                 height={40}
-                className="h-10 w-auto"
+                className="h-12 w-auto"
               />
             </Link>
-            <p className="text-sm text-muted max-w-xs">
-              {content.footer.tagline}
-            </p>
           </div>
 
           {/* Social Links */}
@@ -140,13 +124,14 @@ export default function Footer() {
                 <social.icon />
               </a>
             ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
       <div className="container py-6 border-t border-[var(--border)]">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 py-6">
           {/* Legal + Copyright Row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             {/* Legal Links */}
@@ -171,11 +156,6 @@ export default function Footer() {
               {t("footer.copyright", { year: currentYear })}
             </p>
           </div>
-
-          {/* Bottom Tagline */}
-          <p className="text-xs text-muted italic">
-            {content.footer.bottomLine}
-          </p>
         </div>
       </div>
     </footer>

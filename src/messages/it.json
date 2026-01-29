@@ -6,11 +6,11 @@
     "keywords": [
       "cialde di caffè",
       "pod ESE",
-      "macchina da espresso",
+      "espresso",
       "abbonamento caffè",
       "caffè italiano",
       "consegna mensile",
-      "macchina da espresso gratis"
+      "espresso gratis"
     ],
     "openGraph": {
       "title": "Vento Caffè | Cialde di caffè premium consegnate mensilmente",
@@ -108,7 +108,7 @@
       "priceLabel": "solo",
       "includes": [
         "150 cialde premium + kit",
-        "Macchina da espresso GRATIS",
+        "Espresso GRATIS",
         "Consegna mensile inclusa",
         "Almeno 1 scatola al mese"
       ],
@@ -125,9 +125,16 @@
       "cta": "Scopri di più"
     },
     "productSection": {
-      "preHeading": "Cialde di qualità,",
-      "heading": "consegnate",
-      "subHeading": "mensilmente"
+      "heading": "Compra i nostri prodotti"
+    },
+    "productShowcase": {
+      "badge": "Guida Rapida",
+      "heading": "Come Funziona",
+      "subheading": "Guarda la nostra guida rapida per scoprire i nostri prodotti di caffè premium e quanto è facile iniziare con il tuo abbonamento.",
+      "ctaButton": "Acquista Ora",
+      "duration": "Guida di 25 secondi",
+      "autoplayNote": "Riproduzione automatica",
+      "note": "Usa i controlli del video per mettere in pausa, riavvolgere o saltare avanti"
     },
     "freeMachineOffer": {
       "heading": "Macchina da espresso gratis",
@@ -250,6 +257,7 @@
     "infoCardDescription": "Quando ti impegni a ordinare almeno 1 scatola di cialde al mese, ti invieremo questa macchina da espresso professionale completamente gratuita."
   },
   "aboutPage": {
+    "title": "Chi siamo",
     "metaDescription": "Siamo Vento Caffè e portiamo l'autentico espresso italiano direttamente a casa o in ufficio attraverso il nostro abbonamento alle cialde.",
     "values": {
       "quality": {

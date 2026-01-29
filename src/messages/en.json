@@ -125,9 +125,16 @@
       "cta": "Learn more"
     },
     "productSection": {
-      "preHeading": "Quality cialde,",
-      "heading": "delivered",
-      "subHeading": "monthly"
+      "heading": "Shop our products"
+    },
+    "productShowcase": {
+      "badge": "Quick Guide",
+      "heading": "How It Works",
+      "subheading": "Watch our quick guide to learn about our premium coffee products and how easy it is to get started with your subscription.",
+      "ctaButton": "Shop Now",
+      "duration": "25 second guide",
+      "autoplayNote": "Plays automatically",
+      "note": "Use video controls to pause, rewind, or skip ahead"
     },
     "freeMachineOffer": {
       "heading": "Free Espresso Machine",
@@ -250,6 +257,7 @@
     "infoCardDescription": "When you commit to ordering at least 1 cialde box per month, we'll send you this professional espresso machine completely free."
   },
   "aboutPage": {
+    "title": "About",
     "metaDescription": "We are Vento Caffè, bringing authentic Italian espresso directly to your home or office through our cialde subscription service.",
     "values": {
       "quality": {

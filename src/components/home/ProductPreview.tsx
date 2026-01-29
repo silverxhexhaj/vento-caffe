@@ -20,15 +20,9 @@ export default function ProductPreview() {
       <div className="container">
         {/* Section Header */}
         <div className="mb-12">
-          <p className="text-h3 text-muted mb-0">
-            {content.productSection.preHeading}
-          </p>
-          <h2 className="text-h1 font-serif">
+          <h2 className="text-h2 font-serif">
             {content.productSection.heading}
           </h2>
-          <p className="text-h1 font-serif text-muted">
-            {content.productSection.subHeading}
-          </p>
         </div>
 
         {/* Product Grid */}
@@ -37,11 +31,12 @@ export default function ProductPreview() {
             <ProductCard key={product.slug} product={product} />
           ))}
         </div>
-
-        {/* Shop CTA */}
-        <Link href={buildLocaleHref("/shop")} className="btn">
-          {t("common.shop")}
-        </Link>
+        <div className="flex justify-center">
+          {/* Shop CTA */}
+          <Link href={buildLocaleHref("/shop")} className="btn">
+            {t("common.shop")}
+          </Link>
+        </div>
       </div>
     </section>
   );

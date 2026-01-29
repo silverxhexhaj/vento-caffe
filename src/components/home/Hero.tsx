@@ -61,7 +61,7 @@ export default function Hero() {
         
         <div className="max-w-4xl text-center lg:text-left text-white">
           {/* Main Bold Typography */}
-          <div className="mb-6 flex flex-col gap-2" aria-hidden="true">
+          <div className="mb-6 flex flex-col gap-2 " aria-hidden="true">
             <span className="block text-5xl md:text-6xl font-bold tracking-tight">
               {content.hero.mainText[0]}
             </span>

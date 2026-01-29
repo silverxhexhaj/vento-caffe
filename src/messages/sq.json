@@ -125,9 +125,16 @@
       "cta": "Mëso më shumë"
     },
     "productSection": {
-      "preHeading": "Cialde cilësore,",
-      "heading": "të dorëzuara",
-      "subHeading": "çdo muaj"
+      "heading": "Porosit produktet tona"
+    },
+    "productShowcase": {
+      "badge": "Udhëzues i Shpejtë",
+      "heading": "Si Funksionon",
+      "subheading": "Shiko udhëzuesin tonë të shpejtë për të mësuar rreth produkteve tona premium të kafes dhe sa e lehtë është të fillosh me abonimin tënd.",
+      "ctaButton": "Bli Tani",
+      "duration": "Udhëzues 25 sekonda",
+      "autoplayNote": "Luhet automatikisht",
+      "note": "Përdor kontrollet e videos për të ndaluar, kthyer mbrapa ose kapërcyer"
     },
     "freeMachineOffer": {
       "heading": "Makinë espresso falas",
@@ -248,6 +255,7 @@
     "infoCardDescription": "Kur angazhoheni të porosisni të paktën 1 kuti cialdesh në muaj, ne do t'ju dërgojmë këtë makinë espresso profesionale krejtësisht falas."
   },
   "aboutPage": {
+    "title": "Rreth nesh",
     "metaDescription": "Ne jemi Vento Caffè, duke sjellë espresso autentike italiane direkt në shtëpinë ose zyrën tuaj përmes abonimit të cialdeve.",
     "values": {
       "quality": {
