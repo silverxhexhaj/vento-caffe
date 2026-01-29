@@ -120,13 +120,11 @@ export default function Navigation() {
 
           {/* Right: Auth + Cart + Language */}
           <div className="flex items-center justify-end gap-4">
-            {/* Auth Button */}
-            <AuthButton />
 
             {/* Cart Button */}
             <button
               onClick={toggleCart}
-              className="text-sm link-underline flex items-center gap-1"
+              className="text-base link-underline flex items-center gap-1"
               aria-label={t("cart.title", { totalItems })}
             >
               {t("navigation.cartButton", { totalItems })}
@@ -153,6 +151,8 @@ export default function Navigation() {
                 </span>
               ))}
             </div>
+            {/* Auth Button */}
+            <AuthButton />
           </div>
         </nav>
       </header>

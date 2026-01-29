@@ -65,7 +65,7 @@ export default function Hero() {
             <span className="block text-5xl md:text-6xl font-bold tracking-tight">
               {content.hero.mainText[0]}
             </span>
-            <span className="block text-5xl md:text-6xl font-bold leading-[0.9] tracking-tight">
+            <span className="block text-5xl md:text-6xl font-bold leading-[0.9] tracking-tight ">
               {content.hero.mainText[1]}{" "}
               <RotatingText
                 words={content.hero.businessCategories}
@@ -75,32 +75,27 @@ export default function Hero() {
             </span>
           </div>
           
-          {/* Description */}
-          <p className="max-w-xl mx-auto lg:mx-0 text-base md:text-lg text-white/90 leading-relaxed mb-8">
-            {content.hero.description}
-          </p>
-
           <div >
             <div>
+              {/* Includes List */}
+              <ul className="grid grid-cols-2 gap-x-6 gap-y-2 mb-8 max-w-lg mx-auto lg:mx-0">
+                {directOffer.includes.map((item, index) => (
+                  <li key={index} className="flex items-center gap-3">
+                    <svg className="w-5 h-5 flex-shrink-0 text-white/80" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span>
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
               {/* Price Section */}
               <div className="mb-6">
                 <div className="flex items-baseline gap-3 justify-center lg:justify-start flex-wrap">
                   <span className="text-5xl md:text-6xl font-bold">{directOffer.currency}{directOffer.price}</span>
                 </div>
               </div>
-              {/* Includes List */}
-              <ul className="space-y-2 mb-8 max-w-md mx-auto lg:mx-0">
-                {directOffer.includes.map((item, index) => (
-                  <li key={index} className="flex items-center gap-3 justify-center lg:justify-start">
-                    <svg className="w-5 h-5 flex-shrink-0 text-white/80" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <span className={index === directOffer.includes.length - 1 ? "font-bold" : "text-white/90"}>
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
               
             </div>
             <div>

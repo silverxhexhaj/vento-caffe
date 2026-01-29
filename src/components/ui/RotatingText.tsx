@@ -30,7 +30,7 @@ export function RotatingText({ words, interval = 2500, onIndexChange }: Rotating
   }, [words.length, interval, onIndexChange]);
 
   return (
-    <span className="inline-block relative">
+    <span className="inline-block relative italic">
       <span
         className={`inline-block transition-all duration-300 ${
           isAnimating

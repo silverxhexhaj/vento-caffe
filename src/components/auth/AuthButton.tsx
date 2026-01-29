@@ -41,7 +41,7 @@ export default function AuthButton() {
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="text-sm link-underline flex items-center gap-1"
+          className="text-base link-underline flex items-center gap-1"
           aria-expanded={isDropdownOpen}
           aria-haspopup="true"
         >
@@ -84,16 +84,15 @@ export default function AuthButton() {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="text-sm link-underline flex items-center gap-1"
+        className="text-base link-underline flex items-center gap-1"
       >
         <svg
-          width="16"
-          height="16"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.5"
-          className="opacity-70"
         >
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
           <circle cx="12" cy="7" r="4" />

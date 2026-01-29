@@ -34,7 +34,7 @@
     "skipToContent": "Vai al contenuto",
     "openMenu": "Apri menu",
     "closeMenu": "Chiudi menu",
-    "cartButton": "carrello ({totalItems})"
+    "cartButton": "Carrello ({totalItems})"
   },
   "common": {
     "shopNow": "Acquista ora",
@@ -84,7 +84,7 @@
       "tagline": "Espresso a casa, in modo semplice"
     },
     "hero": {
-      "mainText": ["ESPRESSO", "PER IL TUO"],
+      "mainText": ["Caffè + Espresso", "per il tuo"],
       "businessCategories": [
         "HOTEL",
         "UFFICIO",
@@ -97,7 +97,6 @@
         "RISTORANTE",
         "COWORKING"
       ],
-      "description": "Cialde di caffè premium consegnate ogni mese. Impegnati per una scatola al mese e ti daremo la macchina da espresso GRATIS.",
       "ctaText": "ACQUISTA ORA",
       "ctaHref": "/shop"
     },
@@ -108,9 +107,10 @@
       "currency": "€",
       "priceLabel": "solo",
       "includes": [
-        "150 cialde premium",
-        "Kit di tazze, zucchero e palette",
-        "Macchina da espresso GRATIS"
+        "150 cialde premium + kit",
+        "Macchina da espresso GRATIS",
+        "Consegna mensile inclusa",
+        "almeno 1 scatola al mese"
       ],
       "machineValue": 170,
       "ctaText": "ORDINA ORA",

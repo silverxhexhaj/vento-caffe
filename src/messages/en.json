@@ -34,7 +34,7 @@
     "skipToContent": "Skip to content",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "cartButton": "cart ({totalItems})"
+    "cartButton": "Cart ({totalItems})"
   },
   "common": {
     "shopNow": "Shop Now",
@@ -84,7 +84,7 @@
       "tagline": "Espresso at home, made simple"
     },
     "hero": {
-      "mainText": ["Caffè + Espresso Machine", "FOR YOUR"],
+      "mainText": ["Coffee + Espresso Machine", "for your"],
       "businessCategories": [
         "HOTEL",
         "OFFICE",
@@ -97,7 +97,6 @@
         "RESTAURANT",
         "COWORKING"
       ],
-      "description": "Premium coffee cialde delivered monthly. Commit to a box per month, and we'll give you the espresso machine for FREE.",
       "ctaText": "SHOP NOW",
       "ctaHref": "/shop"
     },
@@ -108,9 +107,10 @@
       "currency": "€",
       "priceLabel": "only",
       "includes": [
-        "150 premium cialde",
-        "Cups, sugar & stirrers kit",
-        "FREE espresso machine"
+        "150 premium cialde + kit",
+        "FREE espresso machine",
+        "Delivery monthly included",
+        "minimum 1 box per month"
       ],
       "machineValue": 170,
       "ctaText": "ORDER NOW",

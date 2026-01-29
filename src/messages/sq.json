@@ -34,7 +34,7 @@
     "skipToContent": "Shko te përmbajtja",
     "openMenu": "Hap menunë",
     "closeMenu": "Mbyll menunë",
-    "cartButton": "shporta ({totalItems})"
+    "cartButton": "Shporta ({totalItems})"
   },
   "common": {
     "shopNow": "Bli tani",
@@ -84,7 +84,7 @@
       "tagline": "Espresso në shtëpi, thjesht"
     },
     "hero": {
-      "mainText": ["ESPRESSO", "PËR"],
+      "mainText": ["Kafe + Espresso", "për"],
       "businessCategories": [
         "HOTEL",
         "ZYRË",
@@ -97,7 +97,6 @@
         "RESTORANT",
         "COWORKING"
       ],
-      "description": "Cialde kafeje premium me dorëzim mujor. Abonohu për një kuti në muaj dhe ne do të të japim makinën e espressos FALAS.",
       "ctaText": "BLI TANI",
       "ctaHref": "/shop"
     },
@@ -108,9 +107,10 @@
       "currency": "€",
       "priceLabel": "vetëm",
       "includes": [
-        "150 cialde premium",
-        "Komplet gotash, sheqer dhe lugë",
-        "Makinë espresso FALAS"
+        "150 cialde premium + kit",
+        "Makinë espresso FALAS",
+        "Dorëzim mujor i përfshirë",
+        "minimum 1 kuti në muaj"
       ],
       "machineValue": 170,
       "ctaText": "POROSIT TANI",
