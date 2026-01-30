@@ -26,7 +26,7 @@ export default async function ShopPage({ params }: ShopPageProps) {
   const machine = getMachineProduct(t);
 
   return (
-    <div className="py-16">
+    <div className="md:py-16 py-8">
       <div className="container">
         {/* Page Header */}
         <div className="mb-12">

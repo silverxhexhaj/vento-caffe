@@ -113,7 +113,7 @@ export default function Navigation() {
               alt="Vento Caffè"
               width={120}
               height={48}
-              className="h-14 w-auto"
+              className="md:h-14 h-12 w-auto"
               priority
             />
           </Link>

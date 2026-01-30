@@ -58,7 +58,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   };
 
   return (
-    <div className="section">
+    <div className="md:py-16 py-8">
       <div className="container">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm">
