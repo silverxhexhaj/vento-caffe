@@ -153,8 +153,9 @@
     },
     "about": {
       "paragraphs": [
-        "Ne jemi Vento Caffè dhe sjellim espresso autentike italiane direkt në shtëpinë ose zyrën tuaj. Misioni ynë është i thjeshtë: ta bëjmë kafenë premium të aksesueshme dhe të përshtatshme përmes abonimit të cialdeve.",
-        "Ne besojmë se të gjithë meritojnë një espresso perfekte. Prandaj ofrojmë makinën tonë profesionale të espressos FALAS kur angazhoheni për një kuti cialde mujore. Pa kontrata të ndërlikuara, pa tarifa të fshehura — vetëm kafe e shkëlqyer e dorëzuar në derën tuaj."
+        "Në Vento Caffè sjellim shijen e vërtetë të ekspresit italian direkt në shtëpinë ose ambientin tuaj të punës. Besojmë se kafeja e mirë duhet të jetë e thjeshtë dhe e përditshme, ndaj kemi krijuar shërbimin tonë të abonimit me bustina.",
+        "Çdokush meriton një ekspres perfekt. Për këtë arsye, ju ofrojmë makinën profesionale të kafesë falas kur abonoheni me një kuti mujore me bustina. Pa kontrata të ndërlikuara, pa kosto të fshehura — vetëm kafe cilësore, e dorëzuar tek dera juaj.",
+        "E thjeshtë. Praktike. Ekspres i vërtetë italian."
       ],
       "founders": {
         "heading": "Themeluesit",
@@ -214,7 +215,7 @@
   "products": {
     "classicCialde": {
       "name": "Kuti Cialde Klasike",
-      "description": "Përzierja jonë karakteristike e kafesë italiane premium, e përzgjedhur me kujdes dhe e pjekur në perfeksion. Çdo cialde sjell një espresso të pasur e të plotë me nota çokollate dhe arrash të pjekura. Kafja perfekte e përditshme për adhuruesit e vërtetë të espressos.",
+      "description": "Përzierja jonë ekskluzive e kafesë italiane premium, e përzgjedhur me kujdes dhe e pjekur në përsosmëri. Çdo cialde ofron një espresso të pasur dhe të plotë me nota çokollate dhe arrave të pjekura. Kafeja e përditshme perfekte për dashamirësit e vërtetë të espressos.",
       "contents": "150 cialde + kit",
       "highlights": [
         "150 pods kafeje ESE classic",
@@ -260,11 +261,11 @@
     "values": {
       "quality": {
         "title": "Cilësi",
-        "description": "Ne përzgjedhim vetëm kafe italiane premium, të përpunuar me kujdes në pods ESE që japin një espresso të qëndrueshme dhe të nivelit bar çdo herë."
+        "description": "Ne përzgjedhim vetëm kafe italiane premium, të pjekur me kujdes dhe të përpunuar në bustina ESE për të garantuar një ekspres të pasur dhe të balancuar në çdo filxhan. Cilësi e qëndrueshme, rezultat profesional—në shtëpi apo në punë."
       },
       "convenience": {
         "title": "Komoditet",
-        "description": "Dorëzimi mujor do të thotë se nuk do të mbeteni kurrë pa kafe. Abonimi ynë i thjeshtë përfshin gjithçka që ju nevojitet — cialde, gota, sheqer dhe shkopinj."
+        "description": "Ne e bëjmë kafenë sa më të thjeshtë. Furnizimi mujor siguron që të mos mbeteni kurrë pa kafe, ndërsa abonimi ynë përfshin gjithçka që ju nevojitet—bustina, gota, sheqer dhe shkopinj për përzierje. Pa blerje në minutën e fundit , pa stres—vetëm ekspres gati kur ju duhet."
       },
       "value": {
         "title": "Vlerë",

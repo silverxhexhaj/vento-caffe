@@ -153,8 +153,9 @@
     },
     "about": {
       "paragraphs": [
-        "Siamo Vento Caffè e portiamo l'autentico espresso italiano direttamente a casa o in ufficio. La nostra missione è semplice: rendere il caffè premium accessibile e conveniente attraverso il nostro servizio di abbonamento alle cialde.",
-        "Crediamo che tutti meritino un espresso perfetto. Per questo offriamo la nostra macchina da espresso professionale GRATIS quando ti impegni per una scatola di cialde mensile. Nessun contratto complicato, nessun costo nascosto: solo ottimo caffè consegnato alla tua porta."
+        "Da Vento Caffè portiamo il vero espresso italiano direttamente a casa tua o nel tuo ufficio. Crediamo che un buon caffè debba essere semplice e sempre a portata di mano, per questo abbiamo creato il nostro servizio di abbonamento in cialde.",
+        "Tutti meritano un espresso perfetto. Ecco perché ti offriamo la macchina da caffè professionale gratuita con l’abbonamento a una box mensile di cialde. Nessun contratto complicato, nessun costo nascosto — solo caffè di qualità, consegnato direttamente a casa tua.",
+        "Semplice. Affidabile. Vero espresso italiano."
       ],
       "founders": {
         "heading": "Fondatori",
@@ -262,11 +263,11 @@
     "values": {
       "quality": {
         "title": "Qualità",
-        "description": "Selezioniamo solo caffè italiano premium, lavorato con cura in cialde ESE che garantiscono un espresso costante e di qualità da bar ogni volta."
+        "description": "Selezioniamo solo caffè italiano di alta qualità, tostato con cura e trasformato in cialde ESE per offrire un espresso ricco ed equilibrato ogni volta. Qualità costante, risultato da vero bar—ovunque tu voglia gustarlo."
       },
       "convenience": {
         "title": "Comodità",
-        "description": "La consegna mensile significa non restare mai senza caffè. Il nostro abbonamento include tutto ciò che serve: cialde, tazze, zucchero e palette."
+        "description": "Pensiamo a tutto noi. Con la consegna mensile non resti mai senza caffè e l’abbonamento include tutto il necessario—cialde ESE, bicchieri, zucchero e palette. Niente corse dell’ultimo minuto, solo espresso sempre pronto."
       },
       "value": {
         "title": "Valore",

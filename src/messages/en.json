@@ -153,8 +153,9 @@
     },
     "about": {
       "paragraphs": [
-        "We are Vento Caffè, bringing authentic Italian espresso directly to your home or office. Our mission is simple: make premium coffee accessible and convenient through our cialde subscription service.",
-        "We believe everyone deserves a perfect espresso. That's why we offer our professional espresso machine FREE when you commit to a monthly cialde box. No complicated contracts, no hidden fees—just great coffee delivered to your door."
+        "At Vento Caffè, we bring the taste of real Italian espresso straight to your home or workplace. Good coffee shouldn’t be complicated, so we’ve made it easy with our monthly pods subscription.",
+        "We believe everyone deserves a great espresso, every day. That’s why we give you a professional espresso machine for free when you subscribe to a monthly pods box. No complicated contracts, no hidden costs—just quality coffee, delivered right to your door.",
+        "Simple. Reliable. Proper espresso."
       ],
       "founders": {
         "heading": "Founders",
@@ -214,7 +215,7 @@
   "products": {
     "classicCialde": {
       "name": "Classic Cialde Box",
-      "description": "Our signature blend of premium Italian coffee, carefully selected and roasted to perfection. Each cialde delivers a rich, full-bodied espresso with notes of chocolate and toasted nuts. The perfect everyday coffee for true espresso lovers.",
+      "description": "Our signature blend of premium Italian coffee, carefully selected and roasted to perfection. Each cialde delivers a rich, full-bodied espresso with notes of chocolate and toasted nuts. The perfect daily coffee for true espresso lovers.",
       "contents": "150 cialde + kit",
       "highlights": [
         "150 premium ESE coffee pods",
@@ -262,11 +263,11 @@
     "values": {
       "quality": {
         "title": "Quality",
-        "description": "We source only premium Italian coffee, carefully selected and processed into ESE pods that deliver consistent, barista-quality espresso every time."
+        "description": "We select only premium Italian coffee, carefully roasted and crafted into ESE pods to deliver a rich, balanced espresso every time. Consistent quality, barista-level results—wherever you enjoy your coffee."
       },
       "convenience": {
         "title": "Convenience",
-        "description": "Monthly delivery means you never run out of coffee. Our simple subscription model includes everything you need—cialde, cups, sugar, and stirrers."
+        "description": "We make coffee effortless. With monthly delivery, you’ll never run out, and our subscription includes everything you need—ESE pods, cups, sugar, and stirrers. No last-minute shopping, no guesswork—just espresso, ready whenever you are."
       },
       "value": {
         "title": "Value",

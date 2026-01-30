@@ -231,7 +231,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         </div>
 
         {/* Product Type Indicator */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
+        {/* <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
             <p className="text-xs uppercase tracking-widest text-muted mb-2">
               {t("productDetail.typeLabel")}
@@ -266,7 +266,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 : t("productDetail.subscriptionFreeMonthly")}
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
