@@ -116,7 +116,7 @@
       "ctaText": "POROSIT TANI",
       "ctaHref": "/shop/classic-cialde",
       "note": "Abonohu për 1 kuti/muaj",
-      "whatsappNumber": "+355694825205",
+      "whatsappNumber": "+355689188161",
       "whatsappMessage": "Përshëndetje! Dua të porosis kutinë e cialdeve 5,500 Lekë me makinën e espressos falas!"
     },
     "brandStatement": {
@@ -148,7 +148,7 @@
       ],
       "ctaText": "Na kontaktoni",
       "secondaryCta": "Shiko produktet",
-      "whatsappNumber": "+355694825205",
+      "whatsappNumber": "+355689188161",
       "whatsappMessage": "Përshëndetje! Jam i interesuar për ofertën e makinës së espressos falas me abonim mujor cialde."
     },
     "about": {
@@ -207,7 +207,7 @@
     "contact": {
       "heading": "Fillo",
       "subheading": "Na kontaktoni për të nisur abonimin tuaj",
-      "whatsappNumber": "+355694825205",
+      "whatsappNumber": "+355689188161",
       "whatsappMessage": "Përshëndetje! Jam i interesuar të nis një abonim cialdesh.",
       "email": "ventocaffealbania@gmail.com"
     }
@@ -390,7 +390,10 @@
     "subscriptionLabel": "Abonimi",
     "deliveryValue": "2-3 ditë pune",
     "subscriptionMonthly": "Në dispozicion mujor",
-    "subscriptionFreeMonthly": "Falas me mujor"
+    "subscriptionFreeMonthly": "Falas me mujor",
+    "youMayAlsoLike": "Mund t'ju pëlqejë gjithashtu",
+    "relatedProductAdd": "Shto në shportë",
+    "relatedProductAdded": "U shtua!"
   },
   "quantityStepper": {
     "label": "Sasia",
@@ -464,6 +467,28 @@
       "cancelled": "Anuluar"
     },
     "notLoggedIn": "Ju lutemi hyni për të parë profilin tuaj."
+  },
+  "sampleBooking": {
+    "heading": "Rezervo një Mostër Falas",
+    "subtitle": "Provo makinën tonë të espressos dhe cialdet — pa detyrim",
+    "selectDate": "Zgjidh një datë dorëzimi",
+    "fullName": "Emri i Plotë",
+    "phone": "Numri i Telefonit",
+    "businessType": "Lloji i Biznesit",
+    "address": "Adresa",
+    "city": "Qyteti",
+    "submit": "Rezervo Mostrën Falas",
+    "submitting": "Duke rezervuar...",
+    "successTitle": "Rezervimi u Konfirmua!",
+    "successMessage": "Do të dorëzojmë mostrën tuaj falas më {date}.",
+    "successWhatsapp": "Pyetje? Bisedo me ne",
+    "errorRequired": "Ju lutemi plotësoni të gjitha fushat e kërkuara",
+    "errorDate": "Ju lutemi zgjidhni një datë dorëzimi",
+    "errorGeneric": "Diçka shkoi keq. Ju lutemi provoni përsëri.",
+    "selectBusinessType": "Zgjidh llojin e biznesit",
+    "todayNote": "Dorëzimi i disponueshëm nga nesër e tutje",
+    "freeBadge": "FALAS",
+    "includes": "Makinë + kit mostër cialdesh"
   },
   "auth": {
     "login": "Hyr",

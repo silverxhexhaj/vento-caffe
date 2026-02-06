@@ -91,7 +91,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-[var(--border)]">
       {/* Main Footer: Logo + Tagline | Social Links */}
-      <div className="container">
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
         <div className="py-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           {/* Brand Section */}
@@ -130,7 +130,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="container py-6 border-t border-[var(--border)]">
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-6 border-t border-[var(--border)]">
         <div className="flex flex-col gap-4 py-6">
           {/* Legal + Copyright Row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

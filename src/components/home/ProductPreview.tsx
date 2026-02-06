@@ -17,7 +17,7 @@ export default function ProductPreview() {
 
   return (
     <section className="section">
-      <div className="container">
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
         {/* Section Header */}
         <div className="mb-12">
           <h2 className="text-h2 font-serif">

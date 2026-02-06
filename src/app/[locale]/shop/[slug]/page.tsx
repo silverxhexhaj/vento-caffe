@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { locales } from "@/i18n/config";
-import { getProductBySlug, productSlugs } from "@/data/products";
+import { getProductBySlug, getProducts, productSlugs } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import ProductDetail from "./ProductDetail";
 
@@ -59,5 +59,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  return <ProductDetail product={product} />;
+  const otherProducts = getProducts(t).filter((p) => p.slug !== slug);
+
+  return <ProductDetail product={product} otherProducts={otherProducts} />;
 }

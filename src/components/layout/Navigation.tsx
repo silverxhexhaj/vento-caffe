@@ -59,14 +59,14 @@ export default function Navigation() {
           isScrolled ? "bg-[var(--background)]/95 backdrop-blur-sm" : "bg-[var(--background)]"
         }`}
       >
-        <nav className="container h-full grid grid-cols-2 md:grid-cols-3 items-center">
+        <nav className="max-w-screen-2xl mx-auto px-6 md:px-8 h-full grid grid-cols-2 md:grid-cols-3 items-center">
           {/* Left: Navigation Links (desktop) / Logo (mobile) */}
           <div className="hidden md:flex items-center gap-6">
             {mainNavItems.map((item) => (
               <Link
                 key={item.href}
                 href={buildLocaleHref(item.href)}
-                className={`text-base font-medium link-underline ${
+                className={`text-sm font-medium link-underline ${
                   localePathname === buildLocaleHref(item.href)
                     ? "opacity-100"
                     : "opacity-70 hover:opacity-100"

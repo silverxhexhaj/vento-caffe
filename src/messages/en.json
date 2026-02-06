@@ -116,7 +116,7 @@
       "ctaText": "ORDER NOW",
       "ctaHref": "/shop/classic-cialde",
       "note": "Commit to 1 box/month",
-      "whatsappNumber": "+355694825205",
+      "whatsappNumber": "+355689188161",
       "whatsappMessage": "Hi! I want to order the 5,500 Lekë cialde box with the free espresso machine!"
     },
     "brandStatement": {
@@ -148,7 +148,7 @@
       ],
       "ctaText": "Contact Us",
       "secondaryCta": "View Products",
-      "whatsappNumber": "+355694825205",
+      "whatsappNumber": "+355689188161",
       "whatsappMessage": "Hi! I'm interested in the free espresso machine offer with monthly cialde subscription."
     },
     "about": {
@@ -207,7 +207,7 @@
     "contact": {
       "heading": "Get Started",
       "subheading": "Contact us to set up your subscription",
-      "whatsappNumber": "+355694825205",
+      "whatsappNumber": "+355689188161",
       "whatsappMessage": "Hi! I'm interested in starting a cialde subscription.",
       "email": "info@ventocaffe.al"
     }
@@ -392,7 +392,10 @@
     "subscriptionLabel": "Subscription",
     "deliveryValue": "2-3 business days",
     "subscriptionMonthly": "Monthly available",
-    "subscriptionFreeMonthly": "Free with monthly"
+    "subscriptionFreeMonthly": "Free with monthly",
+    "youMayAlsoLike": "You may also like",
+    "relatedProductAdd": "Add to Cart",
+    "relatedProductAdded": "Added!"
   },
   "quantityStepper": {
     "label": "Quantity",
@@ -466,6 +469,28 @@
       "cancelled": "Cancelled"
     },
     "notLoggedIn": "Please log in to view your profile."
+  },
+  "sampleBooking": {
+    "heading": "Book a Free Sample",
+    "subtitle": "Try our espresso machine & cialde — no commitment",
+    "selectDate": "Select a delivery date",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "businessType": "Business Type",
+    "address": "Address",
+    "city": "City",
+    "submit": "Book Free Sample",
+    "submitting": "Booking...",
+    "successTitle": "Booking Confirmed!",
+    "successMessage": "We'll deliver your free sample on {date}.",
+    "successWhatsapp": "Questions? Chat with us",
+    "errorRequired": "Please fill in all required fields",
+    "errorDate": "Please select a delivery date",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "selectBusinessType": "Select your business type",
+    "todayNote": "Delivery available from tomorrow onwards",
+    "freeBadge": "FREE",
+    "includes": "Machine + cialde sample kit"
   },
   "auth": {
     "login": "Login",

@@ -198,6 +198,47 @@ export interface Database {
           updated_at?: string;
         };
       };
+      sample_bookings: {
+        Row: {
+          id: string;
+          full_name: string;
+          phone: string;
+          email: string | null;
+          business_type: string;
+          address: string;
+          city: string;
+          booking_date: string;
+          status: "pending" | "confirmed" | "delivered" | "cancelled";
+          notes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          full_name: string;
+          phone: string;
+          email?: string | null;
+          business_type: string;
+          address: string;
+          city: string;
+          booking_date: string;
+          status?: "pending" | "confirmed" | "delivered" | "cancelled";
+          notes?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          full_name?: string;
+          phone?: string;
+          email?: string | null;
+          business_type?: string;
+          address?: string;
+          city?: string;
+          booking_date?: string;
+          status?: "pending" | "confirmed" | "delivered" | "cancelled";
+          notes?: string | null;
+          created_at?: string;
+        };
+      };
     };
     Views: {
       [_ in never]: never;
@@ -208,6 +249,7 @@ export interface Database {
     Enums: {
       order_status: "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
       product_type: "cialde" | "machine";
+      booking_status: "pending" | "confirmed" | "delivered" | "cancelled";
     };
   };
 }

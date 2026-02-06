@@ -10,12 +10,14 @@ import { formatPrice } from "@/lib/utils";
 import ProductGallery from "@/components/shop/ProductGallery";
 import QuantityStepper from "@/components/shop/QuantityStepper";
 import TrustBadges from "@/components/shop/TrustBadges";
+import RelatedProductCard from "@/components/shop/RelatedProductCard";
 
 interface ProductDetailProps {
   product: Product;
+  otherProducts: Product[];
 }
 
-export default function ProductDetail({ product }: ProductDetailProps) {
+export default function ProductDetail({ product, otherProducts }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1);
   const [wantsSubscription, setWantsSubscription] = useState(false);
   const { addItem, setSubscription } = useCart();
@@ -59,7 +61,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
   return (
     <div className="md:py-16 py-8">
-      <div className="container">
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm">
           <Link
@@ -229,6 +231,23 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         <div className="mt-16">
           <TrustBadges />
         </div>
+
+        {/* You May Also Like */}
+        {otherProducts.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-h3 font-serif mb-4">
+              {t("productDetail.youMayAlsoLike")}
+            </h2>
+            <div className="border-t border-[var(--border)]">
+              {otherProducts.map((otherProduct) => (
+                <RelatedProductCard
+                  key={otherProduct.slug}
+                  product={otherProduct}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Product Type Indicator */}
         {/* <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">

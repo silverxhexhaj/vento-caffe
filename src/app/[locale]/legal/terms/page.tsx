@@ -23,7 +23,7 @@ export default async function TermsPage({ params }: TermsPageProps) {
 
   return (
     <div className="section">
-      <div className="container">
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
         <div className="max-w-2xl">
           <h1 className="text-h1 font-serif mb-8">
             {t("legal.terms.title")}

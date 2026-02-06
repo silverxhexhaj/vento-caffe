@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { getContent } from "@/data/content";
 import { RotatingText } from "@/components/ui/RotatingText";
+import SampleBookingForm from "@/components/home/SampleBookingForm";
 
 // Background images matching businessCategories order:
 // HOTEL, OFFICE, SALON, AIRBNB, CLINIC, SPA, STUDIO, GYM, RESTAURANT, COWORKING
@@ -36,7 +37,7 @@ export default function Hero() {
   const whatsappUrl = `https://wa.me/${directOffer.whatsappNumber.replace(/\+/g, "")}?text=${encodeURIComponent(directOffer.whatsappMessage)}`;
 
   return (
-    <section className="min-h-screen flex md:items-center justify-center md:justify-start relative overflow-hidden">
+    <section className="min-h-screen relative overflow-hidden">
       {/* Background Images with Crossfade */}
       <div className="absolute inset-0 z-0">
         {categoryImages.map((img, index) => (
@@ -56,9 +57,9 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      <div className="container relative z-10 flex flex-col items-center md:items-start justify-center md:justify-normal">
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8 relative z-10 flex flex-row items-center justify-between h-screen">
         
-        <div className="md:max-w-4xl text-left text-white flex flex-col gap-6 md:gap-2 w-full">
+        <div className="text-left text-white flex flex-col gap-6 md:gap-2 w-full">
           {/* Main Bold Typography */}
           <div className="mb-6 flex flex-col gap-2 " aria-hidden="true">
             <span className="block text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
@@ -107,6 +108,9 @@ export default function Hero() {
               </Link>
             </div>
           </div>
+        </div>
+        <div className="hidden md:flex w-1/2 justify-end items-center">
+          <SampleBookingForm currentCategoryIndex={currentIndex} />
         </div>
       </div>
     </section>

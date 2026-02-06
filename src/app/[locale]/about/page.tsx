@@ -34,7 +34,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
   return (
     <div className="md:py-16 py-8">
-      <div className="container">
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
         {/* Page Header */}
         <div className="mb-12">
           <h1 className="text-h1 font-serif mb-4">{t("aboutPage.title")}</h1>

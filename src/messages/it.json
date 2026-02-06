@@ -116,7 +116,7 @@
       "ctaText": "ORDINA ORA",
       "ctaHref": "/shop/classic-cialde",
       "note": "Impegnati per 1 scatola/mese",
-      "whatsappNumber": "+355694825205",
+      "whatsappNumber": "+355689188161",
       "whatsappMessage": "Ciao! Vorrei ordinare la scatola di cialde da 5.500 Lekë con la macchina da espresso gratuita!"
     },
     "brandStatement": {
@@ -148,7 +148,7 @@
       ],
       "ctaText": "Contattaci",
       "secondaryCta": "Vedi prodotti",
-      "whatsappNumber": "+355694825205",
+      "whatsappNumber": "+355689188161",
       "whatsappMessage": "Ciao! Sono interessato all'offerta della macchina da espresso gratuita con abbonamento mensile di cialde."
     },
     "about": {
@@ -207,7 +207,7 @@
     "contact": {
       "heading": "Inizia",
       "subheading": "Contattaci per attivare il tuo abbonamento",
-      "whatsappNumber": "+355694825205",
+      "whatsappNumber": "+355689188161",
       "whatsappMessage": "Ciao! Sono interessato ad iniziare un abbonamento di cialde.",
       "email": "info@ventocaffe.al"
     }
@@ -392,7 +392,10 @@
     "subscriptionLabel": "Abbonamento",
     "deliveryValue": "2-3 giorni lavorativi",
     "subscriptionMonthly": "Disponibile mensilmente",
-    "subscriptionFreeMonthly": "Gratis con mensile"
+    "subscriptionFreeMonthly": "Gratis con mensile",
+    "youMayAlsoLike": "Potrebbe piacerti anche",
+    "relatedProductAdd": "Aggiungi al carrello",
+    "relatedProductAdded": "Aggiunto!"
   },
   "quantityStepper": {
     "label": "Quantità",
@@ -466,6 +469,28 @@
       "cancelled": "Annullato"
     },
     "notLoggedIn": "Accedi per visualizzare il tuo profilo."
+  },
+  "sampleBooking": {
+    "heading": "Prenota un Campione Gratuito",
+    "subtitle": "Prova la nostra macchina espresso e cialde — senza impegno",
+    "selectDate": "Seleziona una data di consegna",
+    "fullName": "Nome Completo",
+    "phone": "Numero di Telefono",
+    "businessType": "Tipo di Attività",
+    "address": "Indirizzo",
+    "city": "Città",
+    "submit": "Prenota Campione Gratuito",
+    "submitting": "Prenotazione...",
+    "successTitle": "Prenotazione Confermata!",
+    "successMessage": "Consegneremo il tuo campione gratuito il {date}.",
+    "successWhatsapp": "Domande? Chatta con noi",
+    "errorRequired": "Compila tutti i campi obbligatori",
+    "errorDate": "Seleziona una data di consegna",
+    "errorGeneric": "Qualcosa è andato storto. Riprova.",
+    "selectBusinessType": "Seleziona il tipo di attività",
+    "todayNote": "Consegna disponibile da domani in poi",
+    "freeBadge": "GRATIS",
+    "includes": "Macchina + kit campione cialde"
   },
   "auth": {
     "login": "Accedi",

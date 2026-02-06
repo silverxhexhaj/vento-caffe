@@ -11,5 +11,5 @@ export const mainNavItems: NavItem[] = [
 
 export const socialLinks = [
   { label: "Instagram", href: "https://instagram.com/ventocaffe", icon: "instagram" },
-  { label: "WhatsApp", href: "https://wa.me/355694825205", icon: "whatsapp" },
+  { label: "WhatsApp", href: "https://wa.me/355689188161", icon: "whatsapp" },
 ];

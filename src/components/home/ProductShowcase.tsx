@@ -19,7 +19,7 @@ export default function ProductShowcase() {
 
   return (
     <section className="section bg-neutral-950">
-      <div className="container">
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
 
         {/* Remotion Player */}
         <div className="relative w-full mx-auto aspect-video rounded-xl overflow-hidden shadow-2xl">
