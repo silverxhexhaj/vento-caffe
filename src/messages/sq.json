@@ -84,6 +84,7 @@
       "tagline": "Espresso në shtëpi, thjesht"
     },
     "hero": {
+      "badge": "Kafe Premium",
       "mainText": ["Kafe + Espresso", "për"],
       "businessCategories": [
         "HOTEL",

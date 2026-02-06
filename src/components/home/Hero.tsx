@@ -61,6 +61,16 @@ export default function Hero() {
       <div className="max-w-screen-2xl mx-auto px-4 md:px-8 relative z-10 flex flex-row items-center justify-between h-screen">
         
         <div className="text-left text-white flex flex-col gap-6 md:gap-2 w-full">
+          <span className="w-fit inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+              <path d="M6 1v3" />
+              <path d="M10 1v3" />
+              <path d="M14 1v3" />
+            </svg>
+            {content.hero.badge}
+          </span>
           {/* Main Bold Typography */}
           <div className="mb-6 flex flex-col gap-2 " aria-hidden="true">
             <span className="block text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">

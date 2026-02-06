@@ -84,6 +84,7 @@
       "tagline": "Espresso a casa, in modo semplice"
     },
     "hero": {
+      "badge": "Caffè Premium",
       "mainText": ["Caffè + Espresso", "per il tuo"],
       "businessCategories": [
         "HOTEL",

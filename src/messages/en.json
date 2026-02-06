@@ -84,6 +84,7 @@
       "tagline": "Espresso at home, made simple"
     },
     "hero": {
+      "badge": "Premium Coffee",
       "mainText": ["Coffee + Espresso Machine", "for your"],
       "businessCategories": [
         "HOTEL",

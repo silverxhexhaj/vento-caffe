@@ -10,6 +10,7 @@ export const getContent = (t: Translator) => ({
   },
 
   hero: {
+    badge: t("content.hero.badge"),
     mainText: t.raw("content.hero.mainText") as string[],
     businessCategories: t.raw("content.hero.businessCategories") as string[],
     ctaText: t("content.hero.ctaText"),
