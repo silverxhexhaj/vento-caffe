@@ -8,11 +8,7 @@ import { locales } from "@/i18n/config";
 import { CartProvider } from "@/lib/cart";
 import { AuthProvider } from "@/components/auth";
 import { createClient } from "@/lib/supabase/server";
-import Navigation from "@/components/layout/Navigation";
-import Footer from "@/components/layout/Footer";
-import CartDrawer from "@/components/layout/CartDrawer";
-import FloatingCartButton from "@/components/layout/FloatingCartButton";
-import MobileBottomNav from "@/components/layout/MobileBottomNav";
+import StorefrontShell from "@/components/layout/StorefrontShell";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -94,12 +90,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AuthProvider>
             <CartProvider>
-              <Navigation />
-              <main id="main-content">{children}</main>
-              <Footer />
-              <CartDrawer />
-              <FloatingCartButton />
-              <MobileBottomNav />
+              <StorefrontShell>{children}</StorefrontShell>
             </CartProvider>
           </AuthProvider>
         </NextIntlClientProvider>

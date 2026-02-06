@@ -16,6 +16,7 @@ export interface Database {
           avatar_url: string | null;
           phone: string | null;
           default_shipping_address: Json | null;
+          role: "customer" | "admin";
           created_at: string;
           updated_at: string;
         };
@@ -25,6 +26,7 @@ export interface Database {
           avatar_url?: string | null;
           phone?: string | null;
           default_shipping_address?: Json | null;
+          role?: "customer" | "admin";
           created_at?: string;
           updated_at?: string;
         };
@@ -34,6 +36,7 @@ export interface Database {
           avatar_url?: string | null;
           phone?: string | null;
           default_shipping_address?: Json | null;
+          role?: "customer" | "admin";
           created_at?: string;
           updated_at?: string;
         };

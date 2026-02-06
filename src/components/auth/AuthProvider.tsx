@@ -8,6 +8,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   isLoading: boolean;
+  isAdmin: boolean;
   signOut: () => Promise<void>;
 }
 
@@ -17,14 +18,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
+
+    const fetchRole = async (userId: string) => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", userId)
+        .single();
+      setIsAdmin((data as { role: string } | null)?.role === "admin");
+    };
 
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchRole(session.user.id);
+      }
       setIsLoading(false);
     });
 
@@ -34,6 +48,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchRole(session.user.id);
+      } else {
+        setIsAdmin(false);
+      }
       setIsLoading(false);
     });
 
@@ -46,7 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, isLoading, signOut }}>
+    <AuthContext.Provider value={{ user, session, isLoading, isAdmin, signOut }}>
       {children}
     </AuthContext.Provider>
   );

@@ -7,7 +7,7 @@ import { useAuth } from "./AuthProvider";
 import AuthModal from "./AuthModal";
 
 export default function AuthButton() {
-  const { user, isLoading, signOut } = useAuth();
+  const { user, isLoading, isAdmin, signOut } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -70,6 +70,15 @@ export default function AuthButton() {
               <p className="text-xs text-muted truncate">{user.email}</p>
             </div>
             <div className="py-1">
+              {isAdmin && (
+                <Link
+                  href={`/${locale}/admin`}
+                  onClick={() => setIsDropdownOpen(false)}
+                  className="block w-full text-left px-3 py-2 text-sm font-medium hover:bg-[var(--border)] transition-colors"
+                >
+                  Admin Panel
+                </Link>
+              )}
               <Link
                 href={`/${locale}/profile`}
                 onClick={() => setIsDropdownOpen(false)}

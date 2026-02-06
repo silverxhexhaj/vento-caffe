@@ -19,7 +19,7 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
   return (
     <div className="space-y-4">
       {/* Main Image */}
-      <div className="relative aspect-square bg-[var(--border)] overflow-hidden">
+      <div className="relative aspect-video bg-[var(--border)] overflow-hidden">
         <Image
           src={displayImages[selectedIndex]}
           alt={t("productGallery.imageAlt", {
