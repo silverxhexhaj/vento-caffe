@@ -236,3 +236,10 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Bottom spacer for mobile fixed bottom nav */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 4rem;
+  }
+}

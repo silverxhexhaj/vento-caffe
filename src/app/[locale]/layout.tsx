@@ -11,6 +11,8 @@ import { createClient } from "@/lib/supabase/server";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/layout/CartDrawer";
+import FloatingCartButton from "@/components/layout/FloatingCartButton";
+import MobileBottomNav from "@/components/layout/MobileBottomNav";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -96,6 +98,8 @@ export default async function RootLayout({
               <main id="main-content">{children}</main>
               <Footer />
               <CartDrawer />
+              <FloatingCartButton />
+              <MobileBottomNav />
             </CartProvider>
           </AuthProvider>
         </NextIntlClientProvider>

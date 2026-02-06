@@ -36,7 +36,7 @@ export default function Hero() {
   const whatsappUrl = `https://wa.me/${directOffer.whatsappNumber.replace(/\+/g, "")}?text=${encodeURIComponent(directOffer.whatsappMessage)}`;
 
   return (
-    <section className="min-h-screen flex items-center justify-center py-12 relative overflow-hidden">
+    <section className="min-h-screen flex md:items-center justify-center md:justify-start relative overflow-hidden">
       {/* Background Images with Crossfade */}
       <div className="absolute inset-0 z-0">
         {categoryImages.map((img, index) => (
@@ -56,10 +56,9 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      <div className="container relative z-10">
-        <h1 className="sr-only">{t("metadata.titleDefault")}</h1>
+      <div className="container relative z-10 flex flex-col items-center md:items-start justify-center md:justify-normal">
         
-        <div className="max-w-4xl text-left text-white flex flex-col gap-6 md:gap-2">
+        <div className="md:max-w-4xl text-left text-white flex flex-col gap-6 md:gap-2 w-full">
           {/* Main Bold Typography */}
           <div className="mb-6 flex flex-col gap-2 " aria-hidden="true">
             <span className="block text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
@@ -75,7 +74,7 @@ export default function Hero() {
             </span>
           </div>
           
-          <div >
+          <div>
             <div className="flex flex-col justify-start">
               {/* Includes List */}
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 mb-6 sm:mb-8 max-w-lg">
