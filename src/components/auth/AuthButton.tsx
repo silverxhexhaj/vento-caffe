@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { useAuth } from "./AuthProvider";
 import AuthModal from "./AuthModal";
 
@@ -11,6 +12,8 @@ export default function AuthButton() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("auth");
+  const tProfile = useTranslations("profile");
+  const locale = useLocale();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -67,6 +70,13 @@ export default function AuthButton() {
               <p className="text-xs text-muted truncate">{user.email}</p>
             </div>
             <div className="py-1">
+              <Link
+                href={`/${locale}/profile`}
+                onClick={() => setIsDropdownOpen(false)}
+                className="block w-full text-left px-3 py-2 text-sm hover:bg-[var(--border)] transition-colors"
+              >
+                {tProfile("title")}
+              </Link>
               <button
                 onClick={handleSignOut}
                 className="w-full text-left px-3 py-2 text-sm hover:bg-[var(--border)] transition-colors"

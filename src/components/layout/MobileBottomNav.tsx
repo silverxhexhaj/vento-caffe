@@ -140,6 +140,13 @@ export default function MobileBottomNav() {
                 <p className="text-xs text-muted truncate">{user.email}</p>
               </div>
               <div className="py-1">
+                <Link
+                  href={`/${locale}/profile`}
+                  onClick={() => setShowUserMenu(false)}
+                  className="block w-full text-left px-3 py-2 text-sm hover:bg-[var(--border)] transition-colors"
+                >
+                  {t("profile.title")}
+                </Link>
                 <button
                   onClick={handleSignOut}
                   className="w-full text-left px-3 py-2 text-sm hover:bg-[var(--border)] transition-colors"

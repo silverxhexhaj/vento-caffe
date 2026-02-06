@@ -412,6 +412,61 @@
     "emailButton": "Scrivici via email",
     "emailText": "Oppure scrivici direttamente a"
   },
+  "profile": {
+    "title": "Il mio account",
+    "tabs": {
+      "info": "Dati personali",
+      "orders": "Ordini"
+    },
+    "form": {
+      "fullName": "Nome completo",
+      "email": "Email",
+      "phone": "Telefono",
+      "save": "Salva modifiche",
+      "saving": "Salvataggio...",
+      "saved": "Modifiche salvate"
+    },
+    "address": {
+      "title": "Indirizzo di spedizione predefinito",
+      "address": "Indirizzo",
+      "city": "Città",
+      "postalCode": "Codice postale",
+      "country": "Paese"
+    },
+    "password": {
+      "title": "Cambia password",
+      "current": "Password attuale",
+      "new": "Nuova password",
+      "confirm": "Conferma password",
+      "update": "Aggiorna password",
+      "updated": "Password aggiornata"
+    },
+    "orders": {
+      "title": "Storico ordini",
+      "empty": "Non hai ancora effettuato ordini.",
+      "shopNow": "Inizia a comprare",
+      "orderNumber": "Ordine #{id}",
+      "date": "Data",
+      "total": "Totale",
+      "status": "Stato",
+      "items": "Articoli",
+      "shippingAddress": "Indirizzo di spedizione",
+      "notes": "Note",
+      "cancel": "Annulla ordine",
+      "cancelConfirm": "Sei sicuro di voler annullare questo ordine?",
+      "subscription": "Abbonamento",
+      "oneTime": "Acquisto singolo"
+    },
+    "status": {
+      "pending": "In attesa",
+      "confirmed": "Confermato",
+      "processing": "In elaborazione",
+      "shipped": "Spedito",
+      "delivered": "Consegnato",
+      "cancelled": "Annullato"
+    },
+    "notLoggedIn": "Accedi per visualizzare il tuo profilo."
+  },
   "auth": {
     "login": "Accedi",
     "loginTitle": "Bentornato",

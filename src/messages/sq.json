@@ -410,6 +410,61 @@
     "emailButton": "Na shkruani me email",
     "emailText": "Ose na shkruani direkt në"
   },
+  "profile": {
+    "title": "Llogaria ime",
+    "tabs": {
+      "info": "Të dhënat personale",
+      "orders": "Porositë"
+    },
+    "form": {
+      "fullName": "Emri i plotë",
+      "email": "Email",
+      "phone": "Telefoni",
+      "save": "Ruaj ndryshimet",
+      "saving": "Duke ruajtur...",
+      "saved": "Ndryshimet u ruajtën"
+    },
+    "address": {
+      "title": "Adresa e dërgesës e parazgjedhur",
+      "address": "Adresa",
+      "city": "Qyteti",
+      "postalCode": "Kodi postar",
+      "country": "Shteti"
+    },
+    "password": {
+      "title": "Ndrysho fjalëkalimin",
+      "current": "Fjalëkalimi aktual",
+      "new": "Fjalëkalimi i ri",
+      "confirm": "Konfirmo fjalëkalimin",
+      "update": "Përditëso fjalëkalimin",
+      "updated": "Fjalëkalimi u përditësua"
+    },
+    "orders": {
+      "title": "Historia e porosive",
+      "empty": "Nuk keni bërë ende asnjë porosi.",
+      "shopNow": "Fillo blerjet",
+      "orderNumber": "Porosia #{id}",
+      "date": "Data",
+      "total": "Totali",
+      "status": "Statusi",
+      "items": "Artikujt",
+      "shippingAddress": "Adresa e dërgesës",
+      "notes": "Shënime",
+      "cancel": "Anulo porosinë",
+      "cancelConfirm": "Jeni i sigurt që doni të anuloni këtë porosi?",
+      "subscription": "Abonim",
+      "oneTime": "Blerje një herë"
+    },
+    "status": {
+      "pending": "Në pritje",
+      "confirmed": "Konfirmuar",
+      "processing": "Në përpunim",
+      "shipped": "Dërguar",
+      "delivered": "Dorëzuar",
+      "cancelled": "Anuluar"
+    },
+    "notLoggedIn": "Ju lutemi hyni për të parë profilin tuaj."
+  },
   "auth": {
     "login": "Hyr",
     "loginTitle": "Mirëseerdhët përsëri",

@@ -412,6 +412,61 @@
     "emailButton": "Email Us",
     "emailText": "Or email us directly at"
   },
+  "profile": {
+    "title": "My Account",
+    "tabs": {
+      "info": "Personal Info",
+      "orders": "Orders"
+    },
+    "form": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "saved": "Changes saved"
+    },
+    "address": {
+      "title": "Default Shipping Address",
+      "address": "Address",
+      "city": "City",
+      "postalCode": "Postal Code",
+      "country": "Country"
+    },
+    "password": {
+      "title": "Change Password",
+      "current": "Current Password",
+      "new": "New Password",
+      "confirm": "Confirm Password",
+      "update": "Update Password",
+      "updated": "Password updated"
+    },
+    "orders": {
+      "title": "Order History",
+      "empty": "You haven't placed any orders yet.",
+      "shopNow": "Start Shopping",
+      "orderNumber": "Order #{id}",
+      "date": "Date",
+      "total": "Total",
+      "status": "Status",
+      "items": "Items",
+      "shippingAddress": "Shipping Address",
+      "notes": "Notes",
+      "cancel": "Cancel Order",
+      "cancelConfirm": "Are you sure you want to cancel this order?",
+      "subscription": "Subscription",
+      "oneTime": "One-time"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "notLoggedIn": "Please log in to view your profile."
+  },
   "auth": {
     "login": "Login",
     "loginTitle": "Welcome back",
