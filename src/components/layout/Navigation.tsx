@@ -109,8 +109,8 @@ export default function Navigation() {
 
           {/* Right: Auth + Language */}
           <div className="flex items-center justify-end gap-4">
-            {/* Language Toggle - Desktop */}
-            <div className="hidden md:flex items-center gap-1 text-sm">
+            {/* Language Toggle - All screens */}
+            <div className="flex items-center gap-1 text-sm">
               {["en", "it", "sq"].map((lang, index) => (
                 <span key={lang} className="flex items-center">
                   <button
@@ -130,8 +130,10 @@ export default function Navigation() {
                 </span>
               ))}
             </div>
-            {/* Auth Button */}
-            <AuthButton />
+            {/* Auth Button - Desktop only (on mobile it's in bottom nav) */}
+            <div className="hidden md:block">
+              <AuthButton />
+            </div>
           </div>
         </nav>
       </header>

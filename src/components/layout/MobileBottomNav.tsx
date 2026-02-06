@@ -1,17 +1,19 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-
-const localeOrder = ["en", "it", "sq"];
+import { useAuth } from "@/components/auth/AuthProvider";
+import AuthModal from "@/components/auth/AuthModal";
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
-  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
+  const { user, isLoading, signOut } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   const localePathname = useMemo(() => {
     if (!pathname) return `/${locale}`;
@@ -27,23 +29,25 @@ export default function MobileBottomNav() {
     return `/${locale}${normalized}`;
   };
 
-  const handleLanguageCycle = () => {
-    const currentIndex = localeOrder.indexOf(locale);
-    const nextLocale = localeOrder[(currentIndex + 1) % localeOrder.length];
-    const segments = localePathname.split("/");
-    if (segments.length > 1) {
-      segments[1] = nextLocale;
-    }
-    const nextPath = segments.join("/") || `/${nextLocale}`;
-    router.push(nextPath);
-  };
-
   const isActive = (href: string) => {
     const localizedHref = buildLocaleHref(href);
     if (href === "/") {
       return localePathname === localizedHref;
     }
     return localePathname.startsWith(localizedHref);
+  };
+
+  const handleAuthClick = () => {
+    if (user) {
+      setShowUserMenu(!showUserMenu);
+    } else {
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleSignOut = async () => {
+    setShowUserMenu(false);
+    await signOut();
   };
 
   const navItems = [
@@ -102,22 +106,58 @@ export default function MobileBottomNav() {
           );
         })}
 
-        {/* Language toggle button */}
-        <button
-          onClick={handleLanguageCycle}
-          className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
-          aria-label={t("languages." + locale)}
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="2" y1="12" x2="22" y2="12" />
-            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-          </svg>
-          <span className="text-[10px] font-medium tracking-wide uppercase">
-            {locale.toUpperCase()}
-          </span>
-        </button>
+        {/* Login / Account button */}
+        <div className="relative flex-1 h-full">
+          <button
+            onClick={handleAuthClick}
+            className="flex flex-col items-center justify-center gap-0.5 w-full h-full opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
+            aria-label={user ? t("auth.account") : t("auth.login")}
+          >
+            {isLoading ? (
+              <div className="w-[22px] h-[22px] bg-[var(--border)] animate-pulse rounded-full" />
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            )}
+            <span className="text-[10px] font-medium tracking-wide uppercase">
+              {isLoading
+                ? "..."
+                : user
+                ? (user.user_metadata?.full_name?.split(" ")[0] || user.email?.split("@")[0] || t("auth.account"))
+                : t("auth.login")}
+            </span>
+          </button>
+
+          {/* Signed-in user menu */}
+          {showUserMenu && user && (
+            <div className="absolute bottom-full mb-2 right-0 w-48 bg-[var(--background)] border border-[var(--border)] shadow-lg z-50">
+              <div className="p-3 border-b border-[var(--border)]">
+                <p className="text-sm font-medium truncate">
+                  {user.user_metadata?.full_name || user.email?.split("@")[0]}
+                </p>
+                <p className="text-xs text-muted truncate">{user.email}</p>
+              </div>
+              <div className="py-1">
+                <button
+                  onClick={handleSignOut}
+                  className="w-full text-left px-3 py-2 text-sm hover:bg-[var(--border)] transition-colors"
+                >
+                  {t("auth.signOut")}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </nav>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        initialMode="login"
+      />
     </div>
   );
 }
