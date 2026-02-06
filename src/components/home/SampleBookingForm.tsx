@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { getContent } from "@/data/content";
 import Calendar from "@/components/ui/Calendar";
@@ -16,6 +16,7 @@ export default function SampleBookingForm({ currentCategoryIndex }: SampleBookin
   const content = getContent(t);
   const { sampleBooking } = content;
   const businessCategories = content.hero.businessCategories;
+  const initialCategoryIndexRef = useRef<number | null>(null);
 
   const tomorrow = useMemo(() => {
     const d = new Date();
@@ -34,9 +35,22 @@ export default function SampleBookingForm({ currentCategoryIndex }: SampleBookin
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  // Auto-select business type based on rotating hero category
+  useEffect(() => {
+    if (
+      initialCategoryIndexRef.current === null &&
+      currentCategoryIndex !== undefined &&
+      currentCategoryIndex >= 0 &&
+      currentCategoryIndex < businessCategories.length
+    ) {
+      initialCategoryIndexRef.current = currentCategoryIndex;
+    }
+  }, [currentCategoryIndex, businessCategories.length]);
+
+  // Auto-select business type once (avoid rotating hero updates)
   const effectiveBusinessType = businessType || (
-    currentCategoryIndex !== undefined ? businessCategories[currentCategoryIndex] : ""
+    initialCategoryIndexRef.current !== null
+      ? businessCategories[initialCategoryIndexRef.current] || ""
+      : ""
   );
 
   const formatDate = (date: Date) => {
