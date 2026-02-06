@@ -14,6 +14,8 @@ export const getContent = (t: Translator) => ({
     businessCategories: t.raw("content.hero.businessCategories") as string[],
     ctaText: t("content.hero.ctaText"),
     ctaHref: t("content.hero.ctaHref"),
+    whatsappCta: t("content.hero.whatsappCta"),
+    bookSampleCta: t("content.hero.bookSampleCta"),
   },
 
   directOffer: {
@@ -109,7 +111,7 @@ export const getContent = (t: Translator) => ({
     submit: t("sampleBooking.submit"),
     submitting: t("sampleBooking.submitting"),
     successTitle: t("sampleBooking.successTitle"),
-    successMessage: t("sampleBooking.successMessage"),
+    successMessage: t.raw("sampleBooking.successMessage") as string,
     successWhatsapp: t("sampleBooking.successWhatsapp"),
     errorRequired: t("sampleBooking.errorRequired"),
     errorDate: t("sampleBooking.errorDate"),

@@ -98,7 +98,9 @@
         "COWORKING"
       ],
       "ctaText": "SHOP NOW",
-      "ctaHref": "/shop"
+      "ctaHref": "/shop",
+      "whatsappCta": "WhatsApp",
+      "bookSampleCta": "Book Free Sample"
     },
     "directOffer": {
       "badge": "SPECIAL OFFER",
@@ -359,8 +361,37 @@
     "machineLabel": "Espresso Machine",
     "total": "Total",
     "orderWhatsapp": "Order via WhatsApp",
+    "placeOrder": "Place Order",
     "statusMonthly": "Monthly subscription order",
     "statusOneTime": "One-time purchase"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "loginRequired": "You need to be logged in to place an order.",
+    "loginButton": "Sign In to Continue",
+    "shippingTitle": "Shipping Address",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "country": "Country",
+    "notes": "Order Notes",
+    "notesPlaceholder": "Any special instructions for your order...",
+    "orderSummary": "Order Summary",
+    "submitOrder": "Confirm Order",
+    "submitting": "Placing Order...",
+    "successTitle": "Order Placed!",
+    "successMessage": "Your order has been placed successfully. We'll process it shortly.",
+    "viewOrders": "View Order History",
+    "continueShopping": "Continue Shopping",
+    "emptyCart": "Your cart is empty. Add some products before checking out.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "subscription": "Monthly subscription",
+    "oneTime": "One-time purchase",
+    "items": "{count} items",
+    "freeItem": "FREE"
   },
   "productPage": {
     "notFoundTitle": "Product Not Found",

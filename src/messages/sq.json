@@ -98,7 +98,9 @@
         "COWORKING"
       ],
       "ctaText": "BLI TANI",
-      "ctaHref": "/shop"
+      "ctaHref": "/shop",
+      "whatsappCta": "WhatsApp",
+      "bookSampleCta": "Rezervo Mostër Falas"
     },
     "directOffer": {
       "badge": "OFERTË SPECIALE",
@@ -357,8 +359,37 @@
     "machineLabel": "Makina e espressos",
     "total": "Totali",
     "orderWhatsapp": "Porosit në WhatsApp",
+    "placeOrder": "Bëj Porosinë",
     "statusMonthly": "Porosi me abonim mujor",
     "statusOneTime": "Blerje një herë"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "loginRequired": "Duhet të hyni për të bërë një porosi.",
+    "loginButton": "Hyni për të Vazhduar",
+    "shippingTitle": "Adresa e Dërgesës",
+    "fullName": "Emri i Plotë",
+    "email": "Email",
+    "phone": "Telefoni",
+    "address": "Adresa",
+    "city": "Qyteti",
+    "postalCode": "Kodi Postar",
+    "country": "Shteti",
+    "notes": "Shënime të Porosisë",
+    "notesPlaceholder": "Ndonjë udhëzim i veçantë për porosinë tuaj...",
+    "orderSummary": "Përmbledhja e Porosisë",
+    "submitOrder": "Konfirmo Porosinë",
+    "submitting": "Duke dërguar porosinë...",
+    "successTitle": "Porosia u Krye!",
+    "successMessage": "Porosia juaj u krye me sukses. Do ta përpunojmë së shpejti.",
+    "viewOrders": "Shiko Historinë e Porosive",
+    "continueShopping": "Vazhdo Blerjet",
+    "emptyCart": "Shporta juaj është bosh. Shtoni disa produkte para se të vazhdoni.",
+    "errorGeneric": "Diçka shkoi keq. Ju lutemi provoni përsëri.",
+    "subscription": "Abonim mujor",
+    "oneTime": "Blerje një herë",
+    "items": "{count} artikuj",
+    "freeItem": "FALAS"
   },
   "productPage": {
     "notFoundTitle": "Produkti nuk u gjet",

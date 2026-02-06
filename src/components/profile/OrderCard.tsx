@@ -55,7 +55,7 @@ export default function OrderCard({ order }: OrderCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [cancelling, setCancelling] = useState(false);
   const t = useTranslations("profile.orders");
-  const tProducts = useTranslations("products");
+  const tProducts = useTranslations();
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString(undefined, {

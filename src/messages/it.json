@@ -98,7 +98,9 @@
         "COWORKING"
       ],
       "ctaText": "ACQUISTA ORA",
-      "ctaHref": "/shop"
+      "ctaHref": "/shop",
+      "whatsappCta": "WhatsApp",
+      "bookSampleCta": "Prenota Campione"
     },
     "directOffer": {
       "badge": "OFFERTA SPECIALE",
@@ -359,8 +361,37 @@
     "machineLabel": "Macchina da espresso",
     "total": "Totale",
     "orderWhatsapp": "Ordina via WhatsApp",
+    "placeOrder": "Effettua Ordine",
     "statusMonthly": "Ordine con abbonamento mensile",
     "statusOneTime": "Acquisto singolo"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "loginRequired": "Devi accedere per effettuare un ordine.",
+    "loginButton": "Accedi per Continuare",
+    "shippingTitle": "Indirizzo di Spedizione",
+    "fullName": "Nome Completo",
+    "email": "Email",
+    "phone": "Telefono",
+    "address": "Indirizzo",
+    "city": "Città",
+    "postalCode": "Codice Postale",
+    "country": "Paese",
+    "notes": "Note dell'Ordine",
+    "notesPlaceholder": "Eventuali istruzioni speciali per il tuo ordine...",
+    "orderSummary": "Riepilogo Ordine",
+    "submitOrder": "Conferma Ordine",
+    "submitting": "Invio ordine...",
+    "successTitle": "Ordine Effettuato!",
+    "successMessage": "Il tuo ordine è stato effettuato con successo. Lo elaboreremo a breve.",
+    "viewOrders": "Visualizza Storico Ordini",
+    "continueShopping": "Continua lo Shopping",
+    "emptyCart": "Il tuo carrello è vuoto. Aggiungi dei prodotti prima di procedere.",
+    "errorGeneric": "Qualcosa è andato storto. Riprova.",
+    "subscription": "Abbonamento mensile",
+    "oneTime": "Acquisto singolo",
+    "items": "{count} articoli",
+    "freeItem": "GRATIS"
   },
   "productPage": {
     "notFoundTitle": "Prodotto non trovato",
