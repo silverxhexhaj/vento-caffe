@@ -258,7 +258,34 @@
     "cialdeHeading": "Cialde di caffè",
     "machineHeading": "Macchina da espresso",
     "infoCardTitle": "Gratis con abbonamento",
-    "infoCardDescription": "Quando ti impegni a ordinare almeno 1 scatola di cialde al mese, ti invieremo questa macchina da espresso professionale completamente gratuita."
+    "infoCardDescription": "Quando ti impegni a ordinare almeno 1 scatola di cialde al mese, ti invieremo questa macchina da espresso professionale completamente gratuita.",
+    "packagesTitle": "Pacchetti Business",
+    "packagesSubtitle": "Soluzioni caffè su misura per ogni dimensione di attività. Tutti i pacchetti includono macchine espresso gratuite e consegna mensile.",
+    "packagesCta": "Contattaci",
+    "packagesMostPopular": "Più Popolare",
+    "packagesPerMonth": "/mese",
+    "packagesSave": "risparmi {amount}",
+    "starter": {
+      "name": "Starter",
+      "tier": "Piccola Attività",
+      "businessTypes": "Studio, Salone, Piccolo Airbnb",
+      "quantity": "1 scatola/mese",
+      "pods": "150 cialde"
+    },
+    "professional": {
+      "name": "Professional",
+      "tier": "Media Attività",
+      "businessTypes": "Ufficio, Palestra, Coworking, Ristorante",
+      "quantity": "3 scatole/mese",
+      "pods": "450 cialde"
+    },
+    "premium": {
+      "name": "Premium",
+      "tier": "Alto Volume",
+      "businessTypes": "Hotel, Grande Ristorante, Grande Coworking",
+      "quantity": "8 scatole/mese",
+      "pods": "1.200 cialde"
+    }
   },
   "aboutPage": {
     "title": "Chi siamo",

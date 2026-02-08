@@ -219,6 +219,16 @@ body {
   color: var(--muted);
 }
 
+/* Hero progress indicator animation */
+@keyframes progressFill {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
 /* Marquee animation for playlist */
 @keyframes marquee {
   0% {

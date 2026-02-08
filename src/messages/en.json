@@ -258,7 +258,34 @@
     "cialdeHeading": "Coffee Cialde",
     "machineHeading": "Espresso Machine",
     "infoCardTitle": "Free with Subscription",
-    "infoCardDescription": "When you commit to ordering at least 1 cialde box per month, we'll send you this professional espresso machine completely free."
+    "infoCardDescription": "When you commit to ordering at least 1 cialde box per month, we'll send you this professional espresso machine completely free.",
+    "packagesTitle": "Business Packages",
+    "packagesSubtitle": "Tailored coffee solutions for every business size. All packages include free espresso machines and monthly delivery.",
+    "packagesCta": "Contact Us",
+    "packagesMostPopular": "Most Popular",
+    "packagesPerMonth": "/month",
+    "packagesSave": "save {amount}",
+    "starter": {
+      "name": "Starter",
+      "tier": "Small Business",
+      "businessTypes": "Studio, Salon, Small Airbnb",
+      "quantity": "1 box/month",
+      "pods": "150 pods"
+    },
+    "professional": {
+      "name": "Professional",
+      "tier": "Medium Business",
+      "businessTypes": "Office, Gym, Coworking, Restaurant",
+      "quantity": "3 boxes/month",
+      "pods": "450 pods"
+    },
+    "premium": {
+      "name": "Premium",
+      "tier": "High Volume",
+      "businessTypes": "Hotel, Large Restaurant, Large Coworking",
+      "quantity": "8 boxes/month",
+      "pods": "1,200 pods"
+    }
   },
   "aboutPage": {
     "title": "About",

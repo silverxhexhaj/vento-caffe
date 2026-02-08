@@ -9,13 +9,12 @@ import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/utils";
 import ProductGallery from "@/components/shop/ProductGallery";
 import QuantityStepper from "@/components/shop/QuantityStepper";
-import TrustBadges from "@/components/shop/TrustBadges";
 import RelatedProductCard from "@/components/shop/RelatedProductCard";
 
 interface ProductDetailProps {
   product: Product;
   otherProducts: Product[];
-}
+} 
 
 export default function ProductDetail({ product, otherProducts }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1);
@@ -60,7 +59,7 @@ export default function ProductDetail({ product, otherProducts }: ProductDetailP
   };
 
   return (
-    <div className="md:py-16 py-8 relative">
+    <div className="md:py-24 py-8 relative">
       <div className="max-w-screen-2xl mx-auto px-4 md:px-8 relative">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm">
@@ -105,10 +104,6 @@ export default function ProductDetail({ product, otherProducts }: ProductDetailP
                 </ul>
               )}
 
-            {/* Trust Badges */}
-            <div className="mt-16">
-              <TrustBadges />
-            </div>
           </div>
 
           {/* Right: Product Info */}

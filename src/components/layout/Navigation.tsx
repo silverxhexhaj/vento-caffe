@@ -138,8 +138,6 @@ export default function Navigation() {
         </nav>
       </header>
 
-      {/* Spacer for fixed header */}
-      <div style={{ height: "var(--nav-height)" }} />
     </>
   );
 }

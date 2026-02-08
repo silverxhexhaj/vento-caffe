@@ -256,7 +256,34 @@
     "cialdeHeading": "Cialde kafeje",
     "machineHeading": "Makina e espressos",
     "infoCardTitle": "Falas me abonim",
-    "infoCardDescription": "Kur angazhoheni të porosisni të paktën 1 kuti cialdesh në muaj, ne do t'ju dërgojmë këtë makinë espresso profesionale krejtësisht falas."
+    "infoCardDescription": "Kur angazhoheni të porosisni të paktën 1 kuti cialdesh në muaj, ne do t'ju dërgojmë këtë makinë espresso profesionale krejtësisht falas.",
+    "packagesTitle": "Paketa Biznesi",
+    "packagesSubtitle": "Zgjidhje kafeje të përshtatura për çdo madhësi biznesi. Të gjitha paketat përfshijnë makina espresso falas dhe dorëzim mujor.",
+    "packagesCta": "Na Kontaktoni",
+    "packagesMostPopular": "Më i Popullarizuari",
+    "packagesPerMonth": "/muaj",
+    "packagesSave": "kurse {amount}",
+    "starter": {
+      "name": "Starter",
+      "tier": "Biznes i Vogël",
+      "businessTypes": "Studio, Sallon, Airbnb i Vogël",
+      "quantity": "1 kuti/muaj",
+      "pods": "150 bustina"
+    },
+    "professional": {
+      "name": "Professional",
+      "tier": "Biznes Mesatar",
+      "businessTypes": "Zyrë, Palestër, Coworking, Restorant",
+      "quantity": "3 kuti/muaj",
+      "pods": "450 bustina"
+    },
+    "premium": {
+      "name": "Premium",
+      "tier": "Volum i Lartë",
+      "businessTypes": "Hotel, Restorant i Madh, Coworking i Madh",
+      "quantity": "8 kuti/muaj",
+      "pods": "1,200 bustina"
+    }
   },
   "aboutPage": {
     "title": "Rreth nesh",

@@ -28,7 +28,13 @@ export default function Hero() {
   const content = getContent(t);
   const { directOffer } = content;
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [jumpToIndex, setJumpToIndex] = useState<number | undefined>(undefined);
   const [showBookingModal, setShowBookingModal] = useState(false);
+
+  const handleIndicatorClick = (index: number) => {
+    setJumpToIndex(index);
+    setCurrentIndex(index);
+  };
 
   const buildLocaleHref = (href: string) => {
     const normalized = href === "/" ? "" : href;
@@ -60,6 +66,45 @@ export default function Hero() {
 
       <div className="max-w-screen-2xl mx-auto px-4 md:px-8 relative z-10 flex flex-row items-center justify-between h-screen">
         
+        {/* Image Progress Indicator */}
+        <div className="hidden md:flex absolute right-8 top-1/2 -translate-y-1/2 z-20 flex-col items-end gap-3">
+          <span className="text-xs font-medium tabular-nums text-white mb-1">
+            {String(currentIndex + 1).padStart(2, "0")}
+          </span>
+          {categoryImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleIndicatorClick(index)}
+              className="group flex items-center gap-3 py-1 -my-1 cursor-pointer bg-transparent border-none"
+              aria-label={`Go to ${content.hero.businessCategories[index]}`}
+            >
+              <span
+                className={`text-[10px] uppercase tracking-widest text-white whitespace-nowrap transition-all duration-300 ${
+                  index === currentIndex
+                    ? "opacity-70"
+                    : "opacity-0 translate-x-1 group-hover:opacity-70 group-hover:translate-x-0"
+                }`}
+              >
+                {content.hero.businessCategories[index]}
+              </span>
+              <div className="w-6 h-[2px] bg-white/20 overflow-hidden relative transition-all duration-200 group-hover:w-8">
+                {index === currentIndex ? (
+                  <div
+                    key={`progress-${currentIndex}`}
+                    className="absolute inset-y-0 left-0 bg-white"
+                    style={{ animation: "progressFill 2s linear forwards" }}
+                  />
+                ) : index < currentIndex ? (
+                  <div className="absolute inset-0 bg-white/50" />
+                ) : null}
+              </div>
+            </button>
+          ))}
+          <span className="text-xs font-medium tabular-nums text-white/40 mt-1">
+            {String(categoryImages.length).padStart(2, "0")}
+          </span>
+        </div>
+
         <div className="text-left text-white flex flex-col gap-6 md:gap-2 w-full">
           <span className="w-fit inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-medium px-4 py-1.5 rounded-full mb-4">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -81,6 +126,7 @@ export default function Hero() {
               <RotatingText
                 words={content.hero.businessCategories}
                 interval={2000}
+                externalIndex={jumpToIndex}
                 onIndexChange={setCurrentIndex}
               />
             </span>

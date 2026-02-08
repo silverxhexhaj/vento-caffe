@@ -33,7 +33,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
   const whatsappUrl = `https://wa.me/${contact.whatsappNumber.replace(/\+/g, "")}?text=${encodeURIComponent(contact.whatsappMessage)}`;
 
   return (
-    <div className="md:py-16 py-8">
+    <div className="md:py-24 py-8">
       <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
         {/* Page Header */}
         <div className="mb-12">
