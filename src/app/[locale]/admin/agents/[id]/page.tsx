@@ -7,6 +7,15 @@ interface AgentDetailPageProps {
   params: Promise<{ locale: string; id: string }>;
 }
 
+async function unassignAgentAction(
+  businessId: string,
+  agentId: string,
+  _formData: FormData
+) {
+  "use server";
+  await unassignAgentFromBusiness(businessId, agentId);
+}
+
 export default async function AdminAgentDetailPage({
   params,
 }: AgentDetailPageProps) {
@@ -137,11 +146,7 @@ export default async function AdminAgentDetailPage({
                     <BusinessPipelineBadge stage={business.pipeline_stage} />
                   </div>
                   <form
-                    action={unassignAgentFromBusiness.bind(
-                      null,
-                      business.id,
-                      agent.id
-                    )}
+                    action={unassignAgentAction.bind(null, business.id, agent.id)}
                     className="mt-3"
                   >
                     <button
