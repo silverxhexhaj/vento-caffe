@@ -1128,10 +1128,15 @@ export async function getAgentById(agentId: string): Promise<{
 
     const businesses = (
       assignments as Array<{
-        businesses: AdminAgentBusiness | null;
+        businesses: AdminAgentBusiness | AdminAgentBusiness[] | null;
       }>
     )
-      .map((row) => row.businesses)
+      .flatMap((row) => {
+        if (!row.businesses) {
+          return [];
+        }
+        return Array.isArray(row.businesses) ? row.businesses : [row.businesses];
+      })
       .filter((business): business is AdminAgentBusiness => Boolean(business));
 
     return {
@@ -1266,10 +1271,15 @@ export async function getBusinessAgents(businessId: string): Promise<{
 
     const agents = (
       assignments as Array<{
-        agents: AdminAgent | null;
+        agents: AdminAgent | AdminAgent[] | null;
       }>
     )
-      .map((row) => row.agents)
+      .flatMap((row) => {
+        if (!row.agents) {
+          return [];
+        }
+        return Array.isArray(row.agents) ? row.agents : [row.agents];
+      })
       .filter((agent): agent is AdminAgent => Boolean(agent));
 
     return { agents, error: null };
@@ -1310,10 +1320,15 @@ export async function getAgentBusinesses(agentId: string): Promise<{
 
     const businesses = (
       assignments as Array<{
-        businesses: AdminAgentBusiness | null;
+        businesses: AdminAgentBusiness | AdminAgentBusiness[] | null;
       }>
     )
-      .map((row) => row.businesses)
+      .flatMap((row) => {
+        if (!row.businesses) {
+          return [];
+        }
+        return Array.isArray(row.businesses) ? row.businesses : [row.businesses];
+      })
       .filter((business): business is AdminAgentBusiness => Boolean(business));
 
     return { businesses, error: null };
