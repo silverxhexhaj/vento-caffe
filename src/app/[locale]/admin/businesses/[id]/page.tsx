@@ -2,6 +2,8 @@ import Link from "next/link";
 import {
   getAdminBusinessById,
   getAdminClientById,
+  getAgents,
+  getBusinessAgents,
 } from "@/lib/actions/admin";
 import BusinessPipelineBadge from "@/components/admin/BusinessPipelineBadge";
 import BusinessStageStepper from "@/components/admin/BusinessStageStepper";
@@ -9,6 +11,7 @@ import BusinessActivityTimeline from "@/components/admin/BusinessActivityTimelin
 import AddActivityForm from "@/components/admin/AddActivityForm";
 import DeleteBusinessButton from "@/components/admin/DeleteBusinessButton";
 import OrdersTable from "@/components/admin/OrdersTable";
+import BusinessAgentAssigner from "@/components/admin/BusinessAgentAssigner";
 
 interface BusinessDetailPageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -34,9 +37,13 @@ export default async function AdminBusinessDetailPage({
     );
   }
 
-  const linkedClient = business.linked_profile_id
-    ? await getAdminClientById(business.linked_profile_id)
-    : null;
+  const [linkedClient, agentsResult, assignedAgentsResult] = await Promise.all([
+    business.linked_profile_id
+      ? getAdminClientById(business.linked_profile_id)
+      : Promise.resolve(null),
+    getAgents(),
+    getBusinessAgents(business.id),
+  ]);
 
   return (
     <div className="space-y-6">
@@ -57,11 +64,19 @@ export default async function AdminBusinessDetailPage({
             </h1>
             <BusinessPipelineBadge stage={business.pipeline_stage} />
           </div>
-          <DeleteBusinessButton
-            businessId={business.id}
-            businessName={business.name}
-            variant="button"
-          />
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href={`/${locale}/admin/businesses/${business.id}/edit`}
+              className="rounded-lg border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:border-neutral-300 hover:text-neutral-900"
+            >
+              Edit
+            </Link>
+            <DeleteBusinessButton
+              businessId={business.id}
+              businessName={business.name}
+              variant="button"
+            />
+          </div>
         </div>
       </div>
 
@@ -178,55 +193,73 @@ export default async function AdminBusinessDetailPage({
           ) : null}
         </div>
 
-        <div className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
-          <div>
-            <h2 className="text-lg font-semibold text-neutral-900">
-              Linked Records
-            </h2>
-            <p className="text-sm text-neutral-500">
-              Connections to signups and sample bookings.
-            </p>
+        <div className="space-y-4">
+          <div className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
+            <div>
+              <h2 className="text-lg font-semibold text-neutral-900">
+                Linked Records
+              </h2>
+              <p className="text-sm text-neutral-500">
+                Connections to signups and sample bookings.
+              </p>
+            </div>
+            <div className="rounded-lg border border-neutral-200 p-4">
+              <p className="text-xs text-neutral-500 uppercase tracking-wider">
+                Signup profile
+              </p>
+              {linkedClient?.client ? (
+                <div className="mt-2 space-y-1">
+                  <p className="text-sm font-medium text-neutral-900">
+                    {linkedClient.client.full_name || "Unnamed client"}
+                  </p>
+                  <p className="text-xs text-neutral-500">
+                    Orders: {linkedClient.client.orders_count ?? 0}
+                  </p>
+                  <p className="text-xs text-neutral-500">
+                    LTV: €{(linkedClient.client.total_spent ?? 0).toFixed(2)}
+                  </p>
+                </div>
+              ) : (
+                <p className="text-sm text-neutral-400 mt-2">Not linked</p>
+              )}
+            </div>
+            <div className="rounded-lg border border-neutral-200 p-4">
+              <p className="text-xs text-neutral-500 uppercase tracking-wider">
+                Sample booking
+              </p>
+              {business.sample_bookings ? (
+                <div className="mt-2 space-y-1">
+                  <p className="text-sm font-medium text-neutral-900">
+                    {business.sample_bookings.full_name}
+                  </p>
+                  <p className="text-xs text-neutral-500 capitalize">
+                    {business.sample_bookings.business_type} •{" "}
+                    {business.sample_bookings.city}
+                  </p>
+                  <p className="text-xs text-neutral-500">
+                    Status: {business.sample_bookings.status}
+                  </p>
+                </div>
+              ) : (
+                <p className="text-sm text-neutral-400 mt-2">Not linked</p>
+              )}
+            </div>
           </div>
-          <div className="rounded-lg border border-neutral-200 p-4">
-            <p className="text-xs text-neutral-500 uppercase tracking-wider">
-              Signup profile
-            </p>
-            {linkedClient?.client ? (
-              <div className="mt-2 space-y-1">
-                <p className="text-sm font-medium text-neutral-900">
-                  {linkedClient.client.full_name || "Unnamed client"}
-                </p>
-                <p className="text-xs text-neutral-500">
-                  Orders: {linkedClient.client.orders_count ?? 0}
-                </p>
-                <p className="text-xs text-neutral-500">
-                  LTV: €{(linkedClient.client.total_spent ?? 0).toFixed(2)}
-                </p>
-              </div>
-            ) : (
-              <p className="text-sm text-neutral-400 mt-2">Not linked</p>
-            )}
-          </div>
-          <div className="rounded-lg border border-neutral-200 p-4">
-            <p className="text-xs text-neutral-500 uppercase tracking-wider">
-              Sample booking
-            </p>
-            {business.sample_bookings ? (
-              <div className="mt-2 space-y-1">
-                <p className="text-sm font-medium text-neutral-900">
-                  {business.sample_bookings.full_name}
-                </p>
-                <p className="text-xs text-neutral-500 capitalize">
-                  {business.sample_bookings.business_type} •{" "}
-                  {business.sample_bookings.city}
-                </p>
-                <p className="text-xs text-neutral-500">
-                  Status: {business.sample_bookings.status}
-                </p>
-              </div>
-            ) : (
-              <p className="text-sm text-neutral-400 mt-2">Not linked</p>
-            )}
+
+          <div className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
+            <div>
+              <h2 className="text-lg font-semibold text-neutral-900">
+                Assigned Agents
+              </h2>
+              <p className="text-sm text-neutral-500">
+                Manage who owns this business.
+              </p>
+            </div>
+            <BusinessAgentAssigner
+              businessId={business.id}
+              agents={agentsResult.agents}
+              assignedAgents={assignedAgentsResult.agents}
+            />
           </div>
         </div>
       </div>

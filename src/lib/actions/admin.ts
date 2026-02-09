@@ -969,6 +969,374 @@ export async function addBusinessActivity(
   }
 }
 
+// ============================================
+// AGENTS
+// ============================================
+
+export interface AdminAgent {
+  id: string;
+  full_name: string;
+  email: string | null;
+  phone: string | null;
+  role_title: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  assigned_count?: number;
+}
+
+export interface AdminAgentBusiness {
+  id: string;
+  name: string;
+  pipeline_stage: string;
+  city: string | null;
+  business_type: string | null;
+}
+
+export async function getAgents(search?: string): Promise<{
+  agents: AdminAgent[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { agents: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+
+    let query = supabase.from("agents").select("*").order("created_at", {
+      ascending: false,
+    });
+
+    if (search) {
+      query = query.or(
+        `full_name.ilike.%${search}%,email.ilike.%${search}%`
+      );
+    }
+
+    const { data: agents, error } = await query;
+    if (error) {
+      return { agents: [], error: error.message };
+    }
+
+    const { data: assignments } = await supabase
+      .from("business_agents")
+      .select("agent_id");
+
+    const assignmentCounts = new Map<string, number>();
+    if (assignments) {
+      for (const row of assignments as Array<{ agent_id: string }>) {
+        assignmentCounts.set(
+          row.agent_id,
+          (assignmentCounts.get(row.agent_id) ?? 0) + 1
+        );
+      }
+    }
+
+    const agentsWithCounts = (agents as AdminAgent[]).map((agent) => ({
+      ...agent,
+      assigned_count: assignmentCounts.get(agent.id) ?? 0,
+    }));
+
+    return { agents: agentsWithCounts, error: null };
+  } catch {
+    return { agents: [], error: "Failed to fetch agents" };
+  }
+}
+
+export async function getAgentById(agentId: string): Promise<{
+  agent: AdminAgent | null;
+  businesses: AdminAgentBusiness[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { agent: null, businesses: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: agent, error: agentError } = await supabase
+      .from("agents")
+      .select("*")
+      .eq("id", agentId)
+      .single();
+
+    if (agentError || !agent) {
+      return { agent: null, businesses: [], error: "Agent not found" };
+    }
+
+    const { data: assignments, error: assignmentsError } = await supabase
+      .from("business_agents")
+      .select(
+        `
+        business_id,
+        businesses (
+          id,
+          name,
+          pipeline_stage,
+          city,
+          business_type
+        )
+      `
+      )
+      .eq("agent_id", agentId)
+      .order("assigned_at", { ascending: false });
+
+    if (assignmentsError) {
+      return {
+        agent: agent as AdminAgent,
+        businesses: [],
+        error: assignmentsError.message,
+      };
+    }
+
+    const businesses = (
+      assignments as Array<{
+        businesses: AdminAgentBusiness | null;
+      }>
+    )
+      .map((row) => row.businesses)
+      .filter((business): business is AdminAgentBusiness => Boolean(business));
+
+    return {
+      agent: agent as AdminAgent,
+      businesses,
+      error: null,
+    };
+  } catch {
+    return { agent: null, businesses: [], error: "Failed to fetch agent" };
+  }
+}
+
+export async function createAgent(
+  data: Omit<AdminAgent, "id" | "created_at" | "updated_at" | "assigned_count">
+): Promise<{ agent: AdminAgent | null; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { agent: null, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: agent, error } = await supabase
+      .from("agents")
+      .insert({
+        full_name: data.full_name,
+        email: data.email,
+        phone: data.phone,
+        role_title: data.role_title,
+        notes: data.notes,
+      })
+      .select("*")
+      .single();
+
+    if (error || !agent) {
+      return { agent: null, error: error?.message ?? "Failed to create agent" };
+    }
+
+    revalidatePath("/admin/agents");
+    return { agent: agent as AdminAgent, error: null };
+  } catch {
+    return { agent: null, error: "Failed to create agent" };
+  }
+}
+
+export async function updateAgent(
+  agentId: string,
+  data: Partial<
+    Omit<AdminAgent, "id" | "created_at" | "updated_at" | "assigned_count">
+  >
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase
+      .from("agents")
+      .update({
+        full_name: data.full_name,
+        email: data.email,
+        phone: data.phone,
+        role_title: data.role_title,
+        notes: data.notes,
+      })
+      .eq("id", agentId);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath("/admin/agents");
+    revalidatePath(`/admin/agents/${agentId}`);
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to update agent" };
+  }
+}
+
+export async function deleteAgent(agentId: string): Promise<{
+  success: boolean;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase.from("agents").delete().eq("id", agentId);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath("/admin/agents");
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to delete agent" };
+  }
+}
+
+export async function getBusinessAgents(businessId: string): Promise<{
+  agents: AdminAgent[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { agents: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: assignments, error } = await supabase
+      .from("business_agents")
+      .select(
+        `
+        agent_id,
+        agents (
+          id,
+          full_name,
+          email,
+          phone,
+          role_title,
+          notes,
+          created_at,
+          updated_at
+        )
+      `
+      )
+      .eq("business_id", businessId)
+      .order("assigned_at", { ascending: false });
+
+    if (error) {
+      return { agents: [], error: error.message };
+    }
+
+    const agents = (
+      assignments as Array<{
+        agents: AdminAgent | null;
+      }>
+    )
+      .map((row) => row.agents)
+      .filter((agent): agent is AdminAgent => Boolean(agent));
+
+    return { agents, error: null };
+  } catch {
+    return { agents: [], error: "Failed to fetch business agents" };
+  }
+}
+
+export async function getAgentBusinesses(agentId: string): Promise<{
+  businesses: AdminAgentBusiness[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { businesses: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: assignments, error } = await supabase
+      .from("business_agents")
+      .select(
+        `
+        business_id,
+        businesses (
+          id,
+          name,
+          pipeline_stage,
+          city,
+          business_type
+        )
+      `
+      )
+      .eq("agent_id", agentId)
+      .order("assigned_at", { ascending: false });
+
+    if (error) {
+      return { businesses: [], error: error.message };
+    }
+
+    const businesses = (
+      assignments as Array<{
+        businesses: AdminAgentBusiness | null;
+      }>
+    )
+      .map((row) => row.businesses)
+      .filter((business): business is AdminAgentBusiness => Boolean(business));
+
+    return { businesses, error: null };
+  } catch {
+    return { businesses: [], error: "Failed to fetch agent businesses" };
+  }
+}
+
+export async function assignAgentToBusiness(
+  businessId: string,
+  agentId: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase.from("business_agents").insert({
+      business_id: businessId,
+      agent_id: agentId,
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath(`/admin/businesses/${businessId}`);
+    revalidatePath(`/admin/agents/${agentId}`);
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to assign agent" };
+  }
+}
+
+export async function unassignAgentFromBusiness(
+  businessId: string,
+  agentId: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase
+      .from("business_agents")
+      .delete()
+      .eq("business_id", businessId)
+      .eq("agent_id", agentId);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath(`/admin/businesses/${businessId}`);
+    revalidatePath(`/admin/agents/${agentId}`);
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to unassign agent" };
+  }
+}
+
 function buildInFilter(list: string[]) {
   if (!list.length) {
     return null;

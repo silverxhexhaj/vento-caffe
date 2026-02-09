@@ -1,20 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useTransition } from "react";
 import { useLocale } from "next-intl";
 import BusinessPipelineBadge from "./BusinessPipelineBadge";
 import DeleteBusinessButton from "./DeleteBusinessButton";
-import { updateBusinessStage, type AdminBusiness } from "@/lib/actions/admin";
-
-const stageOptions = [
-  "lead",
-  "contacted",
-  "sample_sent",
-  "negotiating",
-  "active_client",
-  "churned",
-];
+import { type AdminBusiness } from "@/lib/actions/admin";
 
 interface BusinessesTableProps {
   businesses: AdminBusiness[];
@@ -22,17 +12,6 @@ interface BusinessesTableProps {
 
 export default function BusinessesTable({ businesses }: BusinessesTableProps) {
   const locale = useLocale();
-  const [isPending, startTransition] = useTransition();
-  const [updatingId, setUpdatingId] = useState<string | null>(null);
-
-  const handleStageChange = (businessId: string, stage: string) => {
-    setUpdatingId(businessId);
-    startTransition(async () => {
-      await updateBusinessStage(businessId, stage);
-      setUpdatingId(null);
-    });
-  };
-
   if (!businesses.length) {
     return (
       <div className="text-center py-12 text-neutral-400">
@@ -94,22 +73,8 @@ export default function BusinessesTable({ businesses }: BusinessesTableProps) {
               <td className="py-3 px-4 capitalize text-neutral-600">
                 {business.business_type || "-"}
               </td>
-              <td className="py-3 px-4 space-y-2">
+              <td className="py-3 px-4">
                 <BusinessPipelineBadge stage={business.pipeline_stage} />
-                <select
-                  value={business.pipeline_stage}
-                  onChange={(event) =>
-                    handleStageChange(business.id, event.target.value)
-                  }
-                  disabled={isPending && updatingId === business.id}
-                  className="block w-full text-xs border border-neutral-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-neutral-900 disabled:opacity-50"
-                >
-                  {stageOptions.map((stage) => (
-                    <option key={stage} value={stage}>
-                      {stage.replace(/_/g, " ")}
-                    </option>
-                  ))}
-                </select>
               </td>
               <td className="py-3 px-4">
                 {business.tags.length ? (
@@ -129,6 +94,12 @@ export default function BusinessesTable({ businesses }: BusinessesTableProps) {
               </td>
               <td className="py-3 px-4">
                 <div className="flex items-center gap-3">
+                  <Link
+                    href={`/${locale}/admin/businesses/${business.id}/edit`}
+                    className="text-xs font-medium text-neutral-700 hover:text-neutral-900 underline"
+                  >
+                    Edit
+                  </Link>
                   <Link
                     href={`/${locale}/admin/businesses/${business.id}`}
                     className="text-xs font-medium text-neutral-700 hover:text-neutral-900 underline"
