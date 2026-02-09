@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { getAdminBusinesses, getAdminBusinessStats } from "@/lib/actions/admin";
+import {
+  getAdminBusinesses,
+  getAdminBusinessStats,
+  getAgents,
+} from "@/lib/actions/admin";
 import BusinessesTable from "@/components/admin/BusinessesTable";
 import SearchInput from "@/components/admin/SearchInput";
 import Pagination from "@/components/admin/Pagination";
@@ -20,21 +24,25 @@ export default async function AdminBusinessesPage({
   const stage = sp.stage || "all";
   const source = sp.source || "all";
   const type = sp.type || "all";
+  const agent = sp.agent || "all";
   const tag = sp.tag || "";
   const search = sp.search || "";
   const page = Number(sp.page || 1);
 
-  const [{ businesses, total, error }, statsResult] = await Promise.all([
+  const [{ businesses, total, error }, statsResult, agentsResult] =
+    await Promise.all([
     getAdminBusinesses({
       stage,
       source,
       businessType: type,
+      agentId: agent,
       tag: tag || undefined,
       search: search || undefined,
       page,
       perPage: 20,
     }),
     getAdminBusinessStats(),
+    getAgents(),
   ]);
 
   const businessTypes = Array.from(
@@ -94,7 +102,10 @@ export default async function AdminBusinessesPage({
         <div className="max-w-sm">
           <SearchInput placeholder="Search by business, contact, or email..." />
         </div>
-        <BusinessFilters businessTypes={businessTypes} />
+        <BusinessFilters
+          businessTypes={businessTypes}
+          agents={agentsResult.agents}
+        />
       </div>
 
       <div className="bg-white rounded-xl border border-neutral-200">

@@ -632,6 +632,7 @@ export interface BusinessFilters {
   stage?: string;
   businessType?: string;
   source?: string;
+  agentId?: string;
   tag?: string;
   search?: string;
   page?: number;
@@ -663,6 +664,7 @@ export async function getAdminBusinesses(filters: BusinessFilters = {}): Promise
       stage,
       businessType,
       source,
+      agentId,
       tag,
       search,
       page = 1,
@@ -694,6 +696,17 @@ export async function getAdminBusinesses(filters: BusinessFilters = {}): Promise
 
     if (source && source !== "all") {
       query = query.eq("source", source);
+    }
+
+    if (agentId && agentId !== "all") {
+      const { data: agentBusinesses } = await supabase
+        .from("business_agents")
+        .select("business_id")
+        .eq("agent_id", agentId);
+      const businessIds = (agentBusinesses ?? []).map(
+        (row: { business_id: string }) => row.business_id
+      );
+      query = query.in("id", businessIds.length > 0 ? businessIds : ["__none__"]);
     }
 
     if (tag && tag !== "all") {

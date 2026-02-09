@@ -22,9 +22,13 @@ const sourceOptions = [
 
 interface BusinessFiltersProps {
   businessTypes: string[];
+  agents: { id: string; full_name: string }[];
 }
 
-export default function BusinessFilters({ businessTypes }: BusinessFiltersProps) {
+export default function BusinessFilters({
+  businessTypes,
+  agents,
+}: BusinessFiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -73,6 +77,18 @@ export default function BusinessFilters({ businessTypes }: BusinessFiltersProps)
         {businessTypes.map((type) => (
           <option key={type} value={type}>
             {type}
+          </option>
+        ))}
+      </select>
+      <select
+        value={searchParams.get("agent") || "all"}
+        onChange={(event) => updateParam("agent", event.target.value)}
+        className="rounded-lg border border-neutral-200 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-neutral-900"
+      >
+        <option value="all">All agents</option>
+        {agents.map((agent) => (
+          <option key={agent.id} value={agent.id}>
+            {agent.full_name}
           </option>
         ))}
       </select>
