@@ -242,6 +242,88 @@ export interface Database {
           created_at?: string;
         };
       };
+      businesses: {
+        Row: {
+          id: string;
+          name: string;
+          contact_name: string | null;
+          email: string | null;
+          phone: string | null;
+          business_type: string | null;
+          address: string | null;
+          city: string | null;
+          website: string | null;
+          pipeline_stage: string;
+          source: string;
+          tags: string[];
+          notes: string | null;
+          linked_profile_id: string | null;
+          linked_booking_id: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          contact_name?: string | null;
+          email?: string | null;
+          phone?: string | null;
+          business_type?: string | null;
+          address?: string | null;
+          city?: string | null;
+          website?: string | null;
+          pipeline_stage?: string;
+          source?: string;
+          tags?: string[];
+          notes?: string | null;
+          linked_profile_id?: string | null;
+          linked_booking_id?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          contact_name?: string | null;
+          email?: string | null;
+          phone?: string | null;
+          business_type?: string | null;
+          address?: string | null;
+          city?: string | null;
+          website?: string | null;
+          pipeline_stage?: string;
+          source?: string;
+          tags?: string[];
+          notes?: string | null;
+          linked_profile_id?: string | null;
+          linked_booking_id?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      business_activities: {
+        Row: {
+          id: string;
+          business_id: string;
+          type: string;
+          description: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          business_id: string;
+          type: string;
+          description: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          business_id?: string;
+          type?: string;
+          description?: string;
+          created_at?: string;
+        };
+      };
     };
     Views: {
       [_ in never]: never;

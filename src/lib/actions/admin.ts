@@ -575,3 +575,613 @@ export async function updateSampleBookingStatus(
     return { success: false, error: "Failed to update booking status" };
   }
 }
+
+// ============================================
+// BUSINESSES (CRM)
+// ============================================
+
+export interface AdminBusiness {
+  id: string;
+  name: string;
+  contact_name: string | null;
+  email: string | null;
+  phone: string | null;
+  business_type: string | null;
+  address: string | null;
+  city: string | null;
+  website: string | null;
+  pipeline_stage: string;
+  source: string;
+  tags: string[];
+  notes: string | null;
+  linked_profile_id: string | null;
+  linked_booking_id: string | null;
+  created_at: string;
+  updated_at: string;
+  profiles?: {
+    full_name: string | null;
+    phone: string | null;
+    role: string;
+    created_at: string;
+  } | null;
+  sample_bookings?: {
+    id: string;
+    full_name: string;
+    phone: string;
+    email: string | null;
+    business_type: string;
+    address: string;
+    city: string;
+    booking_date: string;
+    status: string;
+    notes: string | null;
+    created_at: string;
+  } | null;
+}
+
+export interface AdminBusinessActivity {
+  id: string;
+  business_id: string;
+  type: string;
+  description: string;
+  created_at: string;
+}
+
+export interface BusinessFilters {
+  stage?: string;
+  businessType?: string;
+  source?: string;
+  tag?: string;
+  search?: string;
+  page?: number;
+  perPage?: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}
+
+const businessStageOptions = [
+  "lead",
+  "contacted",
+  "sample_sent",
+  "negotiating",
+  "active_client",
+  "churned",
+];
+
+export async function getAdminBusinesses(filters: BusinessFilters = {}): Promise<{
+  businesses: AdminBusiness[];
+  total: number;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { businesses: [], total: 0, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const {
+      stage,
+      businessType,
+      source,
+      tag,
+      search,
+      page = 1,
+      perPage = 20,
+      sortBy = "created_at",
+      sortOrder = "desc",
+    } = filters;
+
+    let query = supabase.from("businesses").select("*", { count: "exact" });
+
+    if (stage && stage !== "all") {
+      query = query.eq("pipeline_stage", stage);
+    }
+
+    if (businessType && businessType !== "all") {
+      query = query.eq("business_type", businessType);
+    }
+
+    if (source && source !== "all") {
+      query = query.eq("source", source);
+    }
+
+    if (tag && tag !== "all") {
+      query = query.contains("tags", [tag]);
+    }
+
+    if (search) {
+      const safeSearch = search.replace(/,/g, " ");
+      query = query.or(
+        `name.ilike.%${safeSearch}%,contact_name.ilike.%${safeSearch}%,email.ilike.%${safeSearch}%`
+      );
+    }
+
+    const validSortColumns = ["created_at", "updated_at", "name", "pipeline_stage"];
+    const sortColumn = validSortColumns.includes(sortBy) ? sortBy : "created_at";
+
+    query = query
+      .order(sortColumn, { ascending: sortOrder === "asc" })
+      .range((page - 1) * perPage, page * perPage - 1);
+
+    const { data: businesses, count, error } = await query;
+    if (error) {
+      return { businesses: [], total: 0, error: error.message };
+    }
+
+    return {
+      businesses: (businesses as unknown as AdminBusiness[]) ?? [],
+      total: count ?? 0,
+      error: null,
+    };
+  } catch {
+    return { businesses: [], total: 0, error: "Failed to fetch businesses" };
+  }
+}
+
+export async function getAdminBusinessStats(): Promise<{
+  total: number;
+  leadsThisMonth: number;
+  activeClients: number;
+  conversionRate: number;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) {
+    return {
+      total: 0,
+      leadsThisMonth: 0,
+      activeClients: 0,
+      conversionRate: 0,
+      error: authError,
+    };
+  }
+
+  try {
+    const supabase = await createAdminClient();
+    const { count: total } = await supabase
+      .from("businesses")
+      .select("*", { count: "exact", head: true });
+
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const { count: leadsThisMonth } = await supabase
+      .from("businesses")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", startOfMonth.toISOString());
+
+    const { count: activeClients } = await supabase
+      .from("businesses")
+      .select("*", { count: "exact", head: true })
+      .eq("pipeline_stage", "active_client");
+
+    const totalCount = total ?? 0;
+    const activeCount = activeClients ?? 0;
+    const conversionRate = totalCount ? (activeCount / totalCount) * 100 : 0;
+
+    return {
+      total: totalCount,
+      leadsThisMonth: leadsThisMonth ?? 0,
+      activeClients: activeCount,
+      conversionRate,
+      error: null,
+    };
+  } catch {
+    return {
+      total: 0,
+      leadsThisMonth: 0,
+      activeClients: 0,
+      conversionRate: 0,
+      error: "Failed to fetch business stats",
+    };
+  }
+}
+
+export async function getAdminBusinessById(businessId: string): Promise<{
+  business: AdminBusiness | null;
+  activities: AdminBusinessActivity[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { business: null, activities: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: business, error: businessError } = await supabase
+      .from("businesses")
+      .select(
+        `
+        *,
+        profiles (full_name, phone, role, created_at),
+        sample_bookings (*)
+      `
+      )
+      .eq("id", businessId)
+      .single();
+
+    if (businessError || !business) {
+      return { business: null, activities: [], error: "Business not found" };
+    }
+
+    const { data: activities, error: activitiesError } = await supabase
+      .from("business_activities")
+      .select("*")
+      .eq("business_id", businessId)
+      .order("created_at", { ascending: false });
+
+    if (activitiesError) {
+      return {
+        business: business as unknown as AdminBusiness,
+        activities: [],
+        error: activitiesError.message,
+      };
+    }
+
+    return {
+      business: business as unknown as AdminBusiness,
+      activities: (activities as unknown as AdminBusinessActivity[]) ?? [],
+      error: null,
+    };
+  } catch {
+    return { business: null, activities: [], error: "Failed to fetch business" };
+  }
+}
+
+export async function createBusiness(
+  data: Omit<
+    AdminBusiness,
+    "id" | "created_at" | "updated_at" | "profiles" | "sample_bookings"
+  >
+): Promise<{ business: AdminBusiness | null; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { business: null, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: business, error } = await supabase
+      .from("businesses")
+      .insert(data)
+      .select("*")
+      .single();
+
+    if (error) {
+      return { business: null, error: error.message };
+    }
+
+    revalidatePath("/admin/businesses");
+    return { business: business as unknown as AdminBusiness, error: null };
+  } catch {
+    return { business: null, error: "Failed to create business" };
+  }
+}
+
+export async function updateBusiness(
+  businessId: string,
+  data: Partial<
+    Omit<
+      AdminBusiness,
+      "id" | "created_at" | "updated_at" | "profiles" | "sample_bookings"
+    >
+  >
+): Promise<{ business: AdminBusiness | null; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { business: null, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: business, error } = await supabase
+      .from("businesses")
+      .update({ ...data, updated_at: new Date().toISOString() })
+      .eq("id", businessId)
+      .select("*")
+      .single();
+
+    if (error) {
+      return { business: null, error: error.message };
+    }
+
+    revalidatePath("/admin/businesses");
+    revalidatePath(`/admin/businesses/${businessId}`);
+    return { business: business as unknown as AdminBusiness, error: null };
+  } catch {
+    return { business: null, error: "Failed to update business" };
+  }
+}
+
+export async function updateBusinessStage(
+  businessId: string,
+  stage: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  if (!businessStageOptions.includes(stage)) {
+    return { success: false, error: "Invalid stage" };
+  }
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase
+      .from("businesses")
+      .update({ pipeline_stage: stage, updated_at: new Date().toISOString() })
+      .eq("id", businessId);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath("/admin/businesses");
+    revalidatePath(`/admin/businesses/${businessId}`);
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to update stage" };
+  }
+}
+
+export async function deleteBusiness(
+  businessId: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase
+      .from("businesses")
+      .delete()
+      .eq("id", businessId);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath("/admin/businesses");
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to delete business" };
+  }
+}
+
+export async function addBusinessActivity(
+  businessId: string,
+  type: string,
+  description: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase.from("business_activities").insert({
+      business_id: businessId,
+      type,
+      description,
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath(`/admin/businesses/${businessId}`);
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to add activity" };
+  }
+}
+
+function buildInFilter(list: string[]) {
+  if (!list.length) {
+    return null;
+  }
+  const escaped = list.map((id) => `'${id}'`).join(",");
+  return `(${escaped})`;
+}
+
+export async function getUnlinkedSampleBookings(): Promise<{
+  bookings: AdminSampleBooking[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { bookings: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: linked } = await supabase
+      .from("businesses")
+      .select("linked_booking_id")
+      .not("linked_booking_id", "is", null);
+
+    const linkedIds = (linked as Array<{ linked_booking_id: string | null }>)
+      ?.map((row) => row.linked_booking_id)
+      .filter((id): id is string => Boolean(id)) ?? [];
+
+    let query = supabase
+      .from("sample_bookings")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    const inFilter = buildInFilter(linkedIds);
+    if (inFilter) {
+      query = query.not("id", "in", inFilter);
+    }
+
+    const { data: bookings, error } = await query;
+    if (error) {
+      return { bookings: [], error: error.message };
+    }
+
+    return { bookings: (bookings as AdminSampleBooking[]) ?? [], error: null };
+  } catch {
+    return { bookings: [], error: "Failed to fetch sample bookings" };
+  }
+}
+
+export async function getUnlinkedProfiles(): Promise<{
+  profiles: AdminClient[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { profiles: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: linked } = await supabase
+      .from("businesses")
+      .select("linked_profile_id")
+      .not("linked_profile_id", "is", null);
+
+    const linkedIds = (linked as Array<{ linked_profile_id: string | null }>)
+      ?.map((row) => row.linked_profile_id)
+      .filter((id): id is string => Boolean(id)) ?? [];
+
+    let query = supabase
+      .from("profiles")
+      .select("*")
+      .eq("role", "customer")
+      .order("created_at", { ascending: false });
+
+    const inFilter = buildInFilter(linkedIds);
+    if (inFilter) {
+      query = query.not("id", "in", inFilter);
+    }
+
+    const { data: profiles, error } = await query;
+    if (error) {
+      return { profiles: [], error: error.message };
+    }
+
+    return { profiles: (profiles as AdminClient[]) ?? [], error: null };
+  } catch {
+    return { profiles: [], error: "Failed to fetch profiles" };
+  }
+}
+
+export async function autoLinkProfiles(): Promise<{
+  created: number;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { created: 0, error: authError };
+
+  try {
+    const { profiles, error } = await getUnlinkedProfiles();
+    if (error) {
+      return { created: 0, error };
+    }
+
+    if (!profiles.length) {
+      return { created: 0, error: null };
+    }
+
+    const supabase = await createAdminClient();
+    const inserts = profiles.map((profile) => ({
+      name: profile.full_name || "New signup",
+      contact_name: profile.full_name,
+      phone: profile.phone,
+      pipeline_stage: "lead",
+      source: "signup",
+      linked_profile_id: profile.id,
+      tags: [],
+    }));
+
+    const { error: insertError } = await supabase.from("businesses").insert(inserts);
+    if (insertError) {
+      return { created: 0, error: insertError.message };
+    }
+
+    revalidatePath("/admin/businesses");
+    return { created: inserts.length, error: null };
+  } catch {
+    return { created: 0, error: "Failed to import signups" };
+  }
+}
+
+export async function autoLinkSampleBookings(): Promise<{
+  created: number;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { created: 0, error: authError };
+
+  try {
+    const { bookings, error } = await getUnlinkedSampleBookings();
+    if (error) {
+      return { created: 0, error };
+    }
+
+    if (!bookings.length) {
+      return { created: 0, error: null };
+    }
+
+    const supabase = await createAdminClient();
+    const inserts = bookings.map((booking) => ({
+      name: booking.full_name,
+      contact_name: booking.full_name,
+      email: booking.email,
+      phone: booking.phone,
+      business_type: booking.business_type,
+      address: booking.address,
+      city: booking.city,
+      pipeline_stage: "sample_sent",
+      source: "sample_booking",
+      linked_booking_id: booking.id,
+      notes: booking.notes,
+      tags: [],
+    }));
+
+    const { error: insertError } = await supabase.from("businesses").insert(inserts);
+    if (insertError) {
+      return { created: 0, error: insertError.message };
+    }
+
+    revalidatePath("/admin/businesses");
+    return { created: inserts.length, error: null };
+  } catch {
+    return { created: 0, error: "Failed to auto-link sample bookings" };
+  }
+}
+
+export async function convertSampleBookingToBusiness(
+  bookingId: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: booking, error: bookingError } = await supabase
+      .from("sample_bookings")
+      .select("*")
+      .eq("id", bookingId)
+      .single();
+
+    if (bookingError || !booking) {
+      return { success: false, error: "Sample booking not found" };
+    }
+
+    const { error: insertError } = await supabase.from("businesses").insert({
+      name: booking.full_name,
+      contact_name: booking.full_name,
+      email: booking.email,
+      phone: booking.phone,
+      business_type: booking.business_type,
+      address: booking.address,
+      city: booking.city,
+      pipeline_stage: "sample_sent",
+      source: "sample_booking",
+      linked_booking_id: booking.id,
+      notes: booking.notes,
+      tags: [],
+    });
+
+    if (insertError) {
+      return { success: false, error: insertError.message };
+    }
+
+    revalidatePath("/admin/businesses");
+    revalidatePath("/admin/sample-bookings");
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to convert booking" };
+  }
+}

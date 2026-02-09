@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import StatusBadge from "./StatusBadge";
-import { updateSampleBookingStatus } from "@/lib/actions/admin";
+import { convertSampleBookingToBusiness, updateSampleBookingStatus } from "@/lib/actions/admin";
 import type { AdminSampleBooking } from "@/lib/actions/admin";
 
 interface SampleBookingsTableProps {
@@ -12,12 +12,21 @@ interface SampleBookingsTableProps {
 export default function SampleBookingsTable({ bookings }: SampleBookingsTableProps) {
   const [isPending, startTransition] = useTransition();
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [convertingId, setConvertingId] = useState<string | null>(null);
 
   const handleStatusChange = (bookingId: string, newStatus: string) => {
     setUpdatingId(bookingId);
     startTransition(async () => {
       await updateSampleBookingStatus(bookingId, newStatus);
       setUpdatingId(null);
+    });
+  };
+
+  const handleConvert = (bookingId: string) => {
+    setConvertingId(bookingId);
+    startTransition(async () => {
+      await convertSampleBookingToBusiness(bookingId);
+      setConvertingId(null);
     });
   };
 
@@ -81,18 +90,30 @@ export default function SampleBookingsTable({ bookings }: SampleBookingsTablePro
                 <StatusBadge status={booking.status} />
               </td>
               <td className="py-3 px-4">
-                <select
-                  value={booking.status}
-                  onChange={(e) => handleStatusChange(booking.id, e.target.value)}
-                  disabled={isPending && updatingId === booking.id}
-                  className="text-xs border border-neutral-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-neutral-900 disabled:opacity-50"
-                >
-                  {statusOptions.map((s) => (
-                    <option key={s} value={s}>
-                      {s.charAt(0).toUpperCase() + s.slice(1)}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex flex-col gap-2">
+                  <select
+                    value={booking.status}
+                    onChange={(e) => handleStatusChange(booking.id, e.target.value)}
+                    disabled={isPending && updatingId === booking.id}
+                    className="text-xs border border-neutral-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-neutral-900 disabled:opacity-50"
+                  >
+                    {statusOptions.map((s) => (
+                      <option key={s} value={s}>
+                        {s.charAt(0).toUpperCase() + s.slice(1)}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => handleConvert(booking.id)}
+                    disabled={isPending && convertingId === booking.id}
+                    className="text-xs font-medium text-neutral-700 hover:text-neutral-900 underline disabled:opacity-50"
+                  >
+                    {isPending && convertingId === booking.id
+                      ? "Converting..."
+                      : "Convert to business"}
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

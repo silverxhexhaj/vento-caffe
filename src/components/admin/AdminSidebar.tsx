@@ -34,6 +34,15 @@ const navItems = [
     ),
   },
   {
+    label: "Businesses",
+    href: "/admin/businesses",
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21V6.75A2.25 2.25 0 0 1 4.5 4.5h15A2.25 2.25 0 0 1 21.75 6.75V21M3.75 9h16.5M6.75 12h.007v.008H6.75V12Zm0 3h.007v.008H6.75V15Zm0 3h.007v.008H6.75V18Zm4.5-6h.007v.008H11.25V12Zm0 3h.007v.008H11.25V15Zm0 3h.007v.008H11.25V18Zm4.5-6h.007v.008H15.75V12Zm0 3h.007v.008H15.75V15Zm0 3h.007v.008H15.75V18Z" />
+      </svg>
+    ),
+  },
+  {
     label: "Sample Bookings",
     href: "/admin/sample-bookings",
     icon: (
