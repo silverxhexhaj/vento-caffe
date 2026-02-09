@@ -598,6 +598,7 @@ export interface AdminBusiness {
   linked_booking_id: string | null;
   created_at: string;
   updated_at: string;
+  agents?: { id: string; full_name: string }[];
   profiles?: {
     full_name: string | null;
     phone: string | null;
@@ -670,7 +671,18 @@ export async function getAdminBusinesses(filters: BusinessFilters = {}): Promise
       sortOrder = "desc",
     } = filters;
 
-    let query = supabase.from("businesses").select("*", { count: "exact" });
+    let query = supabase.from("businesses").select(
+      `
+        *,
+        business_agents (
+          agents (
+            id,
+            full_name
+          )
+        )
+      `,
+      { count: "exact" }
+    );
 
     if (stage && stage !== "all") {
       query = query.eq("pipeline_stage", stage);
@@ -707,8 +719,21 @@ export async function getAdminBusinesses(filters: BusinessFilters = {}): Promise
       return { businesses: [], total: 0, error: error.message };
     }
 
+    const businessesWithAgents = (businesses ?? []).map((business) => {
+      const agentAssignments = (business as {
+        business_agents?: Array<{ agents: { id: string; full_name: string } | null }>;
+      }).business_agents ?? [];
+      const agents = agentAssignments
+        .map((assignment) => assignment.agents)
+        .filter(
+          (agent): agent is { id: string; full_name: string } => Boolean(agent)
+        );
+      const { business_agents: _businessAgents, ...rest } = business;
+      return { ...rest, agents };
+    });
+
     return {
-      businesses: (businesses as unknown as AdminBusiness[]) ?? [],
+      businesses: (businessesWithAgents as unknown as AdminBusiness[]) ?? [],
       total: count ?? 0,
       error: null,
     };

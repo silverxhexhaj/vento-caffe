@@ -32,6 +32,9 @@ export default function BusinessesTable({ businesses }: BusinessesTableProps) {
               Contact
             </th>
             <th className="text-left py-3 px-4 font-medium text-neutral-500">
+              Agents
+            </th>
+            <th className="text-left py-3 px-4 font-medium text-neutral-500">
               Type
             </th>
             <th className="text-left py-3 px-4 font-medium text-neutral-500">
@@ -69,6 +72,22 @@ export default function BusinessesTable({ businesses }: BusinessesTableProps) {
                 <p className="text-xs text-neutral-400">
                   {business.email || business.phone || "-"}
                 </p>
+              </td>
+              <td className="py-3 px-4">
+                {business.agents?.length ? (
+                  <div className="flex flex-wrap gap-2">
+                    {business.agents.map((agent) => (
+                      <span
+                        key={agent.id}
+                        className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-600"
+                      >
+                        {agent.full_name}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-xs text-neutral-400">-</span>
+                )}
               </td>
               <td className="py-3 px-4 capitalize text-neutral-600">
                 {business.business_type || "-"}
