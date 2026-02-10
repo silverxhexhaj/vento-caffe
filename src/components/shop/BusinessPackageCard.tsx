@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/lib/cart";
 import { useTranslations } from "next-intl";
@@ -14,6 +15,7 @@ interface BusinessPackageCardProps {
   perBoxPrice: number;
   productName: string;
   productImage: string;
+  businessImage: string;
   highlighted?: boolean;
 }
 
@@ -27,6 +29,7 @@ export default function BusinessPackageCard({
   perBoxPrice,
   productName,
   productImage,
+  businessImage,
   highlighted = false,
 }: BusinessPackageCardProps) {
   const t = useTranslations("shopPage");
@@ -47,7 +50,7 @@ export default function BusinessPackageCard({
 
   return (
     <div
-      className={`relative flex flex-col p-8 border transition-all duration-200 ${
+      className={`relative flex flex-col p-6 border transition-all duration-200 ${
         highlighted
           ? "border-[var(--foreground)] shadow-[0_0_0_1px_var(--foreground)]"
           : "border-[var(--border)] hover:border-[var(--foreground)]"
@@ -73,6 +76,15 @@ export default function BusinessPackageCard({
       </div>
 
       {/* Business Types */}
+      <div className="relative w-full aspect-[16/9] mb-4 overflow-hidden border border-[var(--border)]">
+        <Image
+          src={businessImage}
+          alt={businessTypes}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+        />
+      </div>
       <p className="text-sm text-[var(--muted)] mb-6 leading-relaxed">
         {businessTypes}
       </p>
@@ -86,9 +98,6 @@ export default function BusinessPackageCard({
           <span className="text-sm font-medium">{quantity}</span>
           <span className="text-xs text-[var(--muted)]">{pods}</span>
         </div>
-        <p className="text-xs uppercase tracking-wide text-green-700 font-medium">
-          {t("packagesMachineIncluded")}
-        </p>
       </div>
 
       {/* Price */}
@@ -112,6 +121,11 @@ export default function BusinessPackageCard({
       >
         {t("packagesCta")}
       </button>
+      <div className="mt-2 text-center">
+        <p className="text-xs tracking-wide text-green-700 font-medium">
+          {t("packagesMachineIncluded")}
+        </p>
+      </div>
     </div>
   );
 }

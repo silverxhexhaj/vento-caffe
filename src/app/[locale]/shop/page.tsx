@@ -29,11 +29,37 @@ export default async function ShopPage({ params }: ShopPageProps) {
     cialdeProducts.find((product) => product.slug === "classic-cialde") ||
     cialdeProducts[0];
   const businessPackages = [
-    { key: "package2", boxes: 2, perBoxPrice: 5500 },
-    { key: "package4", boxes: 4, perBoxPrice: 5400 },
-    { key: "package6", boxes: 6, perBoxPrice: 5300, highlighted: true },
-    { key: "package8", boxes: 8, perBoxPrice: 5200 },
-    { key: "package10", boxes: 10, perBoxPrice: 5000 },
+    {
+      key: "package2",
+      boxes: 2,
+      perBoxPrice: 5500,
+      businessImage: "/images/categories/office.png",
+    },
+    {
+      key: "package4",
+      boxes: 4,
+      perBoxPrice: 5400,
+      businessImage: "/images/categories/salon.png",
+    },
+    {
+      key: "package6",
+      boxes: 6,
+      perBoxPrice: 5300,
+      businessImage: "/images/categories/coworking.png",
+      highlighted: true,
+    },
+    {
+      key: "package8",
+      boxes: 8,
+      perBoxPrice: 5200,
+      businessImage: "/images/categories/hotel.png",
+    },
+    {
+      key: "package10",
+      boxes: 10,
+      perBoxPrice: 5000,
+      businessImage: "/images/categories/restaurant.png",
+    },
   ];
 
   return (
@@ -46,7 +72,7 @@ export default async function ShopPage({ params }: ShopPageProps) {
 
         {/* Products Grid */}
         <div className="mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {cialdeProducts.map((product) => (
               <ProductCard key={product.slug} product={product} />
             ))}
@@ -68,7 +94,7 @@ export default async function ShopPage({ params }: ShopPageProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {businessPackages.map((pkg) => (
               <BusinessPackageCard
                 key={pkg.key}
@@ -83,6 +109,7 @@ export default async function ShopPage({ params }: ShopPageProps) {
                 productImage={
                   classicCialde?.images[0] || "/images/placeholder.svg"
                 }
+                businessImage={pkg.businessImage}
                 highlighted={pkg.highlighted}
               />
             ))}
