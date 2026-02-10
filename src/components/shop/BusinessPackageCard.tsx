@@ -11,6 +11,8 @@ interface BusinessPackageCardProps {
   businessTypes: string;
   quantity: string;
   pods: string;
+  expressMachine: string;
+  expressPrice: string;
   boxes: number;
   perBoxPrice: number;
   productName: string;
@@ -43,7 +45,7 @@ export default function BusinessPackageCard({
       productType: "cialde",
       quantity: boxes,
       price: perBoxPrice,
-      image: productImage || "/images/placeholder.svg",
+      image: productImage || "/images/placeholder.svg"
     });
     setSubscription(true);
   };
@@ -65,18 +67,8 @@ export default function BusinessPackageCard({
         </div>
       )}
 
-      {/* Tier Label */}
-      <div className="mb-6">
-        <h3 className="text-lg font-medium tracking-wide uppercase mb-1">
-          {tierName}
-        </h3>
-        <p className="text-xs uppercase tracking-widest text-[var(--muted)]">
-          {tierLabel}
-        </p>
-      </div>
-
       {/* Business Types */}
-      <div className="relative w-full aspect-[16/9] mb-4 overflow-hidden border border-[var(--border)]">
+      <div className="relative w-full aspect-[16/9] mb-4 overflow-hidden">
         <Image
           src={businessImage}
           alt={businessTypes}
@@ -84,20 +76,6 @@ export default function BusinessPackageCard({
           className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
         />
-      </div>
-      <p className="text-sm text-[var(--muted)] mb-6 leading-relaxed">
-        {businessTypes}
-      </p>
-
-      {/* Divider */}
-      <div className="w-full h-px bg-[var(--border)] mb-6" />
-
-      {/* Quantity & Pods */}
-      <div className="mb-6 space-y-2">
-        <div className="flex items-baseline justify-between">
-          <span className="text-sm font-medium">{quantity}</span>
-          <span className="text-xs text-[var(--muted)]">{pods}</span>
-        </div>
       </div>
 
       {/* Price */}
@@ -111,6 +89,15 @@ export default function BusinessPackageCard({
         <p className="text-sm text-[var(--foreground)] mt-2 font-medium">
           {t("packagesTotalPerMonth", { amount: formatPrice(totalPrice) })}
         </p>
+      </div>
+
+
+      {/* Quantity & Pods */}
+      <div className="mb-6 space-y-2">
+        <div className="flex items-baseline justify-between">
+          <span className="text-sm font-medium">{quantity}</span>
+          <span className="text-xs text-[var(--muted)]">{pods}</span>
+        </div>
       </div>
 
       {/* CTA Button */}

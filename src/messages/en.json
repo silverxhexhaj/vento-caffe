@@ -273,35 +273,45 @@
       "tier": "Starter",
       "businessTypes": "Ideal for small offices and studios",
       "quantity": "2 boxes/month",
-      "pods": "300 pods"
+      "pods": "300 pods",
+      "expressMachine": "Espresso Machine",
+      "expressPrice": "free"
     },
     "package4": {
       "name": "4 Boxes",
       "tier": "Growth",
       "businessTypes": "Great for salons, gyms, and busy teams",
       "quantity": "4 boxes/month",
-      "pods": "600 pods"
+      "pods": "600 pods",
+      "expressMachine": "Espresso Machine",
+      "expressPrice": "free"
     },
     "package6": {
       "name": "6 Boxes",
       "tier": "Professional",
       "businessTypes": "Best for coworking spaces and restaurants",
       "quantity": "6 boxes/month",
-      "pods": "900 pods"
+      "pods": "900 pods",
+      "expressMachine": "Espresso Machine",
+      "expressPrice": "free"
     },
     "package8": {
       "name": "8 Boxes",
       "tier": "Business Plus",
       "businessTypes": "Built for hotels and large offices",
       "quantity": "8 boxes/month",
-      "pods": "1,200 pods"
+      "pods": "1,200 pods",
+      "expressMachine": "Espresso Machine",
+      "expressPrice": "free"
     },
     "package10": {
       "name": "10 Boxes",
       "tier": "Enterprise",
       "businessTypes": "For high-volume service environments",
       "quantity": "10 boxes/month",
-      "pods": "1,500 pods"
+      "pods": "1,500 pods",
+      "expressMachine": "Espresso Machine",
+      "expressPrice": "free"
     }
   },
   "aboutPage": {

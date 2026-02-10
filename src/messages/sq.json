@@ -271,35 +271,45 @@
       "tier": "Starter",
       "businessTypes": "Ideale për zyra të vogla dhe studio",
       "quantity": "2 kuti/muaj",
-      "pods": "300 bustina"
+      "pods": "300 bustina",
+      "expressMachine": "Makinë espresso",
+      "expressPrice": "falas"
     },
     "package4": {
       "name": "4 Kuti",
       "tier": "Growth",
       "businessTypes": "E shkëlqyer për sallone, palestra dhe ekipe aktive",
       "quantity": "4 kuti/muaj",
-      "pods": "600 bustina"
+      "pods": "600 bustina",
+      "expressMachine": "Makinë espresso",
+      "expressPrice": "falas"
     },
     "package6": {
       "name": "6 Kuti",
       "tier": "Profesionale",
       "businessTypes": "Më e mira për coworking dhe restorante",
       "quantity": "6 kuti/muaj",
-      "pods": "900 bustina"
+      "pods": "900 bustina",
+      "expressMachine": "Makinë espresso",
+      "expressPrice": "falas"
     },
     "package8": {
       "name": "8 Kuti",
       "tier": "Business Plus",
       "businessTypes": "E ndërtuar për hotele dhe zyra të mëdha",
       "quantity": "8 kuti/muaj",
-      "pods": "1,200 bustina"
+      "pods": "1,200 bustina",
+      "expressMachine": "Makinë espresso",
+      "expressPrice": "falas"
     },
     "package10": {
       "name": "10 Kuti",
       "tier": "Enterprise",
       "businessTypes": "Për ambiente me konsum shumë të lartë",
       "quantity": "10 kuti/muaj",
-      "pods": "1,500 bustina"
+      "pods": "1,500 bustina",
+      "expressMachine": "Makinë espresso",
+      "expressPrice": "falas"
     }
   },
   "aboutPage": {

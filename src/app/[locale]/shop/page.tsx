@@ -85,11 +85,8 @@ export default async function ShopPage({ params }: ShopPageProps) {
             <h2 className="text-h2 font-serif mb-4">
               {t("shopPage.packagesTitle")}
             </h2>
-            <p className="text-sm text-[var(--muted)] max-w-2xl">
+            <p className="text-sm text-[var(--muted)]">
               {t("shopPage.packagesSubtitle")}
-            </p>
-            <p className="text-xs text-[var(--muted)] max-w-2xl mt-3">
-              {t("shopPage.packagesMachineAvailable")}
             </p>
           </div>
 

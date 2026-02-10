@@ -273,35 +273,45 @@
       "tier": "Starter",
       "businessTypes": "Ideale per piccoli uffici e studi",
       "quantity": "2 scatole/mese",
-      "pods": "300 cialde"
+      "pods": "300 cialde",
+      "expressMachine": "Macchina da espresso",
+      "expressPrice": "gratis"
     },
     "package4": {
       "name": "4 Scatole",
       "tier": "Crescita",
       "businessTypes": "Perfetto per saloni, palestre e team attivi",
       "quantity": "4 scatole/mese",
-      "pods": "600 cialde"
+      "pods": "600 cialde",
+      "expressMachine": "Macchina da espresso",
+      "expressPrice": "gratis"
     },
     "package6": {
       "name": "6 Scatole",
       "tier": "Professional",
       "businessTypes": "Ottimo per coworking e ristoranti",
       "quantity": "6 scatole/mese",
-      "pods": "900 cialde"
+      "pods": "900 cialde",
+      "expressMachine": "Macchina da espresso",
+      "expressPrice": "gratis"
     },
     "package8": {
       "name": "8 Scatole",
       "tier": "Business Plus",
       "businessTypes": "Pensato per hotel e grandi uffici",
       "quantity": "8 scatole/mese",
-      "pods": "1.200 cialde"
+      "pods": "1.200 cialde",
+      "expressMachine": "Macchina da espresso",
+      "expressPrice": "gratis"
     },
     "package10": {
       "name": "10 Scatole",
       "tier": "Enterprise",
       "businessTypes": "Per ambienti di servizio ad alto volume",
       "quantity": "10 scatole/mese",
-      "pods": "1.500 cialde"
+      "pods": "1.500 cialde",
+      "expressMachine": "Macchina da espresso",
+      "expressPrice": "gratis"
     }
   },
   "aboutPage": {
