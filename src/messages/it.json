@@ -611,5 +611,30 @@
     "account": "Account",
     "loading": "Caricamento...",
     "close": "Chiudi"
+  },
+  "admin": {
+    "products": {
+      "costPrice": "Prezzo di Costo",
+      "stockQuantity": "Quantità in Magazzino",
+      "lowStockThreshold": "Soglia Scorte Basse",
+      "profitMargin": "Margine di Profitto",
+      "inStock": "In Magazzino",
+      "lowStock": "Scorte Basse",
+      "outOfStock": "Esaurito",
+      "stockMovements": "Movimenti di Magazzino",
+      "addStock": "Aggiungi Scorte",
+      "removeStock": "Rimuovi Scorte",
+      "adjustStock": "Regola Scorte",
+      "movementType": {
+        "purchase": "Acquisto",
+        "sale": "Vendita",
+        "adjustment": "Rettifica",
+        "return": "Reso"
+      },
+      "reference": "Riferimento",
+      "notes": "Note",
+      "lowStockAlert": "Allerta Scorte Basse",
+      "itemsLowOnStock": "articoli con scorte basse"
+    }
   }
 }

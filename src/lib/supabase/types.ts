@@ -50,6 +50,9 @@ export interface Database {
           contents_key: string | null;
           highlights_key: string | null;
           price: number;
+          cost_price: number;
+          stock_quantity: number;
+          low_stock_threshold: number;
           sold_out: boolean;
           featured: boolean;
           type: "cialde" | "machine";
@@ -65,6 +68,9 @@ export interface Database {
           contents_key?: string | null;
           highlights_key?: string | null;
           price: number;
+          cost_price?: number;
+          stock_quantity?: number;
+          low_stock_threshold?: number;
           sold_out?: boolean;
           featured?: boolean;
           type: "cialde" | "machine";
@@ -80,12 +86,47 @@ export interface Database {
           contents_key?: string | null;
           highlights_key?: string | null;
           price?: number;
+          cost_price?: number;
+          stock_quantity?: number;
+          low_stock_threshold?: number;
           sold_out?: boolean;
           featured?: boolean;
           type?: "cialde" | "machine";
           images?: string[];
           created_at?: string;
           updated_at?: string;
+        };
+      };
+      stock_movements: {
+        Row: {
+          id: string;
+          product_id: string;
+          type: "purchase" | "sale" | "adjustment" | "return";
+          quantity: number;
+          reference: string | null;
+          notes: string | null;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          product_id: string;
+          type: "purchase" | "sale" | "adjustment" | "return";
+          quantity: number;
+          reference?: string | null;
+          notes?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          product_id?: string;
+          type?: "purchase" | "sale" | "adjustment" | "return";
+          quantity?: number;
+          reference?: string | null;
+          notes?: string | null;
+          created_by?: string | null;
+          created_at?: string;
         };
       };
       orders: {

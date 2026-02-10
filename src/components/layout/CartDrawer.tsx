@@ -8,7 +8,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/utils";
 import { getContent } from "@/data/content";
-import { getProductBySlug } from "@/data/products";
 
 export default function CartDrawer() {
   const locale = useLocale();
@@ -38,10 +37,8 @@ export default function CartDrawer() {
   const lineItems = useMemo(() => {
     return items
       .map((item) => {
-        const productName =
-          getProductBySlug(item.productSlug, t)?.name || item.productName;
         const freeLabel = item.isFreeWithSubscription ? ` (${t("common.free")})` : "";
-        return `- ${productName} x${item.quantity}${freeLabel}`;
+        return `- ${item.productName} x${item.quantity}${freeLabel}`;
       })
       .join("\n");
   }, [items, t]);
@@ -163,7 +160,7 @@ export default function CartDrawer() {
                     {/* Product Details */}
                     <div className="flex-1 min-w-0">
                       <h3 className="font-medium text-sm uppercase tracking-wide">
-                        {getProductBySlug(item.productSlug, t)?.name || item.productName}
+                        {item.productName}
                       </h3>
                       <p className="text-xs text-muted mt-1 capitalize">
                         {item.productType === "cialde"

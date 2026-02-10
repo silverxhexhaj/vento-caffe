@@ -7,7 +7,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { useAuth, AuthModal } from "@/components/auth";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/utils";
-import { getProductBySlug } from "@/data/products";
 import { createOrder } from "@/lib/actions/orders";
 import { clearServerCart } from "@/lib/actions/cart";
 import { getProfile } from "@/lib/actions/profile";
@@ -405,8 +404,7 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">
-                        {getProductBySlug(item.productSlug, t)?.name ||
-                          item.productName}
+                        {item.productName}
                       </p>
                       <p className="text-xs text-muted">
                         x{item.quantity}

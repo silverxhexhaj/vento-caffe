@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getCialdeProducts, getMachineProduct } from "@/data/products";
+import { getCialdeProducts, getMachineProduct } from "@/lib/data/products";
 import ProductCard from "@/components/shop/ProductCard";
 import BusinessPackageCard from "@/components/shop/BusinessPackageCard";
 
@@ -23,8 +23,8 @@ export async function generateMetadata({
 export default async function ShopPage({ params }: ShopPageProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const cialdeProducts = getCialdeProducts(t);
-  const machine = getMachineProduct(t);
+  const cialdeProducts = await getCialdeProducts(locale);
+  const machine = await getMachineProduct(locale);
   const classicCialde =
     cialdeProducts.find((product) => product.slug === "classic-cialde") ||
     cialdeProducts[0];

@@ -611,5 +611,30 @@
     "account": "Account",
     "loading": "Loading...",
     "close": "Close"
+  },
+  "admin": {
+    "products": {
+      "costPrice": "Cost Price",
+      "stockQuantity": "Stock Quantity",
+      "lowStockThreshold": "Low Stock Alert Threshold",
+      "profitMargin": "Profit Margin",
+      "inStock": "In Stock",
+      "lowStock": "Low Stock",
+      "outOfStock": "Out of Stock",
+      "stockMovements": "Stock Movements",
+      "addStock": "Add Stock",
+      "removeStock": "Remove Stock",
+      "adjustStock": "Adjust Stock",
+      "movementType": {
+        "purchase": "Purchase",
+        "sale": "Sale",
+        "adjustment": "Adjustment",
+        "return": "Return"
+      },
+      "reference": "Reference",
+      "notes": "Notes",
+      "lowStockAlert": "Low Stock Alert",
+      "itemsLowOnStock": "items are low on stock"
+    }
   }
 }

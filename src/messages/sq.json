@@ -609,5 +609,30 @@
     "account": "Llogaria",
     "loading": "Duke u ngarkuar...",
     "close": "Mbyll"
+  },
+  "admin": {
+    "products": {
+      "costPrice": "Çmimi i Blerjes",
+      "stockQuantity": "Sasia në Stok",
+      "lowStockThreshold": "Pragu i Stokut të Ulët",
+      "profitMargin": "Marzhi i Fitimit",
+      "inStock": "Në Stok",
+      "lowStock": "Stok i Ulët",
+      "outOfStock": "Jashtë Stokut",
+      "stockMovements": "Lëvizjet e Stokut",
+      "addStock": "Shto Stok",
+      "removeStock": "Hiq Stok",
+      "adjustStock": "Rregullo Stokun",
+      "movementType": {
+        "purchase": "Blerje",
+        "sale": "Shitje",
+        "adjustment": "Rregullim",
+        "return": "Kthim"
+      },
+      "reference": "Referencë",
+      "notes": "Shënime",
+      "lowStockAlert": "Sinjalizim Stok i Ulët",
+      "itemsLowOnStock": "produkte kanë stok të ulët"
+    }
   }
 }

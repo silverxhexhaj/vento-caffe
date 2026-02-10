@@ -1,14 +1,19 @@
+"use client";
+
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { getContent } from "@/data/content";
-import { getFeaturedProducts } from "@/data/products";
+import type { Product } from "@/lib/data/products";
 import ProductCard from "@/components/shop/ProductCard";
 
-export default function ProductPreview() {
+interface ProductPreviewProps {
+  products: Product[];
+}
+
+export default function ProductPreview({ products }: ProductPreviewProps) {
   const locale = useLocale();
   const t = useTranslations();
   const content = getContent(t);
-  const featuredProducts = getFeaturedProducts(t);
 
   const buildLocaleHref = (href: string) => {
     const normalized = href === "/" ? "" : href;
@@ -27,7 +32,7 @@ export default function ProductPreview() {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {featuredProducts.map((product) => (
+          {products.map((product) => (
             <ProductCard key={product.slug} product={product} />
           ))}
         </div>

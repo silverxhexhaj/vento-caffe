@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { getAdminOrderById } from "@/lib/actions/admin";
+import { getAdminOrderById, getAllProducts } from "@/lib/actions/admin";
 import StatusBadge from "@/components/admin/StatusBadge";
 import OrderStatusControl from "@/components/admin/OrderStatusControl";
+import OrderItemsEditor from "@/components/admin/OrderItemsEditor";
 
 interface OrderDetailPageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -9,7 +10,10 @@ interface OrderDetailPageProps {
 
 export default async function AdminOrderDetailPage({ params }: OrderDetailPageProps) {
   const { locale, id } = await params;
-  const { order, error } = await getAdminOrderById(id);
+  const [{ order, error }, { products = [] }] = await Promise.all([
+    getAdminOrderById(id),
+    getAllProducts(),
+  ]);
 
   if (error || !order) {
     return (
@@ -67,58 +71,11 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Order Items */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-xl border border-neutral-200">
-            <div className="p-6 border-b border-neutral-200">
-              <h2 className="text-lg font-semibold text-neutral-900">Order Items</h2>
-            </div>
-            <div className="divide-y divide-neutral-100">
-              {order.order_items?.map((item) => (
-                <div key={item.id} className="p-4 flex items-center gap-4">
-                  {item.products?.images?.[0] && (
-                    <div className="w-14 h-14 rounded-lg bg-neutral-100 overflow-hidden flex-shrink-0">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={item.products.images[0]}
-                        alt={item.products.name_key}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-neutral-900 text-sm">
-                      {item.products?.name_key || "Unknown product"}
-                    </p>
-                    <p className="text-xs text-neutral-500">
-                      Qty: {item.quantity}
-                      {item.is_free && (
-                        <span className="ml-2 text-green-600 font-medium">FREE</span>
-                      )}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium text-sm">
-                      {item.is_free
-                        ? "Free"
-                        : `€${Number(item.price_at_purchase).toFixed(2)}`}
-                    </p>
-                    {!item.is_free && item.quantity > 1 && (
-                      <p className="text-xs text-neutral-400">
-                        €{(Number(item.price_at_purchase) * item.quantity).toFixed(2)} total
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="p-4 border-t border-neutral-200 flex justify-end">
-              <div className="text-right">
-                <p className="text-sm text-neutral-500">Order Total</p>
-                <p className="text-xl font-bold text-neutral-900">
-                  &euro;{Number(order.total).toFixed(2)}
-                </p>
-              </div>
-            </div>
-          </div>
+          <OrderItemsEditor
+            order={order}
+            products={products}
+            canEdit={!["delivered", "cancelled"].includes(order.status)}
+          />
 
           {/* Notes */}
           {order.notes && (

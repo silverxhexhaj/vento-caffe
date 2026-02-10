@@ -1,9 +1,16 @@
 "use client";
 
 import React, { createContext, useContext, useReducer, useEffect, useCallback, useRef, ReactNode } from "react";
-import { MACHINE_SLUG, getMachineSeed } from "@/data/products";
 import { useAuth } from "@/components/auth";
 import { saveCart as saveCartToServer, loadCart as loadCartFromServer } from "@/lib/actions/cart";
+
+// Constants for cart operations (client-side only)
+const MACHINE_SLUG = "espresso-machine";
+const MACHINE_DATA = {
+  slug: "espresso-machine",
+  price: 15500, // Default price in Leke
+  images: ["/images/products/espresso-machine-1.png", "/images/products/espresso-machine-2.jpg"],
+};
 
 export interface CartItem {
   productSlug: string;
@@ -95,18 +102,15 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       if (isSubscription && hasCialde) {
         // Add free machine if subscription is enabled and has cialde
         if (machineIndex === -1) {
-          const machine = getMachineSeed();
-          if (machine) {
-            newItems.push({
-              productSlug: machine.slug,
-              productName: machine.slug,
-              productType: "machine",
-              quantity: 1,
-              price: 0,
-              image: machine.images[0] || "/images/placeholder.svg",
-              isFreeWithSubscription: true,
-            });
-          }
+          newItems.push({
+            productSlug: MACHINE_DATA.slug,
+            productName: "Espresso Machine", // Will be replaced with actual translation when added to cart
+            productType: "machine",
+            quantity: 1,
+            price: 0,
+            image: MACHINE_DATA.images[0] || "/images/placeholder.svg",
+            isFreeWithSubscription: true,
+          });
         } else {
           // Update existing machine to be free
           newItems[machineIndex] = {
@@ -117,15 +121,14 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         }
       } else if (!isSubscription && machineIndex >= 0) {
         // Remove free machine or restore price if subscription is disabled
-        const machine = getMachineSeed();
         if (newItems[machineIndex].isFreeWithSubscription) {
           // Remove the free machine
           newItems = newItems.filter((item) => item.productSlug !== MACHINE_SLUG);
-        } else if (machine) {
+        } else {
           // Restore original price
           newItems[machineIndex] = {
             ...newItems[machineIndex],
-            price: machine.price,
+            price: MACHINE_DATA.price,
             isFreeWithSubscription: false,
           };
         }

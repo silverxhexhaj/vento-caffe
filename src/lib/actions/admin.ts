@@ -335,6 +335,304 @@ export async function updateOrderStatus(
 }
 
 // ============================================
+// ORDER ITEMS EDITING
+// ============================================
+
+export interface AdminProductOption {
+  id: string;
+  name_key: string;
+  price: number;
+  images: string[];
+  stock_quantity: number;
+  sold_out: boolean;
+}
+
+export async function getAllProducts(): Promise<{
+  products: AdminProductOption[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { products: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+
+    const { data: products, error } = await supabase
+      .from("products")
+      .select("id, name_key, price, images, stock_quantity, sold_out")
+      .order("name_key", { ascending: true });
+
+    if (error) {
+      return { products: [], error: error.message };
+    }
+
+    return {
+      products: (products as AdminProductOption[]) ?? [],
+      error: null,
+    };
+  } catch {
+    return { products: [], error: "Failed to fetch products" };
+  }
+}
+
+export interface SaveOrderItemsInput {
+  updates: { itemId: string; quantity: number }[];
+  adds: { productId: string; quantity: number }[];
+  removes: string[];
+}
+
+export async function saveOrderItems(
+  orderId: string,
+  input: SaveOrderItemsInput
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, userId, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+
+    // 1. Fetch order and validate editable
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .select("id, status")
+      .eq("id", orderId)
+      .single();
+
+    if (orderError || !order) {
+      return { success: false, error: orderError?.message ?? "Order not found" };
+    }
+
+    const orderStatus = (order as { status: string }).status;
+    if (["delivered", "cancelled"].includes(orderStatus)) {
+      return {
+        success: false,
+        error: `Cannot edit order with status: ${orderStatus}`,
+      };
+    }
+
+    // 2. Validate quantities
+    for (const u of input.updates) {
+      if (u.quantity < 1) {
+        return { success: false, error: "Quantity must be at least 1" };
+      }
+    }
+    for (const a of input.adds) {
+      if (a.quantity < 1) {
+        return { success: false, error: "Quantity must be at least 1" };
+      }
+    }
+
+    // 3. Fetch current order items for stock movement tracking
+    const { data: currentItems } = await supabase
+      .from("order_items")
+      .select("id, product_id, quantity")
+      .eq("order_id", orderId);
+
+    const currentItemsMap = new Map(
+      (currentItems ?? []).map((i: { id: string; product_id: string; quantity: number }) => [i.id, i])
+    );
+
+    // 4. Fetch product prices for new/changed items
+    const productIds = [
+      ...input.adds.map((a) => a.productId),
+      ...input.updates.map((u) => {
+        const item = currentItemsMap.get(u.itemId);
+        return item?.product_id;
+      }).filter(Boolean) as string[],
+    ];
+    const uniqueProductIds = [...new Set(productIds)];
+
+    let productPrices: Map<string, { price: number; stock_quantity: number }> = new Map();
+    if (uniqueProductIds.length > 0) {
+      const { data: products } = await supabase
+        .from("products")
+        .select("id, price, stock_quantity")
+        .in("id", uniqueProductIds);
+      productPrices = new Map(
+        (products ?? []).map((p: { id: string; price: number; stock_quantity: number }) => [
+          p.id,
+          { price: p.price, stock_quantity: p.stock_quantity },
+        ])
+      );
+    }
+
+    // 5. Validate stock for adds and updates
+    for (const add of input.adds) {
+      const prod = productPrices.get(add.productId);
+      if (prod && add.quantity > prod.stock_quantity) {
+        return {
+          success: false,
+          error: `Insufficient stock for selected product (available: ${prod.stock_quantity})`,
+        };
+      }
+    }
+    for (const upd of input.updates) {
+      const item = currentItemsMap.get(upd.itemId);
+      if (item) {
+        const prod = productPrices.get(item.product_id);
+        const delta = upd.quantity - item.quantity;
+        if (delta > 0 && prod && prod.stock_quantity < delta) {
+          return {
+            success: false,
+            error: `Insufficient stock for updated quantity (available: ${prod.stock_quantity})`,
+          };
+        }
+      }
+    }
+
+    // 6. Apply updates
+    for (const u of input.updates) {
+      const item = currentItemsMap.get(u.itemId);
+      if (!item) continue;
+      const prod = productPrices.get(item.product_id);
+      const newPrice = prod?.price ?? 0;
+
+      const { error: updateError } = await supabase
+        .from("order_items")
+        .update({
+          quantity: u.quantity,
+          price_at_purchase: newPrice,
+        })
+        .eq("id", u.itemId);
+
+      if (updateError) {
+        return { success: false, error: updateError.message };
+      }
+
+      // Stock movement and product stock update for quantity change
+      const qtyDelta = u.quantity - item.quantity;
+      if (qtyDelta !== 0) {
+        await supabase.from("stock_movements").insert({
+          product_id: item.product_id,
+          type: qtyDelta > 0 ? "sale" : "return",
+          quantity: Math.abs(qtyDelta),
+          reference: `Order ${orderId} admin edit`,
+          notes: `Admin order edit: quantity ${item.quantity} -> ${u.quantity}`,
+          created_by: userId ?? undefined,
+        });
+        const { data: prodRow } = await supabase
+          .from("products")
+          .select("stock_quantity")
+          .eq("id", item.product_id)
+          .single();
+        if (prodRow) {
+          const newStock = (prodRow as { stock_quantity: number }).stock_quantity - qtyDelta;
+          await supabase
+            .from("products")
+            .update({ stock_quantity: Math.max(0, newStock) })
+            .eq("id", item.product_id);
+        }
+      }
+    }
+
+    // 7. Apply removes
+    for (const itemId of input.removes) {
+      const item = currentItemsMap.get(itemId);
+      if (!item) continue;
+
+      const { error: deleteError } = await supabase
+        .from("order_items")
+        .delete()
+        .eq("id", itemId);
+
+      if (deleteError) {
+        return { success: false, error: deleteError.message };
+      }
+
+      // Stock movement and product stock update for return
+      await supabase.from("stock_movements").insert({
+        product_id: item.product_id,
+        type: "return",
+        quantity: item.quantity,
+        reference: `Order ${orderId} admin edit`,
+        notes: `Admin order edit: item removed`,
+        created_by: userId ?? undefined,
+      });
+      const { data: prodReturn } = await supabase
+        .from("products")
+        .select("stock_quantity")
+        .eq("id", item.product_id)
+        .single();
+      if (prodReturn) {
+        const newStock = (prodReturn as { stock_quantity: number }).stock_quantity + item.quantity;
+        await supabase
+          .from("products")
+          .update({ stock_quantity: newStock })
+          .eq("id", item.product_id);
+      }
+    }
+
+    // 8. Apply adds
+    for (const add of input.adds) {
+      const prod = productPrices.get(add.productId);
+      const price = prod?.price ?? 0;
+
+      const { error: insertError } = await supabase.from("order_items").insert({
+        order_id: orderId,
+        product_id: add.productId,
+        quantity: add.quantity,
+        price_at_purchase: price,
+        is_free: false,
+      });
+
+      if (insertError) {
+        return { success: false, error: insertError.message };
+      }
+
+      // Stock movement and product stock update for sale
+      await supabase.from("stock_movements").insert({
+        product_id: add.productId,
+        type: "sale",
+        quantity: add.quantity,
+        reference: `Order ${orderId} admin edit`,
+        notes: `Admin order edit: item added`,
+        created_by: userId ?? undefined,
+      });
+      const { data: prodAdd } = await supabase
+        .from("products")
+        .select("stock_quantity")
+        .eq("id", add.productId)
+        .single();
+      if (prodAdd) {
+        const newStock = (prodAdd as { stock_quantity: number }).stock_quantity - add.quantity;
+        await supabase
+          .from("products")
+          .update({ stock_quantity: Math.max(0, newStock) })
+          .eq("id", add.productId);
+      }
+    }
+
+    // 9. Recalculate and update order total
+    const { data: items } = await supabase
+      .from("order_items")
+      .select("quantity, price_at_purchase, is_free")
+      .eq("order_id", orderId);
+
+    const total = (items ?? []).reduce(
+      (sum: number, i: { quantity: number; price_at_purchase: number; is_free: boolean }) =>
+        i.is_free ? sum : sum + i.quantity * i.price_at_purchase,
+      0
+    );
+
+    const { error: totalError } = await supabase
+      .from("orders")
+      .update({ total, updated_at: new Date().toISOString() })
+      .eq("id", orderId);
+
+    if (totalError) {
+      return { success: false, error: totalError.message };
+    }
+
+    revalidatePath("/admin/orders");
+    revalidatePath(`/admin/orders/${orderId}`);
+    return { success: true, error: null };
+  } catch (e) {
+    console.error("saveOrderItems error:", e);
+    return { success: false, error: "Failed to save order items" };
+  }
+}
+
+// ============================================
 // CLIENTS
 // ============================================
 
@@ -1604,5 +1902,487 @@ export async function convertSampleBookingToBusiness(
     return { success: true, error: null };
   } catch {
     return { success: false, error: "Failed to convert booking" };
+  }
+}
+
+// ============================================
+// PRODUCTS
+// ============================================
+
+export interface AdminProduct {
+  id: string;
+  slug: string;
+  name_key: string;
+  description_key: string;
+  contents_key: string | null;
+  highlights_key: string | null;
+  price: number;
+  cost_price: number;
+  stock_quantity: number;
+  low_stock_threshold: number;
+  sold_out: boolean;
+  featured: boolean;
+  type: "cialde" | "machine";
+  images: string[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface StockMovement {
+  id: string;
+  product_id: string;
+  type: "purchase" | "sale" | "adjustment" | "return";
+  quantity: number;
+  reference?: string | null;
+  notes?: string | null;
+  created_by?: string | null;
+  created_at: string;
+}
+
+export interface ProductPayload {
+  slug: string;
+  name_key: string;
+  description_key: string;
+  contents_key?: string | null;
+  highlights_key?: string | null;
+  price: number;
+  cost_price?: number;
+  stock_quantity?: number;
+  low_stock_threshold?: number;
+  sold_out: boolean;
+  featured: boolean;
+  type: "cialde" | "machine";
+  images: string[];
+}
+
+export async function getAdminProducts(): Promise<{
+  products: AdminProduct[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { products: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return { products: [], error: error.message };
+    }
+
+    return { products: (data as AdminProduct[]) ?? [], error: null };
+  } catch {
+    return { products: [], error: "Failed to fetch products" };
+  }
+}
+
+export async function getAdminProductById(
+  id: string
+): Promise<{ product: AdminProduct | null; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { product: null, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      return { product: null, error: error.message };
+    }
+
+    return { product: data as AdminProduct, error: null };
+  } catch {
+    return { product: null, error: "Failed to fetch product" };
+  }
+}
+
+export async function createProduct(
+  payload: ProductPayload
+): Promise<{ product: AdminProduct | null; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { product: null, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+
+    // Check if slug already exists
+    const { data: existing } = await supabase
+      .from("products")
+      .select("id")
+      .eq("slug", payload.slug)
+      .single();
+
+    if (existing) {
+      return { product: null, error: "A product with this slug already exists" };
+    }
+
+    const { data, error } = await supabase
+      .from("products")
+      .insert({
+        slug: payload.slug,
+        name_key: payload.name_key,
+        description_key: payload.description_key,
+        contents_key: payload.contents_key || null,
+        highlights_key: payload.highlights_key || null,
+        price: payload.price,
+        cost_price: payload.cost_price ?? 0,
+        stock_quantity: payload.stock_quantity ?? 0,
+        low_stock_threshold: payload.low_stock_threshold ?? 5,
+        sold_out: payload.sold_out,
+        featured: payload.featured,
+        type: payload.type,
+        images: payload.images,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      return { product: null, error: error.message };
+    }
+
+    revalidatePath("/admin/products");
+    revalidatePath("/shop");
+    revalidatePath("/");
+
+    return { product: data as AdminProduct, error: null };
+  } catch {
+    return { product: null, error: "Failed to create product" };
+  }
+}
+
+export async function updateProduct(
+  id: string,
+  payload: Partial<ProductPayload>
+): Promise<{ product: AdminProduct | null; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { product: null, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+
+    // If slug is being updated, check if it already exists
+    if (payload.slug) {
+      const { data: existing } = await supabase
+        .from("products")
+        .select("id")
+        .eq("slug", payload.slug)
+        .neq("id", id)
+        .single();
+
+      if (existing) {
+        return { product: null, error: "A product with this slug already exists" };
+      }
+    }
+
+    const { data, error } = await supabase
+      .from("products")
+      .update(payload)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      return { product: null, error: error.message };
+    }
+
+    revalidatePath("/admin/products");
+    revalidatePath("/shop");
+    revalidatePath("/");
+
+    return { product: data as AdminProduct, error: null };
+  } catch {
+    return { product: null, error: "Failed to update product" };
+  }
+}
+
+export async function deleteProduct(
+  id: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+
+    // Get product to check for images to delete
+    const { data: product } = await supabase
+      .from("products")
+      .select("images")
+      .eq("id", id)
+      .single();
+
+    // Delete the product
+    const { error } = await supabase.from("products").delete().eq("id", id);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    // Delete associated images from storage if they exist
+    if (product?.images && product.images.length > 0) {
+      const imagePaths = product.images
+        .filter((url: string) => url.includes("product-images"))
+        .map((url: string) => {
+          // Extract the path after product-images/
+          const match = url.match(/product-images\/(.+)$/);
+          return match ? match[1] : null;
+        })
+        .filter(Boolean);
+
+      if (imagePaths.length > 0) {
+        await supabase.storage.from("product-images").remove(imagePaths as string[]);
+      }
+    }
+
+    revalidatePath("/admin/products");
+    revalidatePath("/shop");
+    revalidatePath("/");
+
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to delete product" };
+  }
+}
+
+export async function uploadProductImage(
+  formData: FormData
+): Promise<{ url: string | null; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { url: null, error: authError };
+
+  try {
+    const file = formData.get("file") as File;
+    if (!file) {
+      return { url: null, error: "No file provided" };
+    }
+
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
+      return { url: null, error: "Invalid file type. Please upload a JPEG, PNG, or WebP image." };
+    }
+
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+      return { url: null, error: "File size exceeds 5MB limit." };
+    }
+
+    const supabase = await createAdminClient();
+
+    // Generate unique filename
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(2, 15);
+    const extension = file.name.split(".").pop() || "jpg";
+    const filename = `${timestamp}-${randomString}.${extension}`;
+
+    // Upload to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from("product-images")
+      .upload(filename, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (error) {
+      return { url: null, error: error.message };
+    }
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from("product-images")
+      .getPublicUrl(data.path);
+
+    return { url: urlData.publicUrl, error: null };
+  } catch {
+    return { url: null, error: "Failed to upload image" };
+  }
+}
+
+// ============================================
+// INVENTORY / STOCK MANAGEMENT
+// ============================================
+
+export async function getStockMovements(productId?: string): Promise<{
+  movements: StockMovement[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { movements: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    let query = supabase
+      .from("stock_movements")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (productId) {
+      query = query.eq("product_id", productId);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      return { movements: [], error: error.message };
+    }
+
+    return { movements: (data as StockMovement[]) ?? [], error: null };
+  } catch {
+    return { movements: [], error: "Failed to fetch stock movements" };
+  }
+}
+
+export async function addStockMovement(payload: {
+  product_id: string;
+  type: "purchase" | "sale" | "adjustment" | "return";
+  quantity: number;
+  reference?: string;
+  notes?: string;
+}): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  if (payload.quantity === 0) {
+    return { success: false, error: "Quantity cannot be zero" };
+  }
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    // Get current stock
+    const { data: product, error: productError } = await supabase
+      .from("products")
+      .select("stock_quantity")
+      .eq("id", payload.product_id)
+      .single();
+
+    if (productError || !product) {
+      return { success: false, error: "Product not found" };
+    }
+
+    let adjustment: number;
+    if (payload.type === "adjustment") {
+      adjustment = payload.quantity;
+    } else if (["purchase", "return"].includes(payload.type)) {
+      if (payload.quantity < 0) {
+        return { success: false, error: "Purchase and return must have positive quantity" };
+      }
+      adjustment = payload.quantity;
+    } else {
+      if (payload.quantity < 0) {
+        return { success: false, error: "Sale must have positive quantity" };
+      }
+      adjustment = -payload.quantity;
+    }
+    const newStock = product.stock_quantity + adjustment;
+
+    if (newStock < 0) {
+      return {
+        success: false,
+        error: `Insufficient stock. Current: ${product.stock_quantity}, requested: ${payload.quantity}`,
+      };
+    }
+
+    // Insert movement record
+    const { error: movementError } = await supabase.from("stock_movements").insert({
+      product_id: payload.product_id,
+      type: payload.type,
+      quantity: payload.quantity,
+      reference: payload.reference ?? null,
+      notes: payload.notes ?? null,
+      created_by: user?.id ?? null,
+    });
+
+    if (movementError) {
+      return { success: false, error: movementError.message };
+    }
+
+    // Update product stock quantity
+    const { error: updateError } = await supabase
+      .from("products")
+      .update({ stock_quantity: newStock })
+      .eq("id", payload.product_id);
+
+    if (updateError) {
+      return { success: false, error: updateError.message };
+    }
+
+    revalidatePath("/admin/products");
+    revalidatePath(`/admin/products/${payload.product_id}`);
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to add stock movement" };
+  }
+}
+
+export async function updateProductPricing(
+  productId: string,
+  pricing: {
+    price: number;
+    cost_price: number;
+    low_stock_threshold: number;
+  }
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase
+      .from("products")
+      .update(pricing)
+      .eq("id", productId);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath("/admin/products");
+    revalidatePath(`/admin/products/${productId}`);
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to update pricing" };
+  }
+}
+
+export async function deleteProductImage(
+  imageUrl: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    // Only delete if it's from our storage
+    if (!imageUrl.includes("product-images")) {
+      return { success: true, error: null };
+    }
+
+    // Extract the path from the URL
+    const match = imageUrl.match(/product-images\/(.+)$/);
+    if (!match) {
+      return { success: false, error: "Invalid image URL" };
+    }
+
+    const path = match[1];
+    const supabase = await createAdminClient();
+
+    const { error } = await supabase.storage.from("product-images").remove([path]);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to delete image" };
   }
 }
