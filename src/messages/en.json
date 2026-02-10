@@ -268,6 +268,15 @@
     "packagesPerMonth": "/month",
     "packagesPerBox": "/box per month",
     "packagesTotalPerMonth": "{amount}/month total",
+    "package1": {
+      "name": "1 Box",
+      "tier": "Solo",
+      "businessTypes": "Perfect for small teams and low-volume spaces",
+      "quantity": "1 box/month",
+      "pods": "150 pods",
+      "expressMachine": "Espresso Machine",
+      "expressPrice": "free"
+    },
     "package2": {
       "name": "2 Boxes",
       "tier": "Starter",
@@ -305,11 +314,11 @@
       "expressPrice": "free"
     },
     "package10": {
-      "name": "10 Boxes",
+      "name": "10+ Boxes",
       "tier": "Enterprise",
       "businessTypes": "For high-volume service environments",
-      "quantity": "10 boxes/month",
-      "pods": "1,500 pods",
+      "quantity": "10+ boxes/month",
+      "pods": "1,500+ pods",
       "expressMachine": "Espresso Machine",
       "expressPrice": "free"
     }

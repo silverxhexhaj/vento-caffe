@@ -266,6 +266,15 @@
     "packagesPerMonth": "/muaj",
     "packagesPerBox": "/kuti në muaj",
     "packagesTotalPerMonth": "{amount}/muaj gjithsej",
+    "package1": {
+      "name": "1 Kuti",
+      "tier": "Solo",
+      "businessTypes": "Ideale për ekipe të vogla dhe ambiente me konsum të ulët",
+      "quantity": "1 kuti/muaj",
+      "pods": "150 bustina",
+      "expressMachine": "Makinë espresso",
+      "expressPrice": "falas"
+    },
     "package2": {
       "name": "2 Kuti",
       "tier": "Starter",
@@ -303,11 +312,11 @@
       "expressPrice": "falas"
     },
     "package10": {
-      "name": "10 Kuti",
+      "name": "10+ Kuti",
       "tier": "Enterprise",
       "businessTypes": "Për ambiente me konsum shumë të lartë",
-      "quantity": "10 kuti/muaj",
-      "pods": "1,500 bustina",
+      "quantity": "10+ kuti/muaj",
+      "pods": "1,500+ bustina",
       "expressMachine": "Makinë espresso",
       "expressPrice": "falas"
     }

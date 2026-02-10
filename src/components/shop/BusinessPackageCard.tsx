@@ -11,8 +11,8 @@ interface BusinessPackageCardProps {
   businessTypes: string;
   quantity: string;
   pods: string;
-  expressMachine: string;
-  expressPrice: string;
+  expressMachine?: string;
+  expressPrice?: string;
   boxes: number;
   perBoxPrice: number;
   productName: string;

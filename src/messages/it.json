@@ -268,6 +268,15 @@
     "packagesPerMonth": "/mese",
     "packagesPerBox": "/scatola al mese",
     "packagesTotalPerMonth": "{amount}/mese totale",
+    "package1": {
+      "name": "1 Scatola",
+      "tier": "Solo",
+      "businessTypes": "Perfetta per piccoli team e attività a basso consumo",
+      "quantity": "1 scatola/mese",
+      "pods": "150 cialde",
+      "expressMachine": "Macchina da espresso",
+      "expressPrice": "gratis"
+    },
     "package2": {
       "name": "2 Scatole",
       "tier": "Starter",
@@ -305,11 +314,11 @@
       "expressPrice": "gratis"
     },
     "package10": {
-      "name": "10 Scatole",
+      "name": "10+ Scatole",
       "tier": "Enterprise",
       "businessTypes": "Per ambienti di servizio ad alto volume",
-      "quantity": "10 scatole/mese",
-      "pods": "1.500 cialde",
+      "quantity": "10+ scatole/mese",
+      "pods": "1.500+ cialde",
       "expressMachine": "Macchina da espresso",
       "expressPrice": "gratis"
     }
