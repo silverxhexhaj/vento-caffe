@@ -260,31 +260,48 @@
     "infoCardTitle": "Gratis con abbonamento",
     "infoCardDescription": "Quando ti impegni a ordinare almeno 1 scatola di cialde al mese, ti invieremo questa macchina da espresso professionale completamente gratuita.",
     "packagesTitle": "Pacchetti Business",
-    "packagesSubtitle": "Soluzioni caffè su misura per ogni dimensione di attività. Tutti i pacchetti includono macchine espresso gratuite e consegna mensile.",
-    "packagesCta": "Contattaci",
+    "packagesSubtitle": "Soluzioni caffè su misura per ogni dimensione di attività. Tutti i pacchetti includono una macchina da espresso gratuita e consegna mensile.",
+    "packagesMachineIncluded": "Macchina da espresso gratuita inclusa",
+    "packagesMachineAvailable": "Preferisci acquistarla? La macchina da espresso è disponibile anche separatamente.",
+    "packagesCta": "Aggiungi pacchetto al carrello",
     "packagesMostPopular": "Più Popolare",
     "packagesPerMonth": "/mese",
-    "packagesSave": "risparmi {amount}",
-    "starter": {
-      "name": "Starter",
-      "tier": "Piccola Attività",
-      "businessTypes": "Studio, Salone, Piccolo Airbnb",
-      "quantity": "1 scatola/mese",
-      "pods": "150 cialde"
+    "packagesPerBox": "/scatola al mese",
+    "packagesTotalPerMonth": "{amount}/mese totale",
+    "package2": {
+      "name": "2 Scatole",
+      "tier": "Starter",
+      "businessTypes": "Ideale per piccoli uffici e studi",
+      "quantity": "2 scatole/mese",
+      "pods": "300 cialde"
     },
-    "professional": {
-      "name": "Professional",
-      "tier": "Media Attività",
-      "businessTypes": "Ufficio, Palestra, Coworking, Ristorante",
-      "quantity": "3 scatole/mese",
-      "pods": "450 cialde"
+    "package4": {
+      "name": "4 Scatole",
+      "tier": "Crescita",
+      "businessTypes": "Perfetto per saloni, palestre e team attivi",
+      "quantity": "4 scatole/mese",
+      "pods": "600 cialde"
     },
-    "premium": {
-      "name": "Premium",
-      "tier": "Alto Volume",
-      "businessTypes": "Hotel, Grande Ristorante, Grande Coworking",
+    "package6": {
+      "name": "6 Scatole",
+      "tier": "Professional",
+      "businessTypes": "Ottimo per coworking e ristoranti",
+      "quantity": "6 scatole/mese",
+      "pods": "900 cialde"
+    },
+    "package8": {
+      "name": "8 Scatole",
+      "tier": "Business Plus",
+      "businessTypes": "Pensato per hotel e grandi uffici",
       "quantity": "8 scatole/mese",
       "pods": "1.200 cialde"
+    },
+    "package10": {
+      "name": "10 Scatole",
+      "tier": "Enterprise",
+      "businessTypes": "Per ambienti di servizio ad alto volume",
+      "quantity": "10 scatole/mese",
+      "pods": "1.500 cialde"
     }
   },
   "aboutPage": {

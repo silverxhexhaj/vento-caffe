@@ -25,6 +25,16 @@ export default async function ShopPage({ params }: ShopPageProps) {
   const t = await getTranslations({ locale });
   const cialdeProducts = getCialdeProducts(t);
   const machine = getMachineProduct(t);
+  const classicCialde =
+    cialdeProducts.find((product) => product.slug === "classic-cialde") ||
+    cialdeProducts[0];
+  const businessPackages = [
+    { key: "package2", boxes: 2, perBoxPrice: 5500 },
+    { key: "package4", boxes: 4, perBoxPrice: 5400 },
+    { key: "package6", boxes: 6, perBoxPrice: 5300, highlighted: true },
+    { key: "package8", boxes: 8, perBoxPrice: 5200 },
+    { key: "package10", boxes: 10, perBoxPrice: 5000 },
+  ];
 
   return (
     <div className="md:py-24 py-8">
@@ -53,36 +63,29 @@ export default async function ShopPage({ params }: ShopPageProps) {
             <p className="text-sm text-[var(--muted)] max-w-2xl">
               {t("shopPage.packagesSubtitle")}
             </p>
+            <p className="text-xs text-[var(--muted)] max-w-2xl mt-3">
+              {t("shopPage.packagesMachineAvailable")}
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <BusinessPackageCard
-              tierName={t("shopPage.starter.name")}
-              tierLabel={t("shopPage.starter.tier")}
-              businessTypes={t("shopPage.starter.businessTypes")}
-              quantity={t("shopPage.starter.quantity")}
-              pods={t("shopPage.starter.pods")}
-              price={5500}
-            />
-            <BusinessPackageCard
-              tierName={t("shopPage.professional.name")}
-              tierLabel={t("shopPage.professional.tier")}
-              businessTypes={t("shopPage.professional.businessTypes")}
-              quantity={t("shopPage.professional.quantity")}
-              pods={t("shopPage.professional.pods")}
-              price={15000}
-              savings={1500}
-              highlighted
-            />
-            <BusinessPackageCard
-              tierName={t("shopPage.premium.name")}
-              tierLabel={t("shopPage.premium.tier")}
-              businessTypes={t("shopPage.premium.businessTypes")}
-              quantity={t("shopPage.premium.quantity")}
-              pods={t("shopPage.premium.pods")}
-              price={42000}
-              savings={2000}
-            />
+            {businessPackages.map((pkg) => (
+              <BusinessPackageCard
+                key={pkg.key}
+                tierName={t(`shopPage.${pkg.key}.name`)}
+                tierLabel={t(`shopPage.${pkg.key}.tier`)}
+                businessTypes={t(`shopPage.${pkg.key}.businessTypes`)}
+                quantity={t(`shopPage.${pkg.key}.quantity`)}
+                pods={t(`shopPage.${pkg.key}.pods`)}
+                boxes={pkg.boxes}
+                perBoxPrice={pkg.perBoxPrice}
+                productName={classicCialde?.name || "Classic Cialde"}
+                productImage={
+                  classicCialde?.images[0] || "/images/placeholder.svg"
+                }
+                highlighted={pkg.highlighted}
+              />
+            ))}
           </div>
         </div>
       </div>

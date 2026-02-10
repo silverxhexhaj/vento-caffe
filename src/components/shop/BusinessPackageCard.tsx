@@ -1,6 +1,7 @@
 "use client";
 
 import { formatPrice } from "@/lib/utils";
+import { useCart } from "@/lib/cart";
 import { useTranslations } from "next-intl";
 
 interface BusinessPackageCardProps {
@@ -9,8 +10,10 @@ interface BusinessPackageCardProps {
   businessTypes: string;
   quantity: string;
   pods: string;
-  price: number;
-  savings?: number;
+  boxes: number;
+  perBoxPrice: number;
+  productName: string;
+  productImage: string;
   highlighted?: boolean;
 }
 
@@ -20,11 +23,27 @@ export default function BusinessPackageCard({
   businessTypes,
   quantity,
   pods,
-  price,
-  savings,
+  boxes,
+  perBoxPrice,
+  productName,
+  productImage,
   highlighted = false,
 }: BusinessPackageCardProps) {
   const t = useTranslations("shopPage");
+  const { addItem, setSubscription } = useCart();
+  const totalPrice = boxes * perBoxPrice;
+
+  const handleAddPackageToCart = () => {
+    addItem({
+      productSlug: "classic-cialde",
+      productName,
+      productType: "cialde",
+      quantity: boxes,
+      price: perBoxPrice,
+      image: productImage || "/images/placeholder.svg",
+    });
+    setSubscription(true);
+  };
 
   return (
     <div
@@ -67,34 +86,32 @@ export default function BusinessPackageCard({
           <span className="text-sm font-medium">{quantity}</span>
           <span className="text-xs text-[var(--muted)]">{pods}</span>
         </div>
+        <p className="text-xs uppercase tracking-wide text-green-700 font-medium">
+          {t("packagesMachineIncluded")}
+        </p>
       </div>
 
       {/* Price */}
       <div className="mb-8 mt-auto">
         <div className="flex items-baseline gap-1">
-          <span className="text-h3 font-serif">{formatPrice(price)}</span>
+          <span className="text-h3 font-serif">{formatPrice(perBoxPrice)}</span>
           <span className="text-xs text-[var(--muted)]">
-            {t("packagesPerMonth")}
+            {t("packagesPerBox")}
           </span>
         </div>
-        {savings && (
-          <p className="text-sm text-[var(--foreground)] mt-2 font-medium">
-            {t("packagesSave", { amount: formatPrice(savings) })}
-          </p>
-        )}
+        <p className="text-sm text-[var(--foreground)] mt-2 font-medium">
+          {t("packagesTotalPerMonth", { amount: formatPrice(totalPrice) })}
+        </p>
       </div>
 
       {/* CTA Button */}
-      <a
-        href="https://wa.me/355689188161"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`w-full text-center ${
-          highlighted ? "btn-primary" : "btn"
-        } btn`}
+      <button
+        type="button"
+        className={`w-full text-center ${highlighted ? "btn-primary" : "btn"}`}
+        onClick={handleAddPackageToCart}
       >
         {t("packagesCta")}
-      </a>
+      </button>
     </div>
   );
 }

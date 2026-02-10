@@ -260,31 +260,48 @@
     "infoCardTitle": "Free with Subscription",
     "infoCardDescription": "When you commit to ordering at least 1 cialde box per month, we'll send you this professional espresso machine completely free.",
     "packagesTitle": "Business Packages",
-    "packagesSubtitle": "Tailored coffee solutions for every business size. All packages include free espresso machines and monthly delivery.",
-    "packagesCta": "Contact Us",
+    "packagesSubtitle": "Tailored coffee solutions for every business size. All packages include a free espresso machine and monthly delivery.",
+    "packagesMachineIncluded": "Free espresso machine included",
+    "packagesMachineAvailable": "Prefer to buy it? The espresso machine is also available as a standalone purchase.",
+    "packagesCta": "Add package to cart",
     "packagesMostPopular": "Most Popular",
     "packagesPerMonth": "/month",
-    "packagesSave": "save {amount}",
-    "starter": {
-      "name": "Starter",
-      "tier": "Small Business",
-      "businessTypes": "Studio, Salon, Small Airbnb",
-      "quantity": "1 box/month",
-      "pods": "150 pods"
+    "packagesPerBox": "/box per month",
+    "packagesTotalPerMonth": "{amount}/month total",
+    "package2": {
+      "name": "2 Boxes",
+      "tier": "Starter",
+      "businessTypes": "Ideal for small offices and studios",
+      "quantity": "2 boxes/month",
+      "pods": "300 pods"
     },
-    "professional": {
-      "name": "Professional",
-      "tier": "Medium Business",
-      "businessTypes": "Office, Gym, Coworking, Restaurant",
-      "quantity": "3 boxes/month",
-      "pods": "450 pods"
+    "package4": {
+      "name": "4 Boxes",
+      "tier": "Growth",
+      "businessTypes": "Great for salons, gyms, and busy teams",
+      "quantity": "4 boxes/month",
+      "pods": "600 pods"
     },
-    "premium": {
-      "name": "Premium",
-      "tier": "High Volume",
-      "businessTypes": "Hotel, Large Restaurant, Large Coworking",
+    "package6": {
+      "name": "6 Boxes",
+      "tier": "Professional",
+      "businessTypes": "Best for coworking spaces and restaurants",
+      "quantity": "6 boxes/month",
+      "pods": "900 pods"
+    },
+    "package8": {
+      "name": "8 Boxes",
+      "tier": "Business Plus",
+      "businessTypes": "Built for hotels and large offices",
       "quantity": "8 boxes/month",
       "pods": "1,200 pods"
+    },
+    "package10": {
+      "name": "10 Boxes",
+      "tier": "Enterprise",
+      "businessTypes": "For high-volume service environments",
+      "quantity": "10 boxes/month",
+      "pods": "1,500 pods"
     }
   },
   "aboutPage": {

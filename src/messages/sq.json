@@ -258,31 +258,48 @@
     "infoCardTitle": "Falas me abonim",
     "infoCardDescription": "Kur angazhoheni të porosisni të paktën 1 kuti cialdesh në muaj, ne do t'ju dërgojmë këtë makinë espresso profesionale krejtësisht falas.",
     "packagesTitle": "Paketa Biznesi",
-    "packagesSubtitle": "Zgjidhje kafeje të përshtatura për çdo madhësi biznesi. Të gjitha paketat përfshijnë makina espresso falas dhe dorëzim mujor.",
-    "packagesCta": "Na Kontaktoni",
+    "packagesSubtitle": "Zgjidhje kafeje të përshtatura për çdo madhësi biznesi. Të gjitha paketat përfshijnë një makinë espresso falas dhe dorëzim mujor.",
+    "packagesMachineIncluded": "Makinë espresso falas e përfshirë",
+    "packagesMachineAvailable": "Preferon ta blesh? Makina e espressos është gjithashtu në dispozicion veçmas.",
+    "packagesCta": "Shto paketën në shportë",
     "packagesMostPopular": "Më i Popullarizuari",
     "packagesPerMonth": "/muaj",
-    "packagesSave": "kurse {amount}",
-    "starter": {
-      "name": "Starter",
-      "tier": "Biznes i Vogël",
-      "businessTypes": "Studio, Sallon, Airbnb i Vogël",
-      "quantity": "1 kuti/muaj",
-      "pods": "150 bustina"
+    "packagesPerBox": "/kuti në muaj",
+    "packagesTotalPerMonth": "{amount}/muaj gjithsej",
+    "package2": {
+      "name": "2 Kuti",
+      "tier": "Starter",
+      "businessTypes": "Ideale për zyra të vogla dhe studio",
+      "quantity": "2 kuti/muaj",
+      "pods": "300 bustina"
     },
-    "professional": {
-      "name": "Professional",
-      "tier": "Biznes Mesatar",
-      "businessTypes": "Zyrë, Palestër, Coworking, Restorant",
-      "quantity": "3 kuti/muaj",
-      "pods": "450 bustina"
+    "package4": {
+      "name": "4 Kuti",
+      "tier": "Rritje",
+      "businessTypes": "E shkëlqyer për sallone, palestra dhe ekipe aktive",
+      "quantity": "4 kuti/muaj",
+      "pods": "600 bustina"
     },
-    "premium": {
-      "name": "Premium",
-      "tier": "Volum i Lartë",
-      "businessTypes": "Hotel, Restorant i Madh, Coworking i Madh",
+    "package6": {
+      "name": "6 Kuti",
+      "tier": "Profesionale",
+      "businessTypes": "Më e mira për coworking dhe restorante",
+      "quantity": "6 kuti/muaj",
+      "pods": "900 bustina"
+    },
+    "package8": {
+      "name": "8 Kuti",
+      "tier": "Business Plus",
+      "businessTypes": "E ndërtuar për hotele dhe zyra të mëdha",
       "quantity": "8 kuti/muaj",
       "pods": "1,200 bustina"
+    },
+    "package10": {
+      "name": "10 Kuti",
+      "tier": "Enterprise",
+      "businessTypes": "Për ambiente me konsum shumë të lartë",
+      "quantity": "10 kuti/muaj",
+      "pods": "1,500 bustina"
     }
   },
   "aboutPage": {
