@@ -46,7 +46,6 @@ export default async function ShopPage({ params }: ShopPageProps) {
       boxes: 6,
       perBoxPrice: 5300,
       businessImage: "/images/categories/coworking.png",
-      highlighted: true,
     },
     {
       key: "package8",
@@ -110,7 +109,6 @@ export default async function ShopPage({ params }: ShopPageProps) {
                   classicCialde?.images[0] || "/images/placeholder.svg"
                 }
                 businessImage={pkg.businessImage}
-                highlighted={pkg.highlighted}
               />
             ))}
           </div>
