@@ -176,12 +176,12 @@ export default function Hero() {
                   {content.hero.whatsappCta}
                 </a>
               </div>
-              <button
+              {/* <button
                 onClick={() => setShowBookingModal(true)}
                 className="border-b border-white text-white font-bold py-2 px-2 text-base hover:bg-white/10 transition-colors w-fit"
               >
                 {content.hero.bookSampleCta}
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
