@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useLocale } from "next-intl";
 import StatusBadge from "./StatusBadge";
 import type { AdminOrder } from "@/lib/actions/admin";
+import { formatPrice } from "@/lib/utils";
 
 interface OrdersTableProps {
   orders: AdminOrder[];
@@ -58,17 +59,22 @@ export default function OrdersTable({ orders, compact = false }: OrdersTableProp
               </td>
               <td className="py-3 px-4">
                 <p className="font-medium text-neutral-900">
-                  {order.profiles?.full_name || "Unknown"}
+                  {order.profiles?.full_name ||
+                    order.businesses?.name ||
+                    order.businesses?.contact_name ||
+                    "Unknown"}
                 </p>
-                {order.profiles?.phone && (
-                  <p className="text-xs text-neutral-400">{order.profiles.phone}</p>
+                {(order.profiles?.phone || order.businesses?.phone) && (
+                  <p className="text-xs text-neutral-400">
+                    {order.profiles?.phone || order.businesses?.phone}
+                  </p>
                 )}
               </td>
               <td className="py-3 px-4">
                 <StatusBadge status={order.status} />
               </td>
               <td className="py-3 px-4 font-medium">
-                &euro;{Number(order.total).toFixed(2)}
+                {formatPrice(Number(order.total))}
               </td>
               {!compact && (
                 <td className="py-3 px-4 text-neutral-500">

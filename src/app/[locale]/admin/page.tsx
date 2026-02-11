@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { getAdminDashboardStats } from "@/lib/actions/admin";
+import { getAdminDashboardStats, getOrdersChartData } from "@/lib/actions/admin";
+import { formatPrice } from "@/lib/utils";
 import StatsCard from "@/components/admin/StatsCard";
 import OrdersTable from "@/components/admin/OrdersTable";
+import DashboardChart from "@/components/admin/DashboardChart";
+import QuickActions from "@/components/admin/QuickActions";
 
 interface AdminDashboardProps {
   params: Promise<{ locale: string }>;
@@ -9,7 +12,10 @@ interface AdminDashboardProps {
 
 export default async function AdminDashboard({ params }: AdminDashboardProps) {
   const { locale } = await params;
-  const { stats, error } = await getAdminDashboardStats();
+  const [{ stats, error }, { data: chartData }] = await Promise.all([
+    getAdminDashboardStats(),
+    getOrdersChartData(7),
+  ]);
 
   if (error || !stats) {
     return (
@@ -52,7 +58,7 @@ export default async function AdminDashboard({ params }: AdminDashboardProps) {
         />
         <StatsCard
           title="Revenue"
-          value={`€${stats.totalRevenue.toFixed(2)}`}
+          value={formatPrice(stats.totalRevenue)}
           subtitle="Excluding cancelled"
           icon={
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -72,21 +78,32 @@ export default async function AdminDashboard({ params }: AdminDashboardProps) {
         />
       </div>
 
-      {/* Recent Orders */}
-      <div className="bg-white rounded-xl border border-neutral-200">
-        <div className="flex items-center justify-between p-6 border-b border-neutral-200">
-          <div>
-            <h2 className="text-lg font-semibold text-neutral-900">Recent Orders</h2>
-            <p className="text-sm text-neutral-500">Latest 10 orders</p>
-          </div>
-          <Link
-            href={`/${locale}/admin/orders`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline"
-          >
-            View all
-          </Link>
+      {/* Quick Actions */}
+      <div>
+        <h2 className="text-lg font-semibold text-neutral-900 mb-4">Quick Actions</h2>
+        <QuickActions />
+      </div>
+
+      {/* Orders & Revenue Chart + Recent Orders - side by side on lg, stacked on mobile */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="min-w-0">
+          <DashboardChart initialData={chartData} />
         </div>
-        <OrdersTable orders={stats.recentOrders} compact />
+        <div className="min-w-0 bg-white rounded-xl border border-neutral-200 flex flex-col overflow-hidden">
+          <div className="flex items-center justify-between p-6 border-b border-neutral-200 shrink-0">
+            <div>
+              <h2 className="text-lg font-semibold text-neutral-900">Recent Orders</h2>
+              <p className="text-sm text-neutral-500">Latest 10 orders</p>
+            </div>
+            <Link
+              href={`/${locale}/admin/orders`}
+              className="text-sm font-medium text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline shrink-0"
+            >
+              View all
+            </Link>
+          </div>
+          <OrdersTable orders={stats.recentOrders} compact />
+        </div>
       </div>
     </div>
   );

@@ -84,9 +84,11 @@ export interface DashboardStats {
 
 export interface AdminOrder {
   id: string;
-  user_id: string;
+  user_id: string | null;
+  business_id: string | null;
   status: string;
   total: number;
+  total_override?: number | null;
   is_subscription: boolean;
   shipping_address: Record<string, string>;
   notes: string | null;
@@ -97,6 +99,15 @@ export interface AdminOrder {
     email?: string;
     phone?: string | null;
   };
+  businesses?: {
+    id: string;
+    name: string;
+    contact_name: string | null;
+    address: string | null;
+    city: string | null;
+    phone: string | null;
+    email: string | null;
+  } | null;
   order_items?: AdminOrderItem[];
 }
 
@@ -166,6 +177,7 @@ export async function getAdminDashboardStats(): Promise<{
         `
         *,
         profiles (full_name, phone),
+        businesses (id, name, contact_name, phone),
         order_items (
           *,
           products (slug, name_key, images, price)
@@ -187,6 +199,66 @@ export async function getAdminDashboardStats(): Promise<{
     };
   } catch {
     return { stats: null, error: "Failed to fetch dashboard stats" };
+  }
+}
+
+export interface OrdersChartDataPoint {
+  date: string;
+  orders: number;
+  revenue: number;
+}
+
+export async function getOrdersChartData(days: number): Promise<{
+  data: OrdersChartDataPoint[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { data: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const fromDate = new Date();
+    fromDate.setDate(fromDate.getDate() - days);
+    fromDate.setHours(0, 0, 0, 0);
+
+    const { data: orders, error } = await supabase
+      .from("orders")
+      .select("created_at, total, status")
+      .gte("created_at", fromDate.toISOString())
+      .order("created_at", { ascending: true });
+
+    if (error) return { data: [], error: error.message };
+
+    const byDate = new Map<string, { orders: number; revenue: number }>();
+
+    for (let i = 0; i < days; i++) {
+      const d = new Date(fromDate);
+      d.setDate(d.getDate() + i);
+      const key = d.toISOString().slice(0, 10);
+      byDate.set(key, { orders: 0, revenue: 0 });
+    }
+
+    for (const order of orders ?? []) {
+      const key = (order.created_at as string).slice(0, 10);
+      const entry = byDate.get(key) ?? { orders: 0, revenue: 0 };
+      entry.orders += 1;
+      if ((order.status as string) !== "cancelled") {
+        entry.revenue += Number(order.total ?? 0);
+      }
+      byDate.set(key, entry);
+    }
+
+    const data: OrdersChartDataPoint[] = Array.from(byDate.entries())
+      .map(([date, { orders: orderCount, revenue }]) => ({
+        date,
+        orders: orderCount,
+        revenue,
+      }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    return { data, error: null };
+  } catch {
+    return { data: [], error: "Failed to fetch chart data" };
   }
 }
 
@@ -225,6 +297,7 @@ export async function getAdminOrders(filters: OrderFilters = {}): Promise<{
       `
         *,
         profiles (full_name, phone),
+        businesses (id, name, contact_name, phone),
         order_items (
           *,
           products (slug, name_key, images, price)
@@ -276,6 +349,7 @@ export async function getAdminOrderById(orderId: string): Promise<{
         `
         *,
         profiles (full_name, phone),
+        businesses (id, name, contact_name, address, city, phone, email),
         order_items (
           *,
           products (slug, name_key, images, price)
@@ -331,6 +405,85 @@ export async function updateOrderStatus(
     return { success: true, error: null };
   } catch {
     return { success: false, error: "Failed to update order status" };
+  }
+}
+
+export async function updateOrderTotalOverride(
+  orderId: string,
+  value: number | null
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  if (value != null && value < 0) {
+    return { success: false, error: "Total cannot be negative" };
+  }
+
+  try {
+    const supabase = await createAdminClient();
+
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .select("id, status")
+      .eq("id", orderId)
+      .single();
+
+    if (orderError || !order) {
+      return { success: false, error: orderError?.message ?? "Order not found" };
+    }
+
+    const orderStatus = (order as { status: string }).status;
+    if (["delivered", "cancelled"].includes(orderStatus)) {
+      return {
+        success: false,
+        error: `Cannot edit order with status: ${orderStatus}`,
+      };
+    }
+
+    if (value === null) {
+      const { data: items } = await supabase
+        .from("order_items")
+        .select("quantity, price_at_purchase, is_free")
+        .eq("order_id", orderId);
+
+      const calculatedTotal = (items ?? []).reduce(
+        (sum: number, i: { quantity: number; price_at_purchase: number; is_free: boolean }) =>
+          i.is_free ? sum : sum + i.quantity * i.price_at_purchase,
+        0
+      );
+
+      const { error: updateError } = await supabase
+        .from("orders")
+        .update({
+          total: calculatedTotal,
+          total_override: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", orderId);
+
+      if (updateError) {
+        return { success: false, error: updateError.message };
+      }
+    } else {
+      const { error: updateError } = await supabase
+        .from("orders")
+        .update({
+          total: value,
+          total_override: value,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", orderId);
+
+      if (updateError) {
+        return { success: false, error: updateError.message };
+      }
+    }
+
+    revalidatePath("/admin/orders");
+    revalidatePath(`/admin/orders/${orderId}`);
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to update order total" };
   }
 }
 
@@ -394,7 +547,7 @@ export async function saveOrderItems(
     // 1. Fetch order and validate editable
     const { data: order, error: orderError } = await supabase
       .from("orders")
-      .select("id, status")
+      .select("id, status, total_override")
       .eq("id", orderId)
       .single();
 
@@ -608,11 +761,16 @@ export async function saveOrderItems(
       .select("quantity, price_at_purchase, is_free")
       .eq("order_id", orderId);
 
-    const total = (items ?? []).reduce(
+    const calculatedTotal = (items ?? []).reduce(
       (sum: number, i: { quantity: number; price_at_purchase: number; is_free: boolean }) =>
         i.is_free ? sum : sum + i.quantity * i.price_at_purchase,
       0
     );
+
+    const orderWithOverride = order as { total_override?: number | null };
+    const total = orderWithOverride.total_override != null
+      ? orderWithOverride.total_override
+      : calculatedTotal;
 
     const { error: totalError } = await supabase
       .from("orders")
@@ -629,6 +787,233 @@ export async function saveOrderItems(
   } catch (e) {
     console.error("saveOrderItems error:", e);
     return { success: false, error: "Failed to save order items" };
+  }
+}
+
+// ============================================
+// ADMIN CREATE ORDER FOR BUSINESS
+// ============================================
+
+export interface CreateAdminOrderInput {
+  business_id: string;
+  items: { product_id: string; quantity: number }[];
+  shipping_address: {
+    fullName: string;
+    email?: string;
+    phone?: string;
+    address: string;
+    city: string;
+    postalCode?: string;
+    country?: string;
+  };
+  notes?: string;
+  is_subscription?: boolean;
+}
+
+export async function createAdminOrder(
+  input: CreateAdminOrderInput
+): Promise<{ orderId: string | null; error: string | null }> {
+  const { isAdmin, userId, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { orderId: null, error: authError };
+
+  if (!input.items.length) {
+    return { orderId: null, error: "At least one item is required" };
+  }
+
+  try {
+    const supabase = await createAdminClient();
+
+    // Validate business exists
+    const { data: business, error: businessError } = await supabase
+      .from("businesses")
+      .select("id, linked_profile_id")
+      .eq("id", input.business_id)
+      .single();
+
+    if (businessError || !business) {
+      return { orderId: null, error: "Business not found" };
+    }
+
+    // Validate products and get prices
+    const productIds = input.items.map((i) => i.product_id);
+    const { data: products, error: productsError } = await supabase
+      .from("products")
+      .select("id, price, stock_quantity")
+      .in("id", productIds);
+
+    if (productsError || !products?.length) {
+      return { orderId: null, error: "Invalid products" };
+    }
+
+    const productMap = new Map(
+      (products as Array<{ id: string; price: number; stock_quantity: number }>).map(
+        (p) => [p.id, p]
+      )
+    );
+
+    let total = 0;
+    for (const item of input.items) {
+      const p = productMap.get(item.product_id);
+      if (!p) return { orderId: null, error: `Product not found: ${item.product_id}` };
+      if (item.quantity < 1) return { orderId: null, error: "Quantity must be at least 1" };
+      if (p.stock_quantity < item.quantity) {
+        return {
+          orderId: null,
+          error: `Insufficient stock for product (available: ${p.stock_quantity})`,
+        };
+      }
+      total += item.quantity * p.price;
+    }
+
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .insert({
+        user_id: (business as { linked_profile_id: string | null }).linked_profile_id
+          ?? null,
+        business_id: input.business_id,
+        total,
+        is_subscription: input.is_subscription ?? false,
+        shipping_address: input.shipping_address,
+        notes: input.notes ?? null,
+        status: "pending",
+      })
+      .select("id")
+      .single();
+
+    if (orderError || !order) {
+      return { orderId: null, error: orderError?.message ?? "Failed to create order" };
+    }
+
+    const orderId = (order as { id: string }).id;
+
+    for (const item of input.items) {
+      const p = productMap.get(item.product_id);
+      if (!p) continue;
+
+      const { error: itemError } = await supabase.from("order_items").insert({
+        order_id: orderId,
+        product_id: item.product_id,
+        quantity: item.quantity,
+        price_at_purchase: p.price,
+        is_free: false,
+      });
+
+      if (itemError) {
+        await supabase.from("orders").delete().eq("id", orderId);
+        return { orderId: null, error: itemError.message };
+      }
+
+      // Stock movement
+      await supabase.from("stock_movements").insert({
+        product_id: item.product_id,
+        type: "sale",
+        quantity: item.quantity,
+        reference: `Order ${orderId} (admin for business)`,
+        notes: `Admin created order for business ${input.business_id}`,
+        created_by: userId ?? undefined,
+      });
+
+      const { data: prodRow } = await supabase
+        .from("products")
+        .select("stock_quantity")
+        .eq("id", item.product_id)
+        .single();
+      if (prodRow) {
+        const newStock =
+          (prodRow as { stock_quantity: number }).stock_quantity - item.quantity;
+        await supabase
+          .from("products")
+          .update({ stock_quantity: Math.max(0, newStock) })
+          .eq("id", item.product_id);
+      }
+    }
+
+    revalidatePath("/admin/orders");
+    revalidatePath(`/admin/businesses/${input.business_id}`);
+    revalidatePath(`/admin/orders/${orderId}`);
+    return { orderId, error: null };
+  } catch (e) {
+    console.error("createAdminOrder error:", e);
+    return { orderId: null, error: "Failed to create order" };
+  }
+}
+
+export async function getOrdersForBusiness(businessId: string): Promise<{
+  orders: AdminOrder[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { orders: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+
+    const { data: business } = await supabase
+      .from("businesses")
+      .select("linked_profile_id")
+      .eq("id", businessId)
+      .single();
+
+    const linkedProfileId = (business as { linked_profile_id: string | null } | null)
+      ?.linked_profile_id ?? null;
+
+    let query = supabase.from("orders").select(
+      `
+        *,
+        profiles (full_name, phone),
+        businesses (id, name, contact_name, address, city, phone, email),
+        order_items (
+          *,
+          products (slug, name_key, images, price)
+        )
+      `
+    );
+
+    if (linkedProfileId) {
+      query = query.or(
+        `business_id.eq.${businessId},user_id.eq.${linkedProfileId}`
+      );
+    } else {
+      query = query.eq("business_id", businessId);
+    }
+
+    const { data: orders, error } = await query.order("created_at", {
+      ascending: false,
+    });
+
+    if (error) {
+      return { orders: [], error: error.message };
+    }
+
+    return {
+      orders: (orders as unknown as AdminOrder[]) ?? [],
+      error: null,
+    };
+  } catch {
+    return { orders: [], error: "Failed to fetch orders" };
+  }
+}
+
+export async function getBusinessIdByLinkedProfile(userId: string): Promise<{
+  businessId: string | null;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { businessId: null, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: business, error } = await supabase
+      .from("businesses")
+      .select("id")
+      .eq("linked_profile_id", userId)
+      .limit(1)
+      .maybeSingle();
+
+    if (error) return { businessId: null, error: error.message };
+    return { businessId: (business as { id: string } | null)?.id ?? null, error: null };
+  } catch {
+    return { businessId: null, error: "Failed to find business" };
   }
 }
 
@@ -916,6 +1301,7 @@ export interface AdminBusiness {
     notes: string | null;
     created_at: string;
   } | null;
+  orders_count?: number;
 }
 
 export interface AdminBusinessActivity {
@@ -1043,8 +1429,56 @@ export async function getAdminBusinesses(filters: BusinessFilters = {}): Promise
       return { ...rest, agents };
     });
 
+    const businessIds = businessesWithAgents.map((b) => b.id);
+    const linkedProfileIds = [...new Set(
+      businessesWithAgents
+        .map((b) => b.linked_profile_id)
+        .filter((id): id is string => Boolean(id))
+    )];
+
+    const countByBusinessId = new Map<string, number>();
+    const countByUserId = new Map<string, number>();
+
+    if (businessIds.length > 0) {
+      const { data: ordersByBusiness } = await supabase
+        .from("orders")
+        .select("business_id")
+        .in("business_id", businessIds);
+      for (const row of (ordersByBusiness ?? []) as { business_id: string }[]) {
+        if (row.business_id) {
+          countByBusinessId.set(
+            row.business_id,
+            (countByBusinessId.get(row.business_id) ?? 0) + 1
+          );
+        }
+      }
+    }
+
+    if (linkedProfileIds.length > 0) {
+      const { data: ordersByUser } = await supabase
+        .from("orders")
+        .select("user_id, business_id")
+        .in("user_id", linkedProfileIds);
+      for (const row of (ordersByUser ?? []) as { user_id: string; business_id: string | null }[]) {
+        if (row.user_id && (!row.business_id || !businessIds.includes(row.business_id))) {
+          countByUserId.set(
+            row.user_id,
+            (countByUserId.get(row.user_id) ?? 0) + 1
+          );
+        }
+      }
+    }
+
+    const businessesWithCounts = businessesWithAgents.map((b) => {
+      const byBusiness = countByBusinessId.get(b.id) ?? 0;
+      const byUser = b.linked_profile_id
+        ? countByUserId.get(b.linked_profile_id) ?? 0
+        : 0;
+      return { ...b, orders_count: byBusiness + byUser };
+    });
+
     return {
-      businesses: (businessesWithAgents as unknown as AdminBusiness[]) ?? [],
+      businesses: (businessesWithCounts as unknown as AdminBusiness[]) ?? [],
       total: count ?? 0,
       error: null,
     };

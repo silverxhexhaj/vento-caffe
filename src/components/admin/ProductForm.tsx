@@ -169,7 +169,7 @@ export default function ProductForm({ product }: ProductFormProps) {
               required
             />
             <p className="mt-1 text-xs text-neutral-400">
-              Selling price in Leke (e.g., 6000 = 60.00 Leke)
+              Selling price in Leke (e.g., 6500 = 6,500 Leke)
             </p>
           </div>
 

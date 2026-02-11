@@ -41,6 +41,9 @@ export default function BusinessesTable({ businesses }: BusinessesTableProps) {
               Stage
             </th>
             <th className="text-left py-3 px-4 font-medium text-neutral-500">
+              Orders
+            </th>
+            <th className="text-left py-3 px-4 font-medium text-neutral-500">
               Tags
             </th>
             <th className="text-left py-3 px-4 font-medium text-neutral-500">
@@ -94,6 +97,14 @@ export default function BusinessesTable({ businesses }: BusinessesTableProps) {
               </td>
               <td className="py-3 px-4">
                 <BusinessPipelineBadge stage={business.pipeline_stage} />
+              </td>
+              <td className="py-3 px-4">
+                <Link
+                  href={`/${locale}/admin/businesses/${business.id}`}
+                  className="font-medium text-neutral-700 hover:text-neutral-900 underline-offset-2 hover:underline"
+                >
+                  {business.orders_count ?? 0}
+                </Link>
               </td>
               <td className="py-3 px-4">
                 {business.tags.length ? (

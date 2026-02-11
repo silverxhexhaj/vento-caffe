@@ -1,8 +1,13 @@
 import Link from "next/link";
-import { getAdminOrderById, getAllProducts } from "@/lib/actions/admin";
+import {
+  getAdminOrderById,
+  getAllProducts,
+  getBusinessIdByLinkedProfile,
+} from "@/lib/actions/admin";
 import StatusBadge from "@/components/admin/StatusBadge";
 import OrderStatusControl from "@/components/admin/OrderStatusControl";
 import OrderItemsEditor from "@/components/admin/OrderItemsEditor";
+import OrderTotalOverride from "@/components/admin/OrderTotalOverride";
 
 interface OrderDetailPageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -30,6 +35,12 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
   }
 
   const shippingAddress = order.shipping_address as Record<string, string>;
+
+  let linkedBusinessId: string | null = null;
+  if (order.user_id && !order.business_id) {
+    const res = await getBusinessIdByLinkedProfile(order.user_id);
+    linkedBusinessId = res.businessId;
+  }
 
   return (
     <div className="space-y-6">
@@ -96,22 +107,46 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
             <OrderStatusControl orderId={order.id} currentStatus={order.status} />
           </div>
 
-          {/* Client Info */}
+          {/* Order Total Override */}
+          <OrderTotalOverride
+            orderId={order.id}
+            total={order.total}
+            totalOverride={order.total_override ?? null}
+            canEdit={!["delivered", "cancelled"].includes(order.status)}
+          />
+
+          {/* Client / Business Info */}
           <div className="bg-white rounded-xl border border-neutral-200 p-6">
-            <h3 className="text-sm font-semibold text-neutral-900 mb-3">Client</h3>
+            <h3 className="text-sm font-semibold text-neutral-900 mb-3">
+              {order.business_id ? "Business" : "Client"}
+            </h3>
             <div className="space-y-2">
               <p className="text-sm font-medium text-neutral-900">
-                {order.profiles?.full_name || "Unknown"}
+                {order.profiles?.full_name ||
+                  order.businesses?.name ||
+                  order.businesses?.contact_name ||
+                  "Unknown"}
               </p>
-              {order.profiles?.phone && (
-                <p className="text-sm text-neutral-500">{order.profiles.phone}</p>
+              {(order.profiles?.phone || order.businesses?.phone) && (
+                <p className="text-sm text-neutral-500">
+                  {order.profiles?.phone || order.businesses?.phone}
+                </p>
               )}
-              <Link
-                href={`/${locale}/admin/clients/${order.user_id}`}
-                className="text-xs font-medium text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline inline-block mt-1"
-              >
-                View client profile
-              </Link>
+              {(order.business_id || linkedBusinessId) ? (
+                <Link
+                  href={`/${locale}/admin/businesses/${order.business_id || linkedBusinessId}`}
+                  className="text-xs font-medium text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline inline-block mt-1"
+                >
+                  View business
+                </Link>
+              ) : order.user_id ? (
+                <Link
+                  href={`/${locale}/admin/businesses`}
+                  className="text-xs font-medium text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline inline-block mt-1"
+                >
+                  View businesses
+                </Link>
+              ) : null}
             </div>
           </div>
 

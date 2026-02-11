@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { formatPrice } from "@/lib/utils";
 import {
   getAdminBusinessById,
   getAdminClientById,
   getAgents,
   getBusinessAgents,
+  getOrdersForBusiness,
 } from "@/lib/actions/admin";
 import BusinessPipelineBadge from "@/components/admin/BusinessPipelineBadge";
 import BusinessStageStepper from "@/components/admin/BusinessStageStepper";
@@ -12,6 +14,7 @@ import AddActivityForm from "@/components/admin/AddActivityForm";
 import DeleteBusinessButton from "@/components/admin/DeleteBusinessButton";
 import OrdersTable from "@/components/admin/OrdersTable";
 import BusinessAgentAssigner from "@/components/admin/BusinessAgentAssigner";
+import NewOrderForm from "@/components/admin/NewOrderForm";
 
 interface BusinessDetailPageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -37,13 +40,17 @@ export default async function AdminBusinessDetailPage({
     );
   }
 
-  const [linkedClient, agentsResult, assignedAgentsResult] = await Promise.all([
-    business.linked_profile_id
-      ? getAdminClientById(business.linked_profile_id)
-      : Promise.resolve(null),
-    getAgents(),
-    getBusinessAgents(business.id),
-  ]);
+  const [linkedClient, agentsResult, assignedAgentsResult, businessOrdersResult] =
+    await Promise.all([
+      business.linked_profile_id
+        ? getAdminClientById(business.linked_profile_id)
+        : Promise.resolve(null),
+      getAgents(),
+      getBusinessAgents(business.id),
+      getOrdersForBusiness(business.id),
+    ]);
+
+  const businessOrders = businessOrdersResult.orders ?? [];
 
   return (
     <div className="space-y-6">
@@ -216,7 +223,7 @@ export default async function AdminBusinessDetailPage({
                     Orders: {linkedClient.client.orders_count ?? 0}
                   </p>
                   <p className="text-xs text-neutral-500">
-                    LTV: €{(linkedClient.client.total_spent ?? 0).toFixed(2)}
+                    LTV: {formatPrice(linkedClient.client.total_spent ?? 0)}
                   </p>
                 </div>
               ) : (
@@ -279,19 +286,22 @@ export default async function AdminBusinessDetailPage({
         </div>
 
         <div className="bg-white rounded-xl border border-neutral-200">
-          <div className="p-6 border-b border-neutral-200">
-            <h2 className="text-lg font-semibold text-neutral-900">
-              Order History
-            </h2>
-            <p className="text-sm text-neutral-500">
-              Purchases from the linked signup profile.
-            </p>
+          <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-neutral-900">
+                Order History
+              </h2>
+              <p className="text-sm text-neutral-500">
+                Orders for this business (via admin or linked profile).
+              </p>
+            </div>
+            <NewOrderForm business={business} locale={locale} />
           </div>
-          {linkedClient?.orders?.length ? (
-            <OrdersTable orders={linkedClient.orders} />
+          {businessOrders.length ? (
+            <OrdersTable orders={businessOrders} />
           ) : (
             <div className="p-6 text-sm text-neutral-400">
-              No orders linked yet.
+              No orders yet. Create one with the button above.
             </div>
           )}
         </div>

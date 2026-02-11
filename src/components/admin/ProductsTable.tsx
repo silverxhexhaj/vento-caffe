@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 import { deleteProduct, type AdminProduct } from "@/lib/actions/admin";
 import { useRouter } from "next/navigation";
 import { calculateProfitMargin, formatProfitMargin } from "@/lib/utils/pricing";
+import { formatPrice } from "@/lib/utils";
 
 interface ProductsTableProps {
   products: AdminProduct[];
@@ -15,10 +16,6 @@ export default function ProductsTable({ products }: ProductsTableProps) {
   const locale = useLocale();
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<string | null>(null);
-
-  const formatPrice = (price: number) => {
-    return `${(price / 100).toFixed(2)} Leke`;
-  };
 
   const handleDelete = async (id: string, slug: string) => {
     if (!confirm(`Are you sure you want to delete "${slug}"? This action cannot be undone.`)) {

@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 
-const stageLabels: Record<string, string> = {
+export const stageLabels: Record<string, string> = {
   lead: "Lead",
   contacted: "Contacted",
   sample_sent: "Sample Sent",
@@ -11,7 +11,7 @@ const stageLabels: Record<string, string> = {
   churned: "Churned",
 };
 
-const stageClasses: Record<string, string> = {
+export const stageClasses: Record<string, string> = {
   lead: "bg-yellow-50 text-yellow-700",
   contacted: "bg-blue-50 text-blue-700",
   sample_sent: "bg-purple-50 text-purple-700",

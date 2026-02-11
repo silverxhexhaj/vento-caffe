@@ -34,11 +34,22 @@ export default async function AdminOrdersPage({ params, searchParams }: OrdersPa
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Orders</h1>
-        <p className="text-sm text-neutral-500 mt-1">
-          Manage all customer orders and delivery status
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-neutral-900">Orders</h1>
+          <p className="text-sm text-neutral-500 mt-1">
+            Manage all customer orders and delivery status
+          </p>
+        </div>
+        <Link
+          href={`/${locale}/admin/businesses`}
+          className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:border-neutral-300 hover:text-neutral-900"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Create order for business
+        </Link>
       </div>
 
       {/* Filters */}

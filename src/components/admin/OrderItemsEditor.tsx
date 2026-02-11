@@ -167,7 +167,8 @@ export default function OrderItemsEditor({
     setError(null);
   };
 
-  const displayTotal = isEditing ? calculateTotal() : Number(order.total);
+  const effectiveTotal = (order as { total_override?: number | null }).total_override ?? order.total;
+  const displayTotal = isEditing ? calculateTotal() : Number(effectiveTotal);
 
   return (
     <div className="bg-white rounded-xl border border-neutral-200">
@@ -371,9 +372,19 @@ export default function OrderItemsEditor({
           <p className="text-xl font-bold text-neutral-900">
             {formatPrice(displayTotal)}
           </p>
-          {isEditing && hasChanges() && (
+          {isEditing && hasChanges() && (order as { total_override?: number | null }).total_override == null && (
             <p className="text-xs text-amber-600 mt-1">
               Total will update when saved
+            </p>
+          )}
+          {isEditing && (order as { total_override?: number | null }).total_override != null && (
+            <p className="text-xs text-amber-600 mt-1">
+              Custom total is set – saved total will not follow items (see sidebar to reset)
+            </p>
+          )}
+          {!isEditing && (order as { total_override?: number | null }).total_override != null && (
+            <p className="text-xs text-amber-600 mt-1">
+              Custom total is set (see sidebar to reset)
             </p>
           )}
         </div>
