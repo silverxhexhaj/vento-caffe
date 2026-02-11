@@ -70,6 +70,134 @@ export async function verifyAdmin(): Promise<{
   }
 }
 
+export interface AdminNotification {
+  id: string;
+  type: string;
+  title: string;
+  body: string;
+  payload: Record<string, unknown>;
+  is_read: boolean;
+  created_at: string;
+}
+
+export async function getAdminNotifications(input?: {
+  page?: number;
+  perPage?: number;
+  unreadOnly?: boolean;
+}): Promise<{
+  notifications: AdminNotification[];
+  total: number;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { notifications: [], total: 0, error: authError };
+
+  try {
+    const page = Math.max(1, input?.page ?? 1);
+    const perPage = Math.min(100, Math.max(1, input?.perPage ?? 20));
+    const unreadOnly = Boolean(input?.unreadOnly);
+    const from = (page - 1) * perPage;
+    const to = from + perPage - 1;
+
+    const supabase = await createAdminClient();
+    let query = supabase
+      .from("admin_notifications")
+      .select("*", { count: "exact" })
+      .order("created_at", { ascending: false })
+      .range(from, to);
+
+    if (unreadOnly) {
+      query = query.eq("is_read", false);
+    }
+
+    const { data, count, error } = await query;
+    if (error) {
+      return { notifications: [], total: 0, error: error.message };
+    }
+
+    return {
+      notifications: (data as AdminNotification[]) ?? [],
+      total: count ?? 0,
+      error: null,
+    };
+  } catch {
+    return { notifications: [], total: 0, error: "Failed to fetch notifications" };
+  }
+}
+
+export async function getAdminUnreadNotificationCount(): Promise<{
+  count: number;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { count: 0, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { count, error } = await supabase
+      .from("admin_notifications")
+      .select("id", { count: "exact", head: true })
+      .eq("is_read", false);
+
+    if (error) {
+      return { count: 0, error: error.message };
+    }
+
+    return { count: count ?? 0, error: null };
+  } catch {
+    return { count: 0, error: "Failed to fetch unread notification count" };
+  }
+}
+
+export async function markAdminNotificationRead(
+  notificationId: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase
+      .from("admin_notifications")
+      .update({ is_read: true })
+      .eq("id", notificationId);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath("/admin/notifications");
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to mark notification as read" };
+  }
+}
+
+export async function markAllAdminNotificationsRead(): Promise<{
+  success: boolean;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { error } = await supabase
+      .from("admin_notifications")
+      .update({ is_read: true })
+      .eq("is_read", false);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath("/admin/notifications");
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to mark all notifications as read" };
+  }
+}
+
 // ============================================
 // DASHBOARD
 // ============================================
@@ -2126,7 +2254,13 @@ function buildInFilter(list: string[]) {
   if (!list.length) {
     return null;
   }
-  const escaped = list.map((id) => `'${id}'`).join(",");
+  const escaped = list
+    .map((id) => id.replace(/['"]/g, "").trim())
+    .filter(Boolean)
+    .join(",");
+  if (!escaped.length) {
+    return null;
+  }
   return `(${escaped})`;
 }
 

@@ -37,9 +37,14 @@ export default async function AdminLayout({
     redirect(`/${locale}`);
   }
 
+  const { count: unreadNotificationsCount } = await supabase
+    .from("admin_notifications")
+    .select("id", { count: "exact", head: true })
+    .eq("is_read", false);
+
   return (
     <div className="min-h-screen bg-neutral-50">
-      <AdminSidebar />
+      <AdminSidebar unreadNotificationsCount={unreadNotificationsCount ?? 0} />
       <div className="lg:pl-64">
         <main className="p-6 lg:p-8 mx-auto">
           {children}

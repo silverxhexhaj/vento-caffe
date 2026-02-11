@@ -342,6 +342,35 @@ export interface Database {
           updated_at?: string;
         };
       };
+      admin_notifications: {
+        Row: {
+          id: string;
+          type: string;
+          title: string;
+          body: string;
+          payload: Json;
+          is_read: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          type: string;
+          title: string;
+          body: string;
+          payload?: Json;
+          is_read?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          type?: string;
+          title?: string;
+          body?: string;
+          payload?: Json;
+          is_read?: boolean;
+          created_at?: string;
+        };
+      };
       business_activities: {
         Row: {
           id: string;
