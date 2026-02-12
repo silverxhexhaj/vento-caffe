@@ -24,7 +24,7 @@ export default function LowStockAlert({ products }: LowStockAlertProps) {
   }
 
   return (
-    <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+    <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
       <div className="flex items-start justify-between">
         <div>
           <h3 className="text-sm font-semibold text-amber-900">
@@ -37,12 +37,12 @@ export default function LowStockAlert({ products }: LowStockAlertProps) {
         </div>
       </div>
 
-      <ul className="mt-4 space-y-2">
+      <ul className="mt-4 space-y-1">
         {outOfStockProducts.map((product) => (
           <li key={product.id}>
             <Link
               href={`/${locale}/admin/products/${product.id}`}
-              className="flex items-center justify-between rounded-md px-3 py-2 text-sm hover:bg-amber-100/50 transition-colors group"
+              className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm hover:bg-amber-100/50 transition-colors group focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2"
             >
               <span className="font-medium text-amber-900 group-hover:text-amber-950">
                 {product.slug}
@@ -57,7 +57,7 @@ export default function LowStockAlert({ products }: LowStockAlertProps) {
           <li key={product.id}>
             <Link
               href={`/${locale}/admin/products/${product.id}`}
-              className="flex items-center justify-between rounded-md px-3 py-2 text-sm hover:bg-amber-100/50 transition-colors group"
+              className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm hover:bg-amber-100/50 transition-colors group focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2"
             >
               <span className="font-medium text-amber-900 group-hover:text-amber-950">
                 {product.slug}

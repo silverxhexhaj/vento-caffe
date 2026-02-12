@@ -15,6 +15,7 @@ interface AddedItem {
   productId: string;
   product: AdminProductOption;
   quantity: number;
+  priceOverride?: number;
 }
 
 interface EditableItem {
@@ -36,8 +37,15 @@ export default function OrderItemsEditor({
   const availableProducts = products.filter((p) => !p.sold_out);
 
   const [editedItems, setEditedItems] = useState<Map<string, number>>(new Map());
+  const [editedPrices, setEditedPrices] = useState<Map<string, number>>(new Map());
   const [addedItems, setAddedItems] = useState<AddedItem[]>([]);
   const [removedIds, setRemovedIds] = useState<Set<string>>(new Set());
+
+  const getItemPrice = (item: AdminOrderItem): number => {
+    const override = editedPrices.get(item.id);
+    if (override !== undefined) return override;
+    return item.products?.price ?? item.price_at_purchase;
+  };
 
   const getItemQuantity = (item: AdminOrderItem): number => {
     if (removedIds.has(item.id)) return 0;
@@ -58,12 +66,12 @@ export default function OrderItemsEditor({
     let total = 0;
     for (const { item, quantity } of getDisplayItems()) {
       if (!item.is_free) {
-        const price = item.products?.price ?? item.price_at_purchase;
-        total += quantity * price;
+        total += quantity * getItemPrice(item);
       }
     }
     for (const add of addedItems) {
-      total += add.quantity * add.product.price;
+      const price = add.priceOverride ?? add.product.price;
+      total += add.quantity * price;
     }
     return total;
   };
@@ -73,7 +81,11 @@ export default function OrderItemsEditor({
     for (const item of order.order_items ?? []) {
       const qty = editedItems.get(item.id);
       if (qty !== undefined && qty !== item.quantity) return true;
+      const price = editedPrices.get(item.id);
+      const originalPrice = item.products?.price ?? item.price_at_purchase;
+      if (price !== undefined && price !== originalPrice) return true;
     }
+    if (addedItems.some((a) => a.priceOverride !== undefined)) return true;
     return false;
   };
 
@@ -128,27 +140,66 @@ export default function OrderItemsEditor({
     setAddedItems((prev) => prev.filter((a) => a.productId !== productId));
   };
 
+  const handlePriceChange = (itemId: string, value: string) => {
+    const parsed = parseFloat(value);
+    if (value === "" || Number.isNaN(parsed)) {
+      setEditedPrices((prev) => {
+        const next = new Map(prev);
+        next.delete(itemId);
+        return next;
+      });
+      return;
+    }
+    setEditedPrices((prev) => new Map(prev).set(itemId, Math.max(0, parsed)));
+  };
+
+  const handleAddedPriceChange = (productId: string, value: string) => {
+    const parsed = parseFloat(value);
+    setAddedItems((prev) =>
+      prev.map((a) =>
+        a.productId === productId
+          ? { ...a, priceOverride: value === "" || Number.isNaN(parsed) ? undefined : Math.max(0, parsed) }
+          : a
+      )
+    );
+  };
+
   const handleSave = () => {
     setError(null);
     startTransition(async () => {
-      const updates: { itemId: string; quantity: number }[] = [];
+      const updates: { itemId: string; quantity: number; price_at_purchase?: number }[] = [];
       for (const item of order.order_items ?? []) {
         if (removedIds.has(item.id)) continue;
         const qty = editedItems.get(item.id) ?? item.quantity;
-        if (qty !== item.quantity) {
-          updates.push({ itemId: item.id, quantity: qty });
+        const priceOverride = editedPrices.get(item.id);
+        const hasQtyChange = qty !== item.quantity;
+        const hasPriceChange = priceOverride !== undefined;
+        if (hasQtyChange || hasPriceChange) {
+          const update: { itemId: string; quantity: number; price_at_purchase?: number } = {
+            itemId: item.id,
+            quantity: qty,
+          };
+          if (hasPriceChange) {
+            update.price_at_purchase = priceOverride;
+          }
+          updates.push(update);
         }
       }
 
       const result = await saveOrderItems(order.id, {
         updates,
-        adds: addedItems.map((a) => ({ productId: a.productId, quantity: a.quantity })),
+        adds: addedItems.map((a) => ({
+          productId: a.productId,
+          quantity: a.quantity,
+          ...(a.priceOverride !== undefined && { price_at_purchase: a.priceOverride }),
+        })),
         removes: [...removedIds],
       });
 
       if (result.success) {
         setIsEditing(false);
         setEditedItems(new Map());
+        setEditedPrices(new Map());
         setAddedItems([]);
         setRemovedIds(new Set());
         setError(null);
@@ -162,6 +213,7 @@ export default function OrderItemsEditor({
   const handleCancel = () => {
     setIsEditing(false);
     setEditedItems(new Map());
+    setEditedPrices(new Map());
     setAddedItems([]);
     setRemovedIds(new Set());
     setError(null);
@@ -267,13 +319,28 @@ export default function OrderItemsEditor({
               )}
             </div>
             <div className="text-right">
-              <p className="font-medium text-sm">
-                {item.is_free
-                  ? "Free"
-                  : formatPrice(
-                      (item.products?.price ?? item.price_at_purchase) * quantity
-                    )}
-              </p>
+              {item.is_free ? (
+                <p className="font-medium text-sm">Free</p>
+              ) : isEditing && canEdit ? (
+                <div className="space-y-1">
+                  <label className="block text-xs text-neutral-500">Unit price (Leke)</label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={1}
+                    value={editedPrices.get(item.id) ?? getItemPrice(item)}
+                    onChange={(e) => handlePriceChange(item.id, e.target.value)}
+                    className="w-24 rounded-lg border border-neutral-200 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400"
+                  />
+                  <p className="font-medium text-sm">
+                    {formatPrice(getItemPrice(item) * quantity)}
+                  </p>
+                </div>
+              ) : (
+                <p className="font-medium text-sm">
+                  {formatPrice(getItemPrice(item) * quantity)}
+                </p>
+              )}
             </div>
           </div>
         ))}
@@ -327,9 +394,20 @@ export default function OrderItemsEditor({
                 </div>
               </div>
               <div className="text-right">
-                <p className="font-medium text-sm text-green-700">
-                  {formatPrice(add.product.price * add.quantity)} (new)
-                </p>
+                <div className="space-y-1">
+                  <label className="block text-xs text-neutral-500">Unit price (Leke)</label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={1}
+                    value={add.priceOverride ?? add.product.price}
+                    onChange={(e) => handleAddedPriceChange(add.productId, e.target.value)}
+                    className="w-24 rounded-lg border border-neutral-200 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400"
+                  />
+                  <p className="font-medium text-sm text-green-700">
+                    {formatPrice((add.priceOverride ?? add.product.price) * add.quantity)} (new)
+                  </p>
+                </div>
               </div>
             </div>
           ))}

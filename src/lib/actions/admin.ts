@@ -657,8 +657,8 @@ export async function getAllProducts(): Promise<{
 }
 
 export interface SaveOrderItemsInput {
-  updates: { itemId: string; quantity: number }[];
-  adds: { productId: string; quantity: number }[];
+  updates: { itemId: string; quantity: number; price_at_purchase?: number }[];
+  adds: { productId: string; quantity: number; price_at_purchase?: number }[];
   removes: string[];
 }
 
@@ -691,26 +691,32 @@ export async function saveOrderItems(
       };
     }
 
-    // 2. Validate quantities
+    // 2. Validate quantities and prices
     for (const u of input.updates) {
       if (u.quantity < 1) {
         return { success: false, error: "Quantity must be at least 1" };
+      }
+      if (u.price_at_purchase !== undefined && u.price_at_purchase < 0) {
+        return { success: false, error: "Item price must be 0 or greater" };
       }
     }
     for (const a of input.adds) {
       if (a.quantity < 1) {
         return { success: false, error: "Quantity must be at least 1" };
       }
+      if (a.price_at_purchase !== undefined && a.price_at_purchase < 0) {
+        return { success: false, error: "Item price must be 0 or greater" };
+      }
     }
 
-    // 3. Fetch current order items for stock movement tracking
+    // 3. Fetch current order items for stock movement tracking and price preservation
     const { data: currentItems } = await supabase
       .from("order_items")
-      .select("id, product_id, quantity")
+      .select("id, product_id, quantity, price_at_purchase")
       .eq("order_id", orderId);
 
     const currentItemsMap = new Map(
-      (currentItems ?? []).map((i: { id: string; product_id: string; quantity: number }) => [i.id, i])
+      (currentItems ?? []).map((i: { id: string; product_id: string; quantity: number; price_at_purchase: number }) => [i.id, i])
     );
 
     // 4. Fetch product prices for new/changed items
@@ -763,10 +769,12 @@ export async function saveOrderItems(
 
     // 6. Apply updates
     for (const u of input.updates) {
-      const item = currentItemsMap.get(u.itemId);
+      const item = currentItemsMap.get(u.itemId) as { id: string; product_id: string; quantity: number; price_at_purchase: number } | undefined;
       if (!item) continue;
       const prod = productPrices.get(item.product_id);
-      const newPrice = prod?.price ?? 0;
+      const newPrice = u.price_at_purchase !== undefined
+        ? u.price_at_purchase
+        : (prod?.price ?? item.price_at_purchase);
 
       const { error: updateError } = await supabase
         .from("order_items")
@@ -846,7 +854,9 @@ export async function saveOrderItems(
     // 8. Apply adds
     for (const add of input.adds) {
       const prod = productPrices.get(add.productId);
-      const price = prod?.price ?? 0;
+      const price = add.price_at_purchase !== undefined
+        ? add.price_at_purchase
+        : (prod?.price ?? 0);
 
       const { error: insertError } = await supabase.from("order_items").insert({
         order_id: orderId,
