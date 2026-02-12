@@ -138,6 +138,9 @@ export default function ProductsTable({ products }: ProductsTableProps) {
                   <p className="text-xs text-neutral-500 mt-0.5 truncate">
                     {product.name_key}
                   </p>
+                  <p className="text-xs text-neutral-400 mt-1">
+                    Order: #{product.display_order}
+                  </p>
                   <span className="inline-flex items-center mt-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-800 capitalize">
                     {product.type}
                   </span>
@@ -148,6 +151,15 @@ export default function ProductsTable({ products }: ProductsTableProps) {
             {/* Status badges */}
             <div className="px-4 pb-3">
               <div className="flex flex-wrap gap-2">
+                <span
+                  className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium ${
+                    product.status === "published"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-amber-100 text-amber-800"
+                  }`}
+                >
+                  {product.status === "published" ? "Published" : "Draft"}
+                </span>
                 {product.featured && (
                   <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-amber-100 text-amber-800">
                     <svg className="w-3.5 h-3.5 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
@@ -161,7 +173,7 @@ export default function ProductsTable({ products }: ProductsTableProps) {
                     Sold Out
                   </span>
                 )}
-                {!product.featured && !product.sold_out && (
+                {!product.featured && !product.sold_out && product.status === "published" && (
                   <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-green-100 text-green-800">
                     Active
                   </span>

@@ -33,8 +33,13 @@ async function resolveProduct(row: ProductRow, locale: string): Promise<Product>
   
   // Navigate to the highlights using the key path
   // e.g., "products.classicCialde.highlights" -> messages.products.classicCialde.highlights
-  const getNestedValue = (obj: any, path: string): any => {
-    return path.split('.').reduce((current, key) => current?.[key], obj);
+  const getNestedValue = (obj: unknown, path: string): unknown => {
+    return path.split(".").reduce<unknown>((current, key) => {
+      if (current && typeof current === "object" && key in current) {
+        return (current as Record<string, unknown>)[key];
+      }
+      return undefined;
+    }, obj);
   };
   
   const highlights = row.highlights_key 
@@ -69,7 +74,9 @@ const fetchProductsFromDB = cache(async (): Promise<ProductRow[]> => {
   const { data, error } = await supabase
     .from("products")
     .select("*")
-    .order("created_at", { ascending: true });
+    .eq("status", "published")
+    .order("display_order", { ascending: true })
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.error("Error fetching products:", error);

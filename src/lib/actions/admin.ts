@@ -2500,6 +2500,8 @@ export interface AdminProduct {
   low_stock_threshold: number;
   sold_out: boolean;
   featured: boolean;
+  status: "draft" | "published";
+  display_order: number;
   type: "cialde" | "machine";
   images: string[];
   created_at: string;
@@ -2529,6 +2531,8 @@ export interface ProductPayload {
   low_stock_threshold?: number;
   sold_out: boolean;
   featured: boolean;
+  status?: "draft" | "published";
+  display_order?: number;
   type: "cialde" | "machine";
   images: string[];
 }
@@ -2545,6 +2549,7 @@ export async function getAdminProducts(): Promise<{
     const { data, error } = await supabase
       .from("products")
       .select("*")
+      .order("display_order", { ascending: true })
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -2589,6 +2594,7 @@ export async function createProduct(
 
   try {
     const supabase = await createAdminClient();
+    let nextDisplayOrder = payload.display_order;
 
     // Check if slug already exists
     const { data: existing } = await supabase
@@ -2599,6 +2605,16 @@ export async function createProduct(
 
     if (existing) {
       return { product: null, error: "A product with this slug already exists" };
+    }
+
+    if (nextDisplayOrder == null) {
+      const { data: lastOrderedProduct } = await supabase
+        .from("products")
+        .select("display_order")
+        .order("display_order", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      nextDisplayOrder = ((lastOrderedProduct as { display_order: number } | null)?.display_order ?? 0) + 1;
     }
 
     const { data, error } = await supabase
@@ -2615,6 +2631,8 @@ export async function createProduct(
         low_stock_threshold: payload.low_stock_threshold ?? 5,
         sold_out: payload.sold_out,
         featured: payload.featured,
+        status: payload.status ?? "draft",
+        display_order: Math.max(1, Math.floor(nextDisplayOrder)),
         type: payload.type,
         images: payload.images,
       })
@@ -2644,13 +2662,14 @@ export async function updateProduct(
 
   try {
     const supabase = await createAdminClient();
+    const normalizedPayload: Partial<ProductPayload> = { ...payload };
 
     // If slug is being updated, check if it already exists
-    if (payload.slug) {
+    if (normalizedPayload.slug) {
       const { data: existing } = await supabase
         .from("products")
         .select("id")
-        .eq("slug", payload.slug)
+        .eq("slug", normalizedPayload.slug)
         .neq("id", id)
         .single();
 
@@ -2659,9 +2678,16 @@ export async function updateProduct(
       }
     }
 
+    if (normalizedPayload.display_order !== undefined) {
+      normalizedPayload.display_order = Math.max(
+        1,
+        Math.floor(normalizedPayload.display_order)
+      );
+    }
+
     const { data, error } = await supabase
       .from("products")
-      .update(payload)
+      .update(normalizedPayload)
       .eq("id", id)
       .select()
       .single();

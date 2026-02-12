@@ -48,7 +48,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   // If profile doesn't exist yet (race condition), show a fallback
   if (!profile) {
     return (
-      <div className="md:py-16 py-8">
+      <div className="md:py-24 py-8">
         <div className="container">
           <p className="text-muted">{t("profile.notLoggedIn")}</p>
         </div>
@@ -57,7 +57,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   }
 
   return (
-    <div className="md:py-16 py-8">
+    <div className="md:py-24 py-8">
       <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
         <div className="mb-8">
           <h1 className="text-h1 font-serif">{t("profile.title")}</h1>

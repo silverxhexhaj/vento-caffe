@@ -122,7 +122,7 @@ export default function CheckoutPage() {
   // Loading state
   if (authLoading) {
     return (
-      <div className="md:py-16 py-8">
+      <div className="md:py-24 py-8">
         <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
           <div className="flex items-center justify-center py-20">
             <div className="animate-pulse text-muted">{t("auth.loading")}</div>
@@ -135,7 +135,7 @@ export default function CheckoutPage() {
   // Success state
   if (successOrderId) {
     return (
-      <div className="md:py-16 py-8">
+      <div className="md:py-24 py-8">
         <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
           <div className="max-w-lg mx-auto text-center py-16">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-100 flex items-center justify-center">
@@ -175,7 +175,7 @@ export default function CheckoutPage() {
   // Empty cart state
   if (items.length === 0) {
     return (
-      <div className="md:py-16 py-8">
+      <div className="md:py-24 py-8">
         <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
           <div className="max-w-lg mx-auto text-center py-16">
             <p className="text-muted mb-6">{t("checkout.emptyCart")}</p>
@@ -191,7 +191,7 @@ export default function CheckoutPage() {
   // Not logged in state
   if (!user) {
     return (
-      <div className="md:py-16 py-8">
+      <div className="md:py-24 py-8">
         <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
           <h1 className="text-h1 font-serif mb-8">{t("checkout.title")}</h1>
           <div className="max-w-lg mx-auto text-center py-16 border border-[var(--border)]">
@@ -224,7 +224,7 @@ export default function CheckoutPage() {
 
   // Main checkout form
   return (
-    <div className="md:py-16 py-8">
+    <div className="md:py-24 py-8">
       <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
         <h1 className="text-h1 font-serif mb-8">{t("checkout.title")}</h1>
 

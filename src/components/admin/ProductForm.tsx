@@ -33,6 +33,8 @@ export default function ProductForm({ product }: ProductFormProps) {
     low_stock_threshold: product?.low_stock_threshold ?? 5,
     sold_out: product?.sold_out || false,
     featured: product?.featured || false,
+    status: product?.status || ("draft" as "draft" | "published"),
+    display_order: product?.display_order ?? 1,
     type: product?.type || ("cialde" as "cialde" | "machine"),
     images: product?.images || [],
   });
@@ -71,6 +73,11 @@ export default function ProductForm({ product }: ProductFormProps) {
       return;
     }
 
+    if (formState.display_order < 1) {
+      setError("Display order must be at least 1.");
+      return;
+    }
+
     const payload = {
       slug: formState.slug.trim(),
       name_key: formState.name_key.trim(),
@@ -83,6 +90,8 @@ export default function ProductForm({ product }: ProductFormProps) {
       low_stock_threshold: formState.low_stock_threshold,
       sold_out: formState.sold_out,
       featured: formState.featured,
+      status: formState.status,
+      display_order: Math.floor(formState.display_order),
       type: formState.type,
       images: formState.images,
     };
@@ -152,6 +161,40 @@ export default function ProductForm({ product }: ProductFormProps) {
               <option value="cialde">Cialde</option>
               <option value="machine">Machine</option>
             </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-neutral-500 mb-1">
+              Publish Status <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={formState.status}
+              onChange={(e) => updateField("status", e.target.value as "draft" | "published")}
+              className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900"
+              required
+            >
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-neutral-500 mb-1">
+              Display Order <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              value={formState.display_order}
+              onChange={(e) => updateField("display_order", parseInt(e.target.value, 10) || 1)}
+              placeholder="e.g., 1"
+              min="1"
+              step="1"
+              className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900"
+              required
+            />
+            <p className="mt-1 text-xs text-neutral-400">
+              Global listing order used across shop and landing pages
+            </p>
           </div>
 
           <div>

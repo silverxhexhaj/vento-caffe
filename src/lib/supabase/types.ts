@@ -55,6 +55,8 @@ export interface Database {
           low_stock_threshold: number;
           sold_out: boolean;
           featured: boolean;
+          status: "draft" | "published";
+          display_order: number;
           type: "cialde" | "machine";
           images: string[];
           created_at: string;
@@ -73,6 +75,8 @@ export interface Database {
           low_stock_threshold?: number;
           sold_out?: boolean;
           featured?: boolean;
+          status?: "draft" | "published";
+          display_order?: number;
           type: "cialde" | "machine";
           images: string[];
           created_at?: string;
@@ -91,6 +95,8 @@ export interface Database {
           low_stock_threshold?: number;
           sold_out?: boolean;
           featured?: boolean;
+          status?: "draft" | "published";
+          display_order?: number;
           type?: "cialde" | "machine";
           images?: string[];
           created_at?: string;
@@ -403,6 +409,7 @@ export interface Database {
     };
     Enums: {
       order_status: "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
+      product_status: "draft" | "published";
       product_type: "cialde" | "machine";
       booking_status: "pending" | "confirmed" | "delivered" | "cancelled";
     };
