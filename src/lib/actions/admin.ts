@@ -203,8 +203,8 @@ export async function markAllAdminNotificationsRead(): Promise<{
 // ============================================
 
 export interface DashboardStats {
-  totalOrders: number;
-  pendingOrders: number;
+  espressoOrders: number;
+  cialdeOrders: number;
   totalRevenue: number;
   activeClients: number;
   recentOrders: AdminOrder[];
@@ -265,16 +265,28 @@ export async function getAdminDashboardStats(): Promise<{
   try {
     const supabase = await createAdminClient();
 
-    // Get total orders count
-    const { count: totalOrders } = await supabase
-      .from("orders")
-      .select("*", { count: "exact", head: true });
+    // Get order counts by product type (Espresso = machine, Cialde = cialde)
+    const { data: orderItemsData } = await supabase
+      .from("order_items")
+      .select(`
+        order_id,
+        products (type),
+        orders (status)
+      `);
 
-    // Get pending orders count
-    const { count: pendingOrders } = await supabase
-      .from("orders")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "pending");
+    const espressoOrderIds = new Set<string>();
+    const cialdeOrderIds = new Set<string>();
+    const items = (orderItemsData ?? []) as unknown as Array<{
+      order_id: string;
+      products?: { type: string } | null;
+      orders?: { status: string } | null;
+    }>;
+    for (const item of items) {
+      if (item.orders?.status === "cancelled") continue;
+      const type = item.products?.type;
+      if (type === "machine") espressoOrderIds.add(item.order_id);
+      if (type === "cialde") cialdeOrderIds.add(item.order_id);
+    }
 
     // Get total revenue
     const { data: revenueData } = await supabase
@@ -288,15 +300,17 @@ export async function getAdminDashboardStats(): Promise<{
         0
       ) ?? 0;
 
-    // Get active clients count (users who have placed at least one order)
+    // Get active clients count (distinct users or businesses with at least one non-cancelled order)
     const { data: clientData } = await supabase
       .from("orders")
-      .select("user_id")
+      .select("user_id, business_id")
       .not("status", "eq", "cancelled");
 
-    const uniqueClients = new Set(
-      (clientData as Array<{ user_id: string }>)?.map((o) => o.user_id)
-    );
+    const uniqueClients = new Set<string>();
+    for (const o of (clientData as Array<{ user_id: string | null; business_id: string | null }>) ?? []) {
+      const id = o.user_id ?? o.business_id;
+      if (id) uniqueClients.add(id);
+    }
 
     // Get recent orders (last 10)
     const { data: recentOrders } = await supabase
@@ -317,8 +331,8 @@ export async function getAdminDashboardStats(): Promise<{
 
     return {
       stats: {
-        totalOrders: totalOrders ?? 0,
-        pendingOrders: pendingOrders ?? 0,
+        espressoOrders: espressoOrderIds.size,
+        cialdeOrders: cialdeOrderIds.size,
         totalRevenue,
         activeClients: uniqueClients.size,
         recentOrders: (recentOrders as unknown as AdminOrder[]) ?? [],
