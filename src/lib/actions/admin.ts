@@ -1440,6 +1440,12 @@ export interface AdminBusiness {
     created_at: string;
   } | null;
   orders_count?: number;
+  orders_preview?: {
+    id: string;
+    created_at: string;
+    status: string;
+    items: { product_name: string; quantity: number }[];
+  }[];
 }
 
 export interface AdminBusinessActivity {
@@ -1615,8 +1621,127 @@ export async function getAdminBusinesses(filters: BusinessFilters = {}): Promise
       return { ...b, orders_count: byBusiness + byUser };
     });
 
+    const linkedProfileToBusiness = new Map<string, string>();
+    for (const b of businessesWithCounts) {
+      if (b.linked_profile_id) {
+        linkedProfileToBusiness.set(b.linked_profile_id, b.id);
+      }
+    }
+
+    const PREVIEW_ORDERS_PER_BUSINESS = 5;
+    const PREVIEW_ITEMS_PER_ORDER = 5;
+
+    type OrderRow = {
+      id: string;
+      business_id: string | null;
+      user_id: string | null;
+      created_at: string;
+      status: string;
+      order_items?: Array<{
+        quantity: number;
+        products?: { slug: string; name_key: string } | { slug: string; name_key: string }[] | null;
+      }>;
+    };
+    const ordersForPreview: OrderRow[] = [];
+
+    if (businessIds.length > 0 || linkedProfileIds.length > 0) {
+      const orParts: string[] = [];
+      if (businessIds.length > 0) {
+        orParts.push(`business_id.in.(${businessIds.join(",")})`);
+      }
+      if (linkedProfileIds.length > 0) {
+        orParts.push(`user_id.in.(${linkedProfileIds.join(",")})`);
+      }
+      const { data: ordersData } = await supabase
+        .from("orders")
+        .select(
+          `
+          id,
+          business_id,
+          user_id,
+          created_at,
+          status,
+          order_items (
+            quantity,
+            products (slug, name_key)
+          )
+        `
+        )
+        .or(orParts.join(","))
+        .order("created_at", { ascending: false })
+        .limit(100);
+
+      if (ordersData) {
+        ordersForPreview.push(
+          ...(ordersData as unknown as typeof ordersForPreview)
+        );
+      }
+    }
+
+    const previewByBusinessId = new Map<
+      string,
+      {
+        id: string;
+        created_at: string;
+        status: string;
+        items: { product_name: string; quantity: number }[];
+      }[]
+    >();
+
+    const formatProductName = (slug: string | undefined, nameKey: string | undefined): string => {
+      if (slug) {
+        return slug
+          .split("-")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+          .join(" ");
+      }
+      if (nameKey) {
+        const parts = nameKey.split(".");
+        return parts[parts.length - 1] || nameKey;
+      }
+      return "Product";
+    };
+
+    for (const order of ordersForPreview) {
+      const businessId =
+        order.business_id && businessIds.includes(order.business_id)
+          ? order.business_id
+          : order.user_id
+            ? linkedProfileToBusiness.get(order.user_id) ?? null
+            : null;
+      if (!businessId) continue;
+
+      const existing = previewByBusinessId.get(businessId) ?? [];
+      if (existing.length >= PREVIEW_ORDERS_PER_BUSINESS) continue;
+
+      const items = (order.order_items ?? [])
+        .slice(0, PREVIEW_ITEMS_PER_ORDER)
+        .map((oi) => {
+          const p = oi.products;
+          const slug = Array.isArray(p) ? p[0]?.slug : p?.slug;
+          const nameKey = Array.isArray(p) ? p[0]?.name_key : p?.name_key;
+          return {
+            product_name: formatProductName(slug, nameKey),
+            quantity: oi.quantity,
+          };
+        });
+
+      existing.push({
+        id: order.id,
+        created_at: order.created_at,
+        status: order.status,
+        items,
+      });
+      previewByBusinessId.set(businessId, existing);
+    }
+
+    const businessesWithPreview = businessesWithCounts.map((b) => ({
+      ...b,
+      orders_preview: previewByBusinessId.get(b.id) ?? [],
+    }));
+
     return {
-      businesses: (businessesWithCounts as unknown as AdminBusiness[]) ?? [],
+      businesses: (businessesWithPreview as unknown as AdminBusiness[]) ?? [],
       total: count ?? 0,
       error: null,
     };

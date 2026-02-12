@@ -8,6 +8,7 @@ import BusinessesTable from "@/components/admin/BusinessesTable";
 import SearchInput from "@/components/admin/SearchInput";
 import Pagination from "@/components/admin/Pagination";
 import BusinessFilters from "@/components/admin/BusinessFilters";
+import BusinessStageFilters from "@/components/admin/BusinessStageFilters";
 
 interface BusinessesPageProps {
   params: Promise<{ locale: string }>;
@@ -20,7 +21,7 @@ export default async function AdminBusinessesPage({
 }: BusinessesPageProps) {
   const { locale } = await params;
   const sp = await searchParams;
-  const stage = sp.stage || "all";
+  const stage = sp.stage || "active_client";
   const source = sp.source || "all";
   const type = sp.type || "all";
   const agent = sp.agent || "all";
@@ -95,6 +96,8 @@ export default async function AdminBusinessesPage({
           </p>
         </div>
       </div>
+
+      <BusinessStageFilters />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,_1fr)_auto] lg:items-center">
         <div className="max-w-sm">
