@@ -30,7 +30,7 @@ export default function BusinessStageFilters() {
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  const currentStage = searchParams.get("stage") || "active_client";
+  const currentStage = searchParams.get("stage") || "all";
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -46,10 +46,10 @@ export default function BusinessStageFilters() {
             type="button"
             onClick={() => updateParam("stage", option.value)}
             className={clsx(
-              "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
+              "inline-flex items-center px-3 py-2 rounded-full text-xs font-medium transition-colors cursor-pointer",
               stageClass,
               isActive
-                ? "ring-2 ring-neutral-400 ring-offset-1"
+                ? "ring-2 ring-neutral-900 ring-offset-1"
                 : "hover:opacity-90"
             )}
           >

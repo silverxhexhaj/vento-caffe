@@ -21,7 +21,7 @@ export default async function AdminBusinessesPage({
 }: BusinessesPageProps) {
   const { locale } = await params;
   const sp = await searchParams;
-  const stage = sp.stage || "active_client";
+  const stage = sp.stage || "all";
   const source = sp.source || "all";
   const type = sp.type || "all";
   const agent = sp.agent || "all";
