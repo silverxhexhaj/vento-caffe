@@ -228,24 +228,89 @@
     },
     "decaffeinatoCialde": {
       "name": "Kuti Bustina pa kafeinë",
-      "description": "I gjithë shija, pa kafeinë. Bustinat tona pa kafeinë përdorin procesin natyral Swiss Water për të hequr kafeinën duke ruajtur shijet komplekse të kokrrave Arabica premium. Shijoni espresso autentike italiane në çdo kohë të ditës.",
+      "description": "I gjithë karakteri Napoletan, pa kafeinë. Bustinat tona pa kafeinë ruajnë të njëjtin profil të pasur dhe të plotë të Italisë së Jugut duke përdorur procesin natyral Swiss Water për të hequr kafeinën duke ruajtur shijet komplekse të kokrrave Arabica premium. Shijoni espresso autentike italiane në çdo kohë të ditës.",
       "contents": "150 bustina + kit",
       "highlights": [
         "150 pods ESE pa kafeinë",
         "Përfshin gota, sheqer dhe lugë",
+        "Pa kafeinë në stilin Napoletan (i njëjti karakter i pasur, pa kafeinë)",
+        "Proces Swiss Water për heqjen e kafeinës",
         "E përputhshme me të gjitha makinat ESE"
       ]
     },
     "espressoMachine": {
-      "name": "Makina e espressos",
-      "description": "Një makinë espresso profesionale me pods ESE e projektuar për thjeshtësi dhe cilësi. Kompakte, elegante dhe e fuqishme — përgatit espresso të nivelit bar në shtëpi ose në zyrë me një shtypje të vetme. Pa rrëmujë, pa mbetje, vetëm kafe perfekte.",
+      "name": "Makina Didiesse për Pod Espresso",
+      "description": "E projektuar për dashamirësit e vërtetë të kafesë që duan espresso italiane autentike me thjeshtësi maksimale. E përputhshme me bustina ESE, ofron aromë perfekte, teksturë kremoze dhe performancë të qëndrueshme — duke respektuar mjedisin.",
+      "contents": "Shijoni espresso italiane të vërtetë çdo ditë.",
       "highlights": [
-        "Presion pompe 15 bar",
-        "E përputhshme me pods ESE",
-        "Dizajn kompakt",
-        "Garanci 1-vjeçare",
-        "FALAS me abonim mujor"
-      ]
+        "Espresso italiane autentike",
+        "E lehtë për t'u përdorur",
+        "Kohë ngrohjeje e shpejtë",
+        "Kremë e qëndrueshme",
+        "Madhësi kompakte",
+        "Ndërtim italian i qëndrueshëm"
+      ],
+      "brandDescription": "Didiesse S.r.l. është një kompani italiane e specializuar në prodhimin e makinave espresso për konsumimin e bustinave. Të gjitha makinat janë 100% Made in Italy, të projektuara me komponentë të certifikuar për performancë të lartë dhe qëndrueshmëri. Mbështetje e besueshme pas-shitje përmes një rrjeti të gjerë shërbimi.",
+      "features": {
+        "coffeeSystem": {
+          "title": "Sistemi i Kafesë",
+          "dispensingLabel": "Shpërndarja",
+          "dispensing": "1 filxhan në të njëjtën kohë",
+          "compatibleLabel": "E përputhshme",
+          "compatible": "Bustina ESE",
+          "pumpPressureLabel": "Presioni i pompës",
+          "pumpPressure": "15 bar (niveli profesional i espressos)"
+        },
+        "buildDesign": {
+          "title": "Ndërtimi dhe Dizajni",
+          "bodyLabel": "Trupi",
+          "body": "Metal + Termoplastik",
+          "controlPanelLabel": "Paneli i kontrollit",
+          "controlPanel": "Përpara",
+          "cableLengthLabel": "Gjatësia e kabllit",
+          "cableLength": "0.8 m"
+        },
+        "waterTank": {
+          "title": "Rezervuari i Ujit",
+          "capacityLabel": "Kapaciteti",
+          "capacity": "2 litra"
+        }
+      },
+      "dimensions": {
+        "widthLabel": "Gjerësia",
+        "width": "22 cm",
+        "depthLabel": "Thellësia",
+        "depth": "32 cm",
+        "heightLabel": "Lartësia",
+        "height": "40 cm",
+        "weightLabel": "Pesha",
+        "weight": "6.5 kg"
+      },
+      "energySpecsLabels": {
+        "power": "Fuqia",
+        "voltage": "Tensioni"
+      },
+      "energySpecs": {
+        "power": "650 / 1900 W",
+        "voltage": "220 / 120 V"
+      },
+      "ecoBenefits": [
+        "Sistem bustinash 100% miqësor me mjedisin",
+        "Materiale paketimi të certifikuara FSC",
+        "E projektuar për të minimizuar mbetjet"
+      ],
+      "optionalEquipment": [
+        "Opsioni i grupit të avullit",
+        "Opsioni i mbajtësit të aksesorëve"
+      ],
+      "sections": {
+        "aboutBrand": "Rreth markës",
+        "keyFeatures": "Karakteristikat kryesore",
+        "dimensionsWeight": "Dimensionet dhe pesha",
+        "energySpecs": "Specifikimet energjetike",
+        "ecoSustainability": "Eko dhe qëndrueshmëri",
+        "optionalEquipment": "Pajisje opsionale"
+      }
     }
   },
   "shopPage": {

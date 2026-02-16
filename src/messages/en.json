@@ -34,7 +34,7 @@
     "skipToContent": "Skip to content",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "cartButton": "Cart ({totalItems})"
+    "cartButton": "Cart ({totalItems})" 
   },
   "common": {
     "shopNow": "Shop Now",
@@ -166,7 +166,7 @@
       }
     },
     "newsletter": {
-      "heading": "Newsletter",
+      "heading": "Newsletter", 
       "subHeading": "Stay in touch",
       "placeholder": "Enter your email",
       "buttonText": "Go",
@@ -229,25 +229,89 @@
     },
     "decaffeinatoCialde": {
       "name": "Decaffeinato Cialde Box",
-      "description": "All the flavor, none of the caffeine. Our decaffeinated cialde use a natural Swiss Water process to remove caffeine while preserving the complex flavors of premium Arabica beans. Enjoy authentic Italian espresso any time of day.",
+      "description": "All the Napoletane character, none of the caffeine. Our decaffeinated cialde preserve the same rich, full-bodied southern Italian profile using the natural Swiss Water process to remove caffeine while keeping the complex flavors of premium Arabica beans. Enjoy authentic Italian espresso any time of day.",
       "contents": "150 cialde + kit",
       "highlights": [
         "150 decaf ESE coffee pods",
         "Includes cups, sugar, and stirrers",
+        "Napoletane-style decaf (same rich character, no caffeine)",
         "Swiss Water decaf process",
         "Compatible with all ESE machines"
       ]
     },
     "espressoMachine": {
-      "name": "Espresso Machine",
-      "description": "A professional-grade ESE pod espresso machine designed for simplicity and quality. Compact, elegant, and powerful—brew barista-quality espresso at home or in the office with the push of a button. No mess, no waste, just perfect coffee.",
-      "highlights": [
-        "15 bar pump pressure",
-        "ESE pod compatible",
-        "Compact design",
-        "1-year warranty",
-        "FREE with monthly subscription"
-      ]
+      "name": "Didiesse Espresso Pod Machine",
+      "description": "Designed for true coffee lovers who want authentic Italian espresso with maximum simplicity. Compatible with ESE pods, delivering perfect aroma, creamy texture, and consistent performance—all while respecting the environment.",
+      "contents": "Enjoy real Italian espresso every day.",
+      "highlights": [ 
+        "Authentic Italian espresso",
+        "Easy to use",
+        "Fast heating time",
+        "Consistent crema",
+        "Compact size",
+        "Durable Italian build quality"
+      ],
+      "brandDescription": "Didiesse S.r.l. is an Italian company specialized in producing espresso coffee machines for pod consumption. All machines are 100% Made in Italy, designed with certified components for high performance and durability. Reliable after-sales support through an extensive service network.",
+      "features": {
+        "coffeeSystem": {
+          "title": "Coffee System",
+          "dispensingLabel": "Dispensing",
+          "dispensing": "1 cup at a time",
+          "compatibleLabel": "Compatible",
+          "compatible": "ESE Coffee Pods",
+          "pumpPressureLabel": "Pump pressure",
+          "pumpPressure": "15 bar (professional espresso level)"
+        },
+        "buildDesign": {
+          "title": "Build & Design",
+          "bodyLabel": "Body",
+          "body": "Metal + Thermoplastic",
+          "controlPanelLabel": "Control panel",
+          "controlPanel": "Front",
+          "cableLengthLabel": "Cable length",
+          "cableLength": "0.8 m"
+        },
+        "waterTank": {
+          "title": "Water Tank",
+          "capacityLabel": "Capacity",
+          "capacity": "2 liters"
+        }
+      },
+      "dimensions": {
+        "widthLabel": "Width",
+        "width": "22 cm",
+        "depthLabel": "Depth",
+        "depth": "32 cm",
+        "heightLabel": "Height",
+        "height": "40 cm",
+        "weightLabel": "Weight",
+        "weight": "6.5 kg"
+      },
+      "energySpecsLabels": {
+        "power": "Power",
+        "voltage": "Voltage"
+      },
+      "energySpecs": {
+        "power": "650 / 1900 W",
+        "voltage": "220 / 120 V"
+      },
+      "ecoBenefits": [
+        "100% eco-friendly pod system",
+        "FSC certified packaging materials",
+        "Designed to minimize waste"
+      ],
+      "optionalEquipment": [
+        "Steam group option",
+        "Accessory holder option"
+      ],
+      "sections": {
+        "aboutBrand": "About the Brand",
+        "keyFeatures": "Key Features",
+        "dimensionsWeight": "Dimensions & Weight",
+        "energySpecs": "Energy Specifications",
+        "ecoSustainability": "Eco & Sustainability",
+        "optionalEquipment": "Optional Equipment"
+      }
     }
   },
   "shopPage": {

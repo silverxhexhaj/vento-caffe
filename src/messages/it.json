@@ -229,25 +229,89 @@
     },
     "decaffeinatoCialde": {
       "name": "Box Cialde Decaffeinate",
-      "description": "Tutto il gusto, senza caffeina. Le nostre cialde decaffeinate utilizzano il processo naturale Swiss Water per rimuovere la caffeina preservando i sapori complessi dei chicchi Arabica premium. Gusta l'autentico espresso italiano in qualsiasi momento della giornata.",
+      "description": "Tutto il carattere napoletano, senza caffeina. Le nostre cialde decaffeinate preservano lo stesso profilo ricco e corposo del Sud Italia grazie al processo naturale Swiss Water, che rimuove la caffeina mantenendo i sapori complessi dei chicchi Arabica premium. Gusta l'autentico espresso italiano in qualsiasi momento della giornata.",
       "contents": "150 cialde + kit",
       "highlights": [
         "150 cialde ESE decaffeinate",
         "Include tazze, zucchero e palette",
+        "Decaffeinato in stile napoletano (stesso carattere ricco, senza caffeina)",
         "Processo decaffeinato Swiss Water",
         "Compatibile con tutte le macchine ESE"
       ]
     },
     "espressoMachine": {
-      "name": "Macchina da espresso",
-      "description": "Una macchina da espresso professionale ESE progettata per semplicità e qualità. Compatta, elegante e potente: prepara un espresso da bar a casa o in ufficio con il tocco di un pulsante. Nessun disordine, nessuno spreco, solo caffè perfetto.",
+      "name": "Macchina Cialde Espresso Didiesse",
+      "description": "Progettata per i veri amanti del caffè che desiderano un espresso italiano autentico con massima semplicità. Compatibile con cialde ESE, offre aroma perfetto, consistenza cremosa e prestazioni costanti, rispettando l'ambiente.",
+      "contents": "Gusta un vero espresso italiano ogni giorno.",
       "highlights": [
-        "Pressione della pompa 15 bar",
-        "Compatibile con cialde ESE",
-        "Design compatto",
-        "Garanzia di 1 anno",
-        "GRATIS con abbonamento mensile"
-      ]
+        "Espresso italiano autentico",
+        "Facile da usare",
+        "Riscaldamento rapido",
+        "Crema consistente",
+        "Dimensioni compatte",
+        "Costruzione italiana durevole"
+      ],
+      "brandDescription": "Didiesse S.r.l. è un'azienda italiana specializzata nella produzione di macchine da espresso dedicate al consumo di cialde. Tutte le macchine sono 100% Made in Italy, progettate con componenti certificati per alte prestazioni e durata. Assistenza post-vendita affidabile tramite una vasta rete di servizio.",
+      "features": {
+        "coffeeSystem": {
+          "title": "Sistema Caffè",
+          "dispensingLabel": "Erogazione",
+          "dispensing": "1 tazza alla volta",
+          "compatibleLabel": "Compatibile",
+          "compatible": "Cialde ESE",
+          "pumpPressureLabel": "Pressione pompa",
+          "pumpPressure": "15 bar (livello espresso professionale)"
+        },
+        "buildDesign": {
+          "title": "Costruzione e Design",
+          "bodyLabel": "Corpo",
+          "body": "Metallo + Termoplastica",
+          "controlPanelLabel": "Pannello di controllo",
+          "controlPanel": "Frontale",
+          "cableLengthLabel": "Lunghezza cavo",
+          "cableLength": "0.8 m"
+        },
+        "waterTank": {
+          "title": "Serbatoio Acqua",
+          "capacityLabel": "Capacità",
+          "capacity": "2 litri"
+        }
+      },
+      "dimensions": {
+        "widthLabel": "Larghezza",
+        "width": "22 cm",
+        "depthLabel": "Profondità",
+        "depth": "32 cm",
+        "heightLabel": "Altezza",
+        "height": "40 cm",
+        "weightLabel": "Peso",
+        "weight": "6.5 kg"
+      },
+      "energySpecsLabels": {
+        "power": "Potenza",
+        "voltage": "Tensione"
+      },
+      "energySpecs": {
+        "power": "650 / 1900 W",
+        "voltage": "220 / 120 V"
+      },
+      "ecoBenefits": [
+        "Sistema cialde 100% ecologico",
+        "Materiali di imballaggio certificati FSC",
+        "Progettato per ridurre gli sprechi"
+      ],
+      "optionalEquipment": [
+        "Opzione gruppo vapore",
+        "Opzione supporto accessori"
+      ],
+      "sections": {
+        "aboutBrand": "Il marchio",
+        "keyFeatures": "Caratteristiche principali",
+        "dimensionsWeight": "Dimensioni e peso",
+        "energySpecs": "Specifiche energetiche",
+        "ecoSustainability": "Ecologia e sostenibilità",
+        "optionalEquipment": "Accessori opzionali"
+      }
     }
   },
   "shopPage": {

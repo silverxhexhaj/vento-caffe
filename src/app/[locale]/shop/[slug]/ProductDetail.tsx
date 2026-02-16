@@ -10,6 +10,7 @@ import { formatPrice } from "@/lib/utils";
 import ProductGallery from "@/components/shop/ProductGallery";
 import QuantityStepper from "@/components/shop/QuantityStepper";
 import RelatedProductCard from "@/components/shop/RelatedProductCard";
+import MachineSpecsSection from "@/components/shop/MachineSpecsSection";
 
 interface ProductDetailProps {
   product: Product;
@@ -103,6 +104,9 @@ export default function ProductDetail({ product, otherProducts }: ProductDetailP
                   ))}
                 </ul>
               )}
+
+              {/* Machine specs (Didiesse content) */}
+              {isMachine && <MachineSpecsSection />}
 
           </div>
 
