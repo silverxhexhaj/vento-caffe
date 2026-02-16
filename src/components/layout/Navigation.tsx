@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { mainNavItems } from "@/data/navigation";
 import { AuthButton } from "@/components/auth";
+import { useCart } from "@/lib/cart";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,6 +15,7 @@ export default function Navigation() {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
+  const { totalItems, toggleCart } = useCart();
 
   const localePathname = useMemo(() => {
     if (!pathname) return `/${locale}`;
@@ -130,6 +132,35 @@ export default function Navigation() {
                 </span>
               ))}
             </div>
+            {/* Cart Button - All screens */}
+            <button
+              onClick={toggleCart}
+              className="relative flex items-center opacity-70 hover:opacity-100 transition-opacity text-sm font-medium"
+              aria-label={t("cart.title", { totalItems })}
+            >
+              <span className="relative flex items-center justify-center w-10 h-10">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-5 h-5 rounded-full bg-[var(--foreground)] text-[var(--background)] text-xs font-semibold flex items-center justify-center px-1">
+                    {totalItems}
+                  </span>
+                )}
+              </span>
+              <span className="hidden sm:inline">{t("navigation.cartButton", { totalItems })}</span>
+            </button>
             {/* Auth Button - Desktop only (on mobile it's in bottom nav) */}
             <div className="hidden md:block">
               <AuthButton />

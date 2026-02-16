@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import Navigation from "./Navigation";
 import Footer from "./Footer";
 import CartDrawer from "./CartDrawer";
-import FloatingCartButton from "./FloatingCartButton";
 import MobileBottomNav from "./MobileBottomNav";
 
 export default function StorefrontShell({ children }: { children: React.ReactNode }) {
@@ -25,7 +24,6 @@ export default function StorefrontShell({ children }: { children: React.ReactNod
       <main id="main-content">{children}</main>
       <Footer />
       <CartDrawer />
-      <FloatingCartButton />
       <MobileBottomNav />
     </>
   );
