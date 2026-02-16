@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getCialdeProducts, getMachineProduct } from "@/lib/data/products";
+import { BUSINESS_PACKAGES } from "@/lib/data/businessPackages";
 import ProductCard from "@/components/shop/ProductCard";
 import BusinessPackageCard from "@/components/shop/BusinessPackageCard";
 
@@ -28,44 +29,6 @@ export default async function ShopPage({ params }: ShopPageProps) {
   const classicCialde =
     cialdeProducts.find((product) => product.slug === "classic-cialde") ||
     cialdeProducts[0];
-  const businessPackages = [
-    {
-      key: "package1",
-      boxes: 1,
-      perBoxPrice: 5500,
-      businessImage: "/images/categories/office.png",
-    },
-    {
-      key: "package2",
-      boxes: 2,
-      perBoxPrice: 5400,
-      businessImage: "/images/categories/salon.png",
-    },
-    {
-      key: "package4",
-      boxes: 4,
-      perBoxPrice: 5300,
-      businessImage: "/images/categories/coworking.png",
-    },
-    {
-      key: "package6",
-      boxes: 6,
-      perBoxPrice: 5200,
-      businessImage: "/images/categories/hotel.png",
-    },
-    {
-      key: "package8",
-      boxes: 8,
-      perBoxPrice: 5100,
-      businessImage: "/images/categories/restaurant.png",
-    },
-    {
-      key: "package10",
-      boxes: 10,
-      perBoxPrice: 5000,
-      businessImage: "/images/categories/office.png",
-    },
-  ];
 
   return (
     <div className="md:py-24 py-8">
@@ -77,7 +40,7 @@ export default async function ShopPage({ params }: ShopPageProps) {
 
         {/* Products Grid */}
         <div className="mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {cialdeProducts.map((product) => (
               <ProductCard key={product.slug} product={product} />
             ))}
@@ -86,7 +49,7 @@ export default async function ShopPage({ params }: ShopPageProps) {
         </div>
 
         {/* Business Packages */}
-        <div className="border-t border-[var(--border)] pt-16">
+        <div id="packages" className="border-t border-[var(--border)] pt-16">
           <div className="mb-12">
             <h2 className="text-h2 font-serif mb-4">
               {t("shopPage.packagesTitle")}
@@ -96,8 +59,8 @@ export default async function ShopPage({ params }: ShopPageProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {businessPackages.map((pkg) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {BUSINESS_PACKAGES.map((pkg) => (
               <BusinessPackageCard
                 key={pkg.key}
                 tierName={t(`shopPage.${pkg.key}.name`)}
