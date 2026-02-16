@@ -70,13 +70,13 @@ export default function Footer() {
   const socialLinks = [
     {
       name: "Instagram",
-      href: "https://instagram.com/ventocaffe",
+      href: "https://www.instagram.com/ventocaffealbania/",
       icon: InstagramIcon,
       label: t("footer.socialInstagram"),
     },
     {
       name: "Facebook",
-      href: "https://facebook.com/ventocaffe",
+      href: "https://www.facebook.com/people/VENTO-Caffe/61586723828196/",
       icon: FacebookIcon,
       label: t("footer.socialFacebook"),
     },

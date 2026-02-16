@@ -43,18 +43,20 @@ export default function TrustBadges() {
   const content = getContent(t);
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-y border-[var(--border)]">
-      {content.trustBadges.map((badge) => (
-        <div key={badge.label} className="flex flex-col items-center text-center">
-          <div className="mb-2 text-muted">
-            {icons[badge.icon] || icons.star}
+    <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-12">
+        {content.trustBadges.map((badge) => (
+          <div key={badge.label} className="flex flex-col items-center text-center">
+            <div className="mb-2 text-muted">
+              {icons[badge.icon] || icons.star}
+            </div>
+            <p className="text-xs uppercase tracking-widest font-medium mb-1">
+              {badge.label}
+            </p>
+            <p className="text-xs text-muted">{badge.description}</p>
           </div>
-          <p className="text-xs uppercase tracking-widest font-medium mb-1">
-            {badge.label}
-          </p>
-          <p className="text-xs text-muted">{badge.description}</p>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

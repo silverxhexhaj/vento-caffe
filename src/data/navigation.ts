@@ -10,6 +10,6 @@ export const mainNavItems: NavItem[] = [
 ];
 
 export const socialLinks = [
-  { label: "Instagram", href: "https://instagram.com/ventocaffe", icon: "instagram" },
+  { label: "Instagram", href: "https://www.instagram.com/ventocaffealbania/", icon: "instagram" },
   { label: "WhatsApp", href: "https://wa.me/355689188161", icon: "whatsapp" },
 ];
