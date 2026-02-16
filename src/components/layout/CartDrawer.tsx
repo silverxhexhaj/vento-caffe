@@ -205,15 +205,13 @@ export default function CartDrawer() {
                           formatPrice(item.price * item.quantity)
                         )}
                       </span>
-                      {!item.isFreeWithSubscription && (
-                        <button
-                          onClick={() => removeItem(item.productSlug)}
-                          className="text-xs text-muted hover:text-[var(--foreground)] transition-colors"
-                          aria-label={t("cart.remove")}
-                        >
-                          {t("cart.remove")}
-                        </button>
-                      )}
+                      <button
+                        onClick={() => removeItem(item.productSlug)}
+                        className="text-xs text-muted hover:text-[var(--foreground)] transition-colors"
+                        aria-label={t("cart.remove")}
+                      >
+                        {t("cart.remove")}
+                      </button>
                     </div>
                   </li>
                 ))}
