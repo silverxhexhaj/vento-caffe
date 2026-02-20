@@ -70,6 +70,21 @@ export async function verifyAdmin(): Promise<{
   }
 }
 
+export interface AdminNotificationEnrichedOrder {
+  customerName: string;
+  customerType: "profile" | "business";
+  items: { name_key: string; quantity: number; price_at_purchase: number; is_free: boolean }[];
+  total: number;
+  status: string;
+  order_id: string;
+}
+
+export interface AdminNotificationEnrichedSignup {
+  businessName: string;
+  contactName: string | null;
+  business_id: string;
+}
+
 export interface AdminNotification {
   id: string;
   type: string;
@@ -78,12 +93,14 @@ export interface AdminNotification {
   payload: Record<string, unknown>;
   is_read: boolean;
   created_at: string;
+  enriched?: AdminNotificationEnrichedOrder | AdminNotificationEnrichedSignup;
 }
 
 export async function getAdminNotifications(input?: {
   page?: number;
   perPage?: number;
   unreadOnly?: boolean;
+  type?: "all" | "orders" | "signups";
 }): Promise<{
   notifications: AdminNotification[];
   total: number;
@@ -96,6 +113,7 @@ export async function getAdminNotifications(input?: {
     const page = Math.max(1, input?.page ?? 1);
     const perPage = Math.min(100, Math.max(1, input?.perPage ?? 20));
     const unreadOnly = Boolean(input?.unreadOnly);
+    const typeFilter = input?.type ?? "all";
     const from = (page - 1) * perPage;
     const to = from + perPage - 1;
 
@@ -109,14 +127,160 @@ export async function getAdminNotifications(input?: {
     if (unreadOnly) {
       query = query.eq("is_read", false);
     }
+    if (typeFilter === "orders") {
+      query = query.eq("type", "new_order");
+    } else if (typeFilter === "signups") {
+      query = query.eq("type", "new_business_signup");
+    }
 
     const { data, count, error } = await query;
     if (error) {
       return { notifications: [], total: 0, error: error.message };
     }
 
+    const notifications = (data as AdminNotification[]) ?? [];
+
+    // Enrich notifications with order and business details
+    const orderIds = notifications
+      .filter((n) => n.type === "new_order")
+      .map((n) => (n.payload?.order_id as string)?.trim())
+      .filter(Boolean) as string[];
+
+    const signupBusinessIds = notifications
+      .filter((n) => n.type === "new_business_signup")
+      .map((n) => (n.payload?.business_id as string)?.trim())
+      .filter(Boolean) as string[];
+
+    const orderMap = new Map<
+      string,
+      {
+        customerName: string;
+        customerType: "profile" | "business";
+        items: { name_key: string; quantity: number; price_at_purchase: number; is_free: boolean }[];
+        total: number;
+        status: string;
+      }
+    >();
+
+    if (orderIds.length > 0) {
+      const { data: orders } = await supabase
+        .from("orders")
+        .select(
+          `
+          id,
+          total,
+          status,
+          profiles (full_name),
+          businesses (name, contact_name),
+          order_items (
+            quantity,
+            price_at_purchase,
+            is_free,
+            products (name_key)
+          )
+        `
+        )
+        .in("id", orderIds);
+
+      type OrderRow = {
+        id: string;
+        total: number;
+        status: string;
+        profiles?: { full_name?: string | null } | { full_name?: string | null }[] | null;
+        businesses?: { name: string; contact_name: string | null } | Array<{ name: string; contact_name: string | null }> | null;
+        order_items?: Array<{
+          quantity: number;
+          price_at_purchase: number;
+          is_free: boolean;
+          products?: { name_key?: string } | { name_key?: string }[] | null;
+        }>;
+      };
+      const orderRows = (orders ?? []) as OrderRow[];
+      for (const o of orderRows) {
+        const profile = Array.isArray(o.profiles) ? o.profiles[0] : o.profiles;
+        const business = Array.isArray(o.businesses) ? o.businesses[0] : o.businesses;
+        const customerName =
+          business?.name ||
+          business?.contact_name ||
+          profile?.full_name ||
+          "Unknown";
+        const customerType = business ? "business" : "profile";
+        const items = (o.order_items ?? []).map((item) => {
+          const product = Array.isArray(item.products) ? item.products[0] : item.products;
+          return {
+            name_key: product?.name_key ?? "Unknown",
+            quantity: item.quantity,
+            price_at_purchase: item.price_at_purchase,
+            is_free: item.is_free ?? false,
+          };
+        });
+        orderMap.set(o.id, {
+          customerName,
+          customerType,
+          items,
+          total: Number(o.total),
+          status: o.status,
+        });
+      }
+    }
+
+    const signupMap = new Map<
+      string,
+      { businessName: string; contactName: string | null }
+    >();
+
+    if (signupBusinessIds.length > 0) {
+      const { data: businesses } = await supabase
+        .from("businesses")
+        .select("id, name, contact_name")
+        .in("id", signupBusinessIds);
+
+      for (const b of (businesses ?? []) as Array<{
+        id: string;
+        name: string;
+        contact_name: string | null;
+      }>) {
+        signupMap.set(b.id, {
+          businessName: b.name,
+          contactName: b.contact_name,
+        });
+      }
+    }
+
+    const enrichedNotifications: AdminNotification[] = notifications.map((n) => {
+      if (n.type === "new_order") {
+        const orderId = n.payload?.order_id as string;
+        const enriched = orderMap.get(orderId);
+        if (enriched) {
+          return {
+            ...n,
+            enriched: {
+              ...enriched,
+              order_id: orderId,
+            } as AdminNotificationEnrichedOrder,
+          };
+        }
+        return n;
+      }
+      if (n.type === "new_business_signup") {
+        const businessId = n.payload?.business_id as string;
+        const enriched = signupMap.get(businessId);
+        if (enriched) {
+          return {
+            ...n,
+            enriched: {
+              ...enriched,
+              business_id: businessId,
+            } as AdminNotificationEnrichedSignup,
+          };
+        }
+        return n;
+      }
+      return n;
+    });
+
     return {
-      notifications: (data as AdminNotification[]) ?? [],
+      notifications: enrichedNotifications,
       total: count ?? 0,
       error: null,
     };
@@ -402,6 +566,223 @@ export async function getOrdersChartData(days: number): Promise<{
   } catch {
     return { data: [], error: "Failed to fetch chart data" };
   }
+}
+
+// ============================================
+// PROJECTIONS
+// ============================================
+
+export interface FirstMonthData {
+  monthLabel: string;
+  year: number;
+  month: number;
+  revenue: number;
+  orders: number;
+  espressoOrders: number;
+  cialdeOrders: number;
+  activeClients: number;
+  costOfGoodsSold: number;
+}
+
+export async function getFirstMonthData(): Promise<{
+  data: FirstMonthData | null;
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { data: null, error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+
+    const { data: firstOrder, error: firstError } = await supabase
+      .from("orders")
+      .select("created_at")
+      .not("status", "eq", "cancelled")
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .single();
+
+    if (firstError || !firstOrder) {
+      return { data: null, error: null };
+    }
+
+    const firstDate = new Date((firstOrder.created_at as string));
+    const year = firstDate.getFullYear();
+    const month = firstDate.getMonth();
+    const startOfMonth = new Date(year, month, 1);
+    const endOfMonth = new Date(year, month + 1, 0, 23, 59, 59, 999);
+
+    const monthLabel = startOfMonth.toLocaleDateString("en-GB", {
+      month: "long",
+      year: "numeric",
+    });
+
+    const { data: ordersInMonth } = await supabase
+      .from("orders")
+      .select("id, total, total_override, status, user_id, business_id, created_at")
+      .gte("created_at", startOfMonth.toISOString())
+      .lte("created_at", endOfMonth.toISOString());
+
+    const orders = (ordersInMonth ?? []) as Array<{
+      id: string;
+      total: number;
+      total_override?: number | null;
+      status: string;
+      user_id: string | null;
+      business_id: string | null;
+    }>;
+
+    const nonCancelled = orders.filter((o) => o.status !== "cancelled");
+    const revenue = nonCancelled.reduce((sum, o) => {
+      const effectiveTotal =
+        o.total_override != null ? o.total_override : o.total;
+      return sum + Number(effectiveTotal);
+    }, 0);
+    const orderIds = new Set(nonCancelled.map((o) => o.id));
+
+    const uniqueClients = new Set<string>();
+    for (const o of nonCancelled) {
+      const id = o.user_id ?? o.business_id;
+      if (id) uniqueClients.add(id);
+    }
+
+    const { data: orderItemsData } = await supabase
+      .from("order_items")
+      .select(`
+        order_id,
+        quantity,
+        products (type, cost_price),
+        orders (status)
+      `);
+
+    const espressoOrderIds = new Set<string>();
+    const cialdeOrderIds = new Set<string>();
+    let costOfGoodsSold = 0;
+    const items = (orderItemsData ?? []) as unknown as Array<{
+      order_id: string;
+      quantity: number;
+      products?: { type: string; cost_price: number } | null;
+      orders?: { status: string } | null;
+    }>;
+    for (const item of items) {
+      if (item.orders?.status === "cancelled") continue;
+      if (!orderIds.has(item.order_id)) continue;
+      const type = item.products?.type;
+      if (type === "machine") espressoOrderIds.add(item.order_id);
+      if (type === "cialde") cialdeOrderIds.add(item.order_id);
+      const cost = item.products?.cost_price ?? 0;
+      costOfGoodsSold += (item.quantity ?? 0) * cost;
+    }
+
+    return {
+      data: {
+        monthLabel,
+        year,
+        month,
+        revenue,
+        orders: nonCancelled.length,
+        espressoOrders: espressoOrderIds.size,
+        cialdeOrders: cialdeOrderIds.size,
+        activeClients: uniqueClients.size,
+        costOfGoodsSold,
+      },
+      error: null,
+    };
+  } catch {
+    return { data: null, error: "Failed to fetch first month data" };
+  }
+}
+
+export interface ProjectionMonth {
+  month: string;
+  monthIndex: number;
+  revenue: number;
+  orders: number;
+  activeClients: number;
+  costOfGoodsSold: number;
+}
+
+export type ClientGrowthMode = "compound" | "progressive";
+
+export async function getProjectionData(params: {
+  growthRate: number;
+  months: number;
+  clientGrowthMode?: ClientGrowthMode;
+  monthlyNewClients?: number;
+}): Promise<{
+  data: ProjectionMonth[];
+  error: string | null;
+}> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { data: [], error: authError };
+
+  const { data: firstMonth, error } = await getFirstMonthData();
+  if (error || !firstMonth) {
+    return { data: [], error: error ?? "No first month data" };
+  }
+
+  const {
+    growthRate,
+    months,
+    clientGrowthMode = "compound",
+    monthlyNewClients = 2,
+  } = params;
+  const baseline = {
+    revenue: firstMonth.revenue,
+    orders: firstMonth.orders,
+    activeClients: firstMonth.activeClients,
+  };
+
+  const result: ProjectionMonth[] = [];
+  const startDate = new Date(firstMonth.year, firstMonth.month + 1, 1);
+
+  const clientRatio =
+    baseline.activeClients > 0 ? 1 / baseline.activeClients : 0;
+  const cogsRatio =
+    firstMonth.revenue > 0 ? firstMonth.costOfGoodsSold / firstMonth.revenue : 0;
+
+  for (let i = 0; i < months; i++) {
+    const factor = Math.pow(1 + growthRate, i);
+    const d = new Date(startDate);
+    d.setMonth(d.getMonth() + i);
+    const monthLabel = d.toLocaleDateString("en-GB", {
+      month: "long",
+      year: "numeric",
+    });
+
+    let activeClients: number;
+    if (clientGrowthMode === "progressive") {
+      activeClients = Math.round(
+        baseline.activeClients + monthlyNewClients * (i + 1)
+      );
+    } else {
+      activeClients = Math.round(baseline.activeClients * factor);
+    }
+
+    let orders: number;
+    let revenue: number;
+    if (clientGrowthMode === "progressive" && clientRatio > 0) {
+      const scale = activeClients * clientRatio;
+      orders = Math.round(baseline.orders * scale);
+      revenue = Math.round(baseline.revenue * scale);
+    } else {
+      orders = Math.round(baseline.orders * factor);
+      revenue = Math.round(baseline.revenue * factor);
+    }
+
+    const costOfGoodsSold = Math.round(revenue * cogsRatio);
+
+    result.push({
+      month: monthLabel,
+      monthIndex: i + 1,
+      revenue,
+      orders,
+      activeClients,
+      costOfGoodsSold,
+    });
+  }
+
+  return { data: result, error: null };
 }
 
 // ============================================
