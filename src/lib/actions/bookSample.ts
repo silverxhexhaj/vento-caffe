@@ -11,6 +11,10 @@ interface BookSampleInput {
   address: string;
   city: string;
   bookingDate: string; // ISO date string YYYY-MM-DD
+  businessSize?: string;
+  estimatedMonthlyUsage?: string;
+  preferredContactMethod?: string;
+  notes?: string;
 }
 
 interface BookSampleResult {
@@ -89,6 +93,10 @@ export async function bookSample(input: BookSampleInput): Promise<BookSampleResu
         city: input.city.trim(),
         booking_date: input.bookingDate,
         status: "pending",
+        business_size: input.businessSize?.trim() || null,
+        estimated_monthly_usage: input.estimatedMonthlyUsage?.trim() || null,
+        preferred_contact_method: input.preferredContactMethod || "phone",
+        notes: input.notes?.trim() || null,
       });
 
     if (error) {

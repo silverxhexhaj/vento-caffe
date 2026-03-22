@@ -3,6 +3,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { sendOrderStatusUpdateEmail } from "@/lib/email";
 
 async function createAdminClient() {
   const cookieStore = await cookies();
@@ -367,10 +368,10 @@ export async function markAllAdminNotificationsRead(): Promise<{
 // ============================================
 
 export interface DashboardStats {
-  espressoOrders: number;
-  cialdeOrders: number;
+  totalOrders: number;
   totalRevenue: number;
   activeClients: number;
+  subscriptionOrders: number;
   recentOrders: AdminOrder[];
 }
 
@@ -428,52 +429,65 @@ export async function getAdminDashboardStats(): Promise<{
 
   try {
     const supabase = await createAdminClient();
+    const { data: orderStatsData } = await supabase
+      .from("orders")
+      .select("user_id, business_id, total, total_override, is_subscription")
+      .not("status", "eq", "cancelled");
 
-    // Get order counts by product type (Espresso = machine, Cialde = cialde)
-    const { data: orderItemsData } = await supabase
-      .from("order_items")
-      .select(`
-        order_id,
-        products (type),
-        orders (status)
-      `);
-
-    const espressoOrderIds = new Set<string>();
-    const cialdeOrderIds = new Set<string>();
-    const items = (orderItemsData ?? []) as unknown as Array<{
-      order_id: string;
-      products?: { type: string } | null;
-      orders?: { status: string } | null;
+    const nonCancelledOrders = (orderStatsData ?? []) as Array<{
+      user_id: string | null;
+      business_id: string | null;
+      total: number;
+      total_override?: number | null;
+      is_subscription: boolean;
     }>;
-    for (const item of items) {
-      if (item.orders?.status === "cancelled") continue;
-      const type = item.products?.type;
-      if (type === "machine") espressoOrderIds.add(item.order_id);
-      if (type === "cialde") cialdeOrderIds.add(item.order_id);
+
+    const profileIds = [
+      ...new Set(
+        nonCancelledOrders
+          .map((order) => order.user_id)
+          .filter((id): id is string => Boolean(id))
+      ),
+    ];
+
+    const linkedProfileToBusiness = new Map<string, string>();
+    if (profileIds.length > 0) {
+      const { data: linkedBusinesses } = await supabase
+        .from("businesses")
+        .select("id, linked_profile_id")
+        .in("linked_profile_id", profileIds);
+
+      for (const business of (linkedBusinesses ?? []) as Array<{
+        id: string;
+        linked_profile_id: string | null;
+      }>) {
+        if (business.linked_profile_id) {
+          linkedProfileToBusiness.set(business.linked_profile_id, business.id);
+        }
+      }
     }
 
-    // Get total revenue
-    const { data: revenueData } = await supabase
-      .from("orders")
-      .select("total")
-      .not("status", "eq", "cancelled");
-
-    const totalRevenue =
-      (revenueData as Array<{ total: number }>)?.reduce(
-        (sum, order) => sum + Number(order.total),
-        0
-      ) ?? 0;
-
-    // Get active clients count (distinct users or businesses with at least one non-cancelled order)
-    const { data: clientData } = await supabase
-      .from("orders")
-      .select("user_id, business_id")
-      .not("status", "eq", "cancelled");
-
     const uniqueClients = new Set<string>();
-    for (const o of (clientData as Array<{ user_id: string | null; business_id: string | null }>) ?? []) {
-      const id = o.user_id ?? o.business_id;
-      if (id) uniqueClients.add(id);
+    let totalRevenue = 0;
+    let subscriptionOrders = 0;
+    for (const order of nonCancelledOrders) {
+      const effectiveTotal =
+        order.total_override != null ? order.total_override : order.total;
+      totalRevenue += Number(effectiveTotal ?? 0);
+      if (order.is_subscription) {
+        subscriptionOrders += 1;
+      }
+
+      const clientKey = order.business_id
+        ? `business:${order.business_id}`
+        : order.user_id
+          ? linkedProfileToBusiness.has(order.user_id)
+            ? `business:${linkedProfileToBusiness.get(order.user_id)}`
+            : `profile:${order.user_id}`
+          : null;
+      if (clientKey) {
+        uniqueClients.add(clientKey);
+      }
     }
 
     // Get recent orders (last 10)
@@ -495,10 +509,10 @@ export async function getAdminDashboardStats(): Promise<{
 
     return {
       stats: {
-        espressoOrders: espressoOrderIds.size,
-        cialdeOrders: cialdeOrderIds.size,
+        totalOrders: nonCancelledOrders.length,
         totalRevenue,
         activeClients: uniqueClients.size,
+        subscriptionOrders,
         recentOrders: (recentOrders as unknown as AdminOrder[]) ?? [],
       },
       error: null,
@@ -523,21 +537,25 @@ export async function getOrdersChartData(days: number): Promise<{
 
   try {
     const supabase = await createAdminClient();
-    const fromDate = new Date();
-    fromDate.setDate(fromDate.getDate() - days);
-    fromDate.setHours(0, 0, 0, 0);
+    const normalizedDays = Math.max(1, Math.floor(days));
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const fromDate = new Date(today);
+    fromDate.setDate(fromDate.getDate() - (normalizedDays - 1));
 
     const { data: orders, error } = await supabase
       .from("orders")
-      .select("created_at, total, status")
+      .select("created_at, total, total_override, status")
       .gte("created_at", fromDate.toISOString())
+      .not("status", "eq", "cancelled")
       .order("created_at", { ascending: true });
 
     if (error) return { data: [], error: error.message };
 
     const byDate = new Map<string, { orders: number; revenue: number }>();
 
-    for (let i = 0; i < days; i++) {
+    for (let i = 0; i < normalizedDays; i++) {
       const d = new Date(fromDate);
       d.setDate(d.getDate() + i);
       const key = d.toISOString().slice(0, 10);
@@ -548,9 +566,7 @@ export async function getOrdersChartData(days: number): Promise<{
       const key = (order.created_at as string).slice(0, 10);
       const entry = byDate.get(key) ?? { orders: 0, revenue: 0 };
       entry.orders += 1;
-      if ((order.status as string) !== "cancelled") {
-        entry.revenue += Number(order.total ?? 0);
-      }
+      entry.revenue += Number(order.total_override ?? order.total ?? 0);
       byDate.set(key, entry);
     }
 
@@ -925,6 +941,30 @@ export async function updateOrderStatus(
 
     revalidatePath("/admin/orders");
     revalidatePath(`/admin/orders/${orderId}`);
+
+    const notifiableStatuses = ["confirmed", "processing", "shipped", "delivered", "cancelled"];
+    if (notifiableStatuses.includes(status)) {
+      const { data: order } = await supabase
+        .from("orders")
+        .select("total, total_override, shipping_address")
+        .eq("id", orderId)
+        .single();
+
+      if (order) {
+        const orderData = order as { total: number; total_override: number | null; shipping_address: { email?: string } | null };
+        const email = orderData.shipping_address?.email;
+        const effectiveTotal = orderData.total_override ?? orderData.total;
+        if (email) {
+          sendOrderStatusUpdateEmail({
+            to: email,
+            orderId,
+            newStatus: status,
+            total: effectiveTotal,
+          }).catch(() => {});
+        }
+      }
+    }
+
     return { success: true, error: null };
   } catch {
     return { success: false, error: "Failed to update order status" };
@@ -1527,6 +1567,172 @@ export async function getOrdersForBusiness(businessId: string): Promise<{
   }
 }
 
+/** One row per business with a qualifying latest order (follow-up = last order + 30 calendar days, UTC date). */
+export interface AdminFollowUpRow {
+  businessId: string;
+  businessName: string;
+  contactName: string | null;
+  phone: string | null;
+  email: string | null;
+  businessType: string | null;
+  orderId: string;
+  orderStatus: string;
+  /** ISO timestamp from orders.created_at */
+  lastOrderAt: string;
+  /** ISO end-of-day style anchor: UTC date lastOrder + 30d at 12:00 UTC */
+  followUpAt: string;
+}
+
+function utcYmdFromIso(iso: string): string {
+  const d = new Date(iso);
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(d.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function addUtcCalendarDaysYmd(ymd: string, days: number): string {
+  const [y, mo, da] = ymd.split("-").map(Number);
+  const next = new Date(Date.UTC(y, mo - 1, da + days, 12, 0, 0));
+  const yy = next.getUTCFullYear();
+  const mm = String(next.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(next.getUTCDate()).padStart(2, "0");
+  return `${yy}-${mm}-${dd}`;
+}
+
+function ymdToUtcNoonIso(ymd: string): string {
+  const [y, mo, da] = ymd.split("-").map(Number);
+  return new Date(Date.UTC(y, mo - 1, da, 12, 0, 0)).toISOString();
+}
+
+export async function getAdminFollowUpRows(options?: {
+  includeCancelled?: boolean;
+}): Promise<{ rows: AdminFollowUpRow[]; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { rows: [], error: authError };
+
+  const includeCancelled = options?.includeCancelled ?? false;
+
+  try {
+    const supabase = await createAdminClient();
+
+    const { data: businessRows, error: bizError } = await supabase
+      .from("businesses")
+      .select("id, name, contact_name, phone, email, business_type, linked_profile_id");
+
+    if (bizError) {
+      return { rows: [], error: bizError.message };
+    }
+
+    const businesses = (businessRows ?? []) as Array<{
+      id: string;
+      name: string;
+      contact_name: string | null;
+      phone: string | null;
+      email: string | null;
+      business_type: string | null;
+      linked_profile_id: string | null;
+    }>;
+
+    const linkedProfileToBusiness = new Map<string, string>();
+    for (const b of businesses) {
+      if (b.linked_profile_id) {
+        linkedProfileToBusiness.set(b.linked_profile_id, b.id);
+      }
+    }
+
+    type OrderPick = {
+      id: string;
+      business_id: string | null;
+      user_id: string | null;
+      status: string;
+      created_at: string;
+    };
+
+    const pageSize = 1000;
+    let from = 0;
+    const allOrders: OrderPick[] = [];
+
+    for (;;) {
+      let q = supabase
+        .from("orders")
+        .select("id, business_id, user_id, status, created_at")
+        .order("created_at", { ascending: false });
+
+      if (!includeCancelled) {
+        q = q.neq("status", "cancelled");
+      }
+
+      const { data: batch, error: orderError } = await q.range(
+        from,
+        from + pageSize - 1
+      );
+
+      if (orderError) {
+        return { rows: [], error: orderError.message };
+      }
+
+      const chunk = (batch ?? []) as OrderPick[];
+      if (chunk.length === 0) break;
+      allOrders.push(...chunk);
+      if (chunk.length < pageSize) break;
+      from += pageSize;
+    }
+
+    const latestByBusiness = new Map<
+      string,
+      { id: string; status: string; created_at: string }
+    >();
+
+    for (const order of allOrders) {
+      let businessKey: string | null = order.business_id;
+      if (!businessKey && order.user_id) {
+        businessKey = linkedProfileToBusiness.get(order.user_id) ?? null;
+      }
+      if (!businessKey) continue;
+      if (!latestByBusiness.has(businessKey)) {
+        latestByBusiness.set(businessKey, {
+          id: order.id,
+          status: order.status,
+          created_at: order.created_at,
+        });
+      }
+    }
+
+    const rows: AdminFollowUpRow[] = [];
+
+    for (const b of businesses) {
+      const latest = latestByBusiness.get(b.id);
+      if (!latest) continue;
+
+      const lastYmd = utcYmdFromIso(latest.created_at);
+      const followYmd = addUtcCalendarDaysYmd(lastYmd, 30);
+
+      rows.push({
+        businessId: b.id,
+        businessName: b.name,
+        contactName: b.contact_name,
+        phone: b.phone,
+        email: b.email,
+        businessType: b.business_type,
+        orderId: latest.id,
+        orderStatus: latest.status,
+        lastOrderAt: latest.created_at,
+        followUpAt: ymdToUtcNoonIso(followYmd),
+      });
+    }
+
+    rows.sort(
+      (a, b) =>
+        new Date(b.lastOrderAt).getTime() - new Date(a.lastOrderAt).getTime()
+    );
+
+    return { rows, error: null };
+  } catch {
+    return { rows: [], error: "Failed to build follow-up calendar data" };
+  }
+}
+
 export async function getBusinessIdByLinkedProfile(userId: string): Promise<{
   businessId: string | null;
   error: string | null;
@@ -1724,6 +1930,9 @@ export interface AdminSampleBooking {
   booking_date: string;
   status: string;
   notes: string | null;
+  business_size: string | null;
+  estimated_monthly_usage: string | null;
+  preferred_contact_method: string | null;
   created_at: string;
 }
 

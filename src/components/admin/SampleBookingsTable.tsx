@@ -52,6 +52,7 @@ export default function SampleBookingsTable({ bookings }: SampleBookingsTablePro
             <th className="text-left py-3 px-4 font-medium text-neutral-500">Contact</th>
             <th className="text-left py-3 px-4 font-medium text-neutral-500">Business</th>
             <th className="text-left py-3 px-4 font-medium text-neutral-500">Location</th>
+            <th className="text-left py-3 px-4 font-medium text-neutral-500">Qualification</th>
             <th className="text-left py-3 px-4 font-medium text-neutral-500">Date</th>
             <th className="text-left py-3 px-4 font-medium text-neutral-500">Status</th>
             <th className="text-left py-3 px-4 font-medium text-neutral-500">Actions</th>
@@ -78,6 +79,25 @@ export default function SampleBookingsTable({ bookings }: SampleBookingsTablePro
               <td className="py-3 px-4">
                 <p className="text-neutral-600">{booking.address}</p>
                 <p className="text-xs text-neutral-400">{booking.city}</p>
+              </td>
+              <td className="py-3 px-4">
+                {booking.business_size && (
+                  <p className="text-xs text-neutral-600">{booking.business_size}</p>
+                )}
+                {booking.estimated_monthly_usage && (
+                  <p className="text-xs text-neutral-400">{booking.estimated_monthly_usage} cups/mo</p>
+                )}
+                {booking.preferred_contact_method && booking.preferred_contact_method !== "phone" && (
+                  <p className="text-xs text-neutral-400">Via {booking.preferred_contact_method}</p>
+                )}
+                {booking.notes && (
+                  <p className="text-xs text-neutral-400 italic truncate max-w-[120px]" title={booking.notes}>
+                    {booking.notes}
+                  </p>
+                )}
+                {!booking.business_size && !booking.estimated_monthly_usage && !booking.notes && (
+                  <span className="text-xs text-neutral-300">&mdash;</span>
+                )}
               </td>
               <td className="py-3 px-4 text-neutral-500">
                 {new Date(booking.booking_date).toLocaleDateString("en-GB", {

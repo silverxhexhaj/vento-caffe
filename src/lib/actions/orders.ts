@@ -3,6 +3,20 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { sendOrderConfirmationEmail } from "@/lib/email";
+import enMessages from "@/messages/en.json";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function resolveTranslationKey(keyPath: string): string {
+  const parts = keyPath.split(".");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let node: any = enMessages;
+  for (const part of parts) {
+    node = node?.[part];
+    if (node === undefined) return keyPath;
+  }
+  return typeof node === "string" ? node : keyPath;
+}
 
 // Create an untyped Supabase client for order operations
 async function createUntypedClient() {
@@ -121,12 +135,36 @@ export async function createOrder(input: CreateOrderInput): Promise<OrderResult>
 
     if (itemsError) {
       console.error("Order items error:", itemsError);
-      // Rollback: delete the order if items failed
       await supabase.from("orders").delete().eq("id", orderId);
       return { success: false, error: "Failed to create order items" };
     }
 
     revalidatePath("/orders");
+
+    if (input.shippingAddress.email) {
+      const { data: productDetails } = await supabase
+        .from("products")
+        .select("slug, name_key")
+        .in("slug", slugs);
+      const slugToName = new Map(
+        (productDetails as Array<{slug: string; name_key: string}> ?? []).map(p => [p.slug, p.name_key])
+      );
+
+      sendOrderConfirmationEmail({
+        to: input.shippingAddress.email,
+        orderId,
+        items: input.items.map(item => ({
+          name: resolveTranslationKey(slugToName.get(item.productSlug) || item.productSlug),
+          quantity: item.quantity,
+          price: item.priceAtPurchase,
+          isFree: item.isFree,
+        })),
+        total: input.total,
+        isSubscription: input.isSubscription,
+        shippingAddress: input.shippingAddress,
+      }).catch(() => {});
+    }
+
     return { success: true, orderId };
 
   } catch (error) {

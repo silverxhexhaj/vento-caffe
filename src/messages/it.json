@@ -635,9 +635,20 @@
     "selectDate": "Seleziona una data di consegna",
     "fullName": "Nome Completo",
     "phone": "Numero di Telefono",
+    "email": "Email (opzionale)",
     "businessType": "Tipo di Attività",
     "address": "Indirizzo",
     "city": "Città",
+    "businessSizePlaceholder": "Dimensione attività",
+    "businessSizeOptions": ["1-5 dipendenti", "6-20 dipendenti", "21-50 dipendenti", "50+ dipendenti"],
+    "monthlyUsagePlaceholder": "Tazze mensili stimate",
+    "monthlyUsageOptions": ["Fino a 100", "100-300", "300-600", "600+"],
+    "contactMethodOptions": [
+      { "value": "phone", "label": "Preferisco telefono" },
+      { "value": "email", "label": "Preferisco email" },
+      { "value": "whatsapp", "label": "Preferisco WhatsApp" }
+    ],
+    "notesPlaceholder": "Altro che dovremmo sapere? (opzionale)",
     "submit": "Prenota Campione Gratuito",
     "submitting": "Prenotazione...",
     "successTitle": "Prenotazione Confermata!",
@@ -650,6 +661,65 @@
     "todayNote": "Consegna disponibile da domani in poi",
     "freeBadge": "GRATIS",
     "includes": "Macchina + kit campione cialde"
+  },
+  "testimonials": {
+    "heading": "Cosa Dicono i Nostri Clienti",
+    "subtitle": "Apprezzato da aziende e privati in tutta l'Albania.",
+    "items": [
+      {
+        "quote": "Siamo passati a Vento Caffè sei mesi fa e i nostri ospiti lo adorano. La macchina era gratuita, le cialde arrivano puntualmente e l'espresso è davvero eccellente. È una preoccupazione in meno.",
+        "name": "Arta M.",
+        "role": "Proprietaria Hotel, Tirana"
+      },
+      {
+        "quote": "Ero scettico sull'offerta della macchina gratuita, ma è reale. Ora abbiamo espresso premium nel nostro salone ogni giorno e i clienti lo notano sempre. Riordinare via WhatsApp richiede 30 secondi.",
+        "name": "Dritan K.",
+        "role": "Proprietario Salone, Durazzo"
+      },
+      {
+        "quote": "Come piccolo ufficio, una scatola al mese è perfetta per noi. La consegna è sempre puntuale, la qualità del caffè è costante e non abbiamo dovuto spendere nulla per la macchina. Consigliato.",
+        "name": "Elona B.",
+        "role": "Studio Manager, Valona"
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Domande Frequenti",
+    "subtitle": "Tutto quello che devi sapere sul nostro abbonamento caffè e l'offerta della macchina gratuita.",
+    "items": [
+      {
+        "question": "Come funziona la macchina da espresso gratuita?",
+        "answer": "Quando ti impegni a ordinare almeno 1 scatola di cialde al mese, includiamo una macchina da espresso professionale completamente gratuita. Nessun costo iniziale per la macchina — basta mantenere attivo il tuo ordine mensile."
+      },
+      {
+        "question": "C'è un contratto o impegno a lungo termine?",
+        "answer": "Nessun contratto a lungo termine. Ti impegni semplicemente a ordinare almeno 1 scatola al mese. Puoi annullare in qualsiasi momento — se annulli, ti chiediamo di restituire la macchina."
+      },
+      {
+        "question": "Cosa è incluso in ogni scatola di cialde?",
+        "answer": "Ogni scatola contiene 150 cialde ESE premium più un kit con tazze, zucchero e palette. Tutto il necessario per un ottimo espresso, consegnato a casa tua."
+      },
+      {
+        "question": "Con quale frequenza avviene la consegna e quanto tempo richiede?",
+        "answer": "Consegniamo mensilmente. La consegna standard richiede 2-3 giorni lavorativi in Albania. Puoi riordinare in qualsiasi momento tramite il nostro sito web o WhatsApp."
+      },
+      {
+        "question": "Che tipo di macchina da espresso ricevo?",
+        "answer": "Ricevi una macchina professionale Didiesse — 100% Made in Italy con pompa da 15 bar, serbatoio da 2 litri e costruzione in metallo resistente. È compatibile con tutte le cialde ESE."
+      },
+      {
+        "question": "Posso ordinare per la mia attività?",
+        "answer": "Certamente. Offriamo pacchetti business da 1 a 10+ scatole al mese, pensati per hotel, uffici, saloni, ristoranti e altro. Ogni pacchetto include una macchina da espresso gratuita."
+      },
+      {
+        "question": "Posso provare prima di abbonarmi?",
+        "answer": "Sì! Prenota un campione gratuito dalla nostra homepage. Consegneremo un kit campione con cialde e potrai provare la macchina da espresso senza costi e senza impegno."
+      },
+      {
+        "question": "Come faccio a effettuare o gestire i miei ordini?",
+        "answer": "Puoi ordinare tramite il nostro sito web o semplicemente scriverci su WhatsApp. Una volta creato un account, puoi visualizzare lo storico ordini e gestire il tuo profilo dalla pagina account."
+      }
+    ]
   },
   "auth": {
     "login": "Accedi",
@@ -677,6 +747,44 @@
     "close": "Chiudi"
   },
   "admin": {
+    "calendar": {
+      "title": "Calendario follow-up",
+      "subtitle": "Ultimo ordine per attività e promemoria a 30 giorni.",
+      "loadError": "Impossibile caricare i dati",
+      "prevMonth": "Mese precedente",
+      "nextMonth": "Mese successivo",
+      "dotLastOrder": "Ultimo ordine",
+      "dotFollowUp": "Promemoria follow-up",
+      "legendLastOrder": "Ultimo ordine",
+      "legendFollowUp": "Follow-up (+30 giorni)",
+      "filterSearch": "Cerca attività",
+      "filterSearchPlaceholder": "Nome, telefono, email…",
+      "filterBusinessType": "Tipo di attività",
+      "filterAllTypes": "Tutti i tipi",
+      "filterOrderStatus": "Ordini considerati",
+      "statusNonCancelled": "Ultimo non annullato",
+      "statusAll": "Ultimo con qualsiasi stato",
+      "filterEventType": "Mostra sul calendario",
+      "eventBoth": "Ultimo ordine + follow-up",
+      "eventLastOrder": "Solo ultimo ordine",
+      "eventFollowUp": "Solo follow-up",
+      "filterDateScope": "Intervallo date",
+      "scopeAll": "Tutti (nessun filtro date)",
+      "scopeOverdue": "Follow-up scaduti",
+      "scopeThisWeek": "Questa settimana",
+      "scopeThisMonth": "Mese visibile",
+      "scopeNext30": "Prossimi 30 giorni",
+      "panelSelectDay": "Seleziona un giorno",
+      "panelDayTitle": "Il {date}",
+      "panelHint": "Clicca un giorno nel calendario per vedere le attività e i collegamenti.",
+      "panelEmpty": "Nessuna attività corrisponde ai filtri per questo giorno.",
+      "typeLabel": "Tipo",
+      "badgeLastOrder": "Ultimo ordine",
+      "badgeFollowUp": "Follow-up",
+      "openOrder": "Apri ordine",
+      "listFilteredTitle": "Attività filtrate",
+      "listTruncated": "…e altre (affina i filtri)"
+    },
     "products": {
       "costPrice": "Prezzo di Costo",
       "stockQuantity": "Quantità in Magazzino",

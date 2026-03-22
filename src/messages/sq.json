@@ -634,9 +634,20 @@
     "selectDate": "Zgjidh një datë dorëzimi",
     "fullName": "Emri i Plotë",
     "phone": "Numri i Telefonit",
+    "email": "Email (opsionale)",
     "businessType": "Lloji i Biznesit",
     "address": "Adresa",
     "city": "Qyteti",
+    "businessSizePlaceholder": "Madhësia e biznesit",
+    "businessSizeOptions": ["1-5 punonjës", "6-20 punonjës", "21-50 punonjës", "50+ punonjës"],
+    "monthlyUsagePlaceholder": "Filxhanë mujore",
+    "monthlyUsageOptions": ["Deri në 100", "100-300", "300-600", "600+"],
+    "contactMethodOptions": [
+      { "value": "phone", "label": "Preferoj telefonin" },
+      { "value": "email", "label": "Preferoj emailin" },
+      { "value": "whatsapp", "label": "Preferoj WhatsApp" }
+    ],
+    "notesPlaceholder": "Ndonjë gjë tjetër që duhet ta dimë? (opsionale)",
     "submit": "Rezervo Mostrën Falas",
     "submitting": "Duke rezervuar...",
     "successTitle": "Rezervimi u Konfirmua!",
@@ -649,6 +660,65 @@
     "todayNote": "Dorëzimi i disponueshëm nga nesër e tutje",
     "freeBadge": "FALAS",
     "includes": "Makinë + kit mostër bustinash"
+  },
+  "testimonials": {
+    "heading": "Çfarë Thonë Klientët Tanë",
+    "subtitle": "I besuar nga biznese dhe shtëpi në të gjithë Shqipërinë.",
+    "items": [
+      {
+        "quote": "Kaluam te Vento Caffè gjashtë muaj më parë dhe mysafirët tanë e duan. Makina ishte falas, bustinat vijnë si orë, dhe espresso është vërtet e shkëlqyer. Është një shqetësim më pak.",
+        "name": "Arta M.",
+        "role": "Pronare Hoteli, Tiranë"
+      },
+      {
+        "quote": "Isha skeptik për ofertën e makinës falas, por është e vërtetë. Tani kemi espresso premium në sallonin tonë çdo ditë dhe klientët gjithmonë e komentojnë. Rirenditja përmes WhatsApp zgjat 30 sekonda.",
+        "name": "Dritan K.",
+        "role": "Pronar Salloni, Durrës"
+      },
+      {
+        "quote": "Si zyrë e vogël, një kuti në muaj është perfekte për ne. Dorëzimi është gjithmonë në kohë, cilësia e kafesë është e qëndrueshme dhe nuk na u desh të shpenzonim asgjë për makinën. E rekomandoj shumë.",
+        "name": "Elona B.",
+        "role": "Menaxhere Studio, Vlorë"
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Pyetjet më të Shpeshta",
+    "subtitle": "Gjithçka që duhet të dini për abonimin tonë të kafesë dhe ofertën e makinës falas.",
+    "items": [
+      {
+        "question": "Si funksionon makina e espressos falas?",
+        "answer": "Kur angazhoheni të porosisni të paktën 1 kuti bustinash në muaj, ne përfshijmë një makinë espresso profesionale krejtësisht falas. Nuk ka kosto fillestare për makinën — thjesht mbani aktiv porosinë tuaj mujore."
+      },
+      {
+        "question": "A ka kontratë ose detyrim afatgjatë?",
+        "answer": "Asnjë kontratë afatgjatë. Thjesht angazhoheni të porosisni të paktën 1 kuti në muaj. Mund të anuloni në çdo kohë — nëse anuloni, ju kërkojmë të ktheni makinën."
+      },
+      {
+        "question": "Çfarë përfshin çdo kuti bustinash?",
+        "answer": "Çdo kuti përmban 150 bustina kafeje ESE premium plus një kit me gota, sheqer dhe lugë. Gjithçka që ju nevojitet për espresso të shkëlqyer, e dorëzuar në derën tuaj."
+      },
+      {
+        "question": "Sa shpesh bëhet dorëzimi dhe sa kohë zgjat?",
+        "answer": "Dorëzojmë çdo muaj. Dorëzimi standard zgjat 2-3 ditë pune brenda Shqipërisë. Mund të rirenditni në çdo kohë përmes faqes tonë ose WhatsApp."
+      },
+      {
+        "question": "Çfarë lloji makine espresso marr?",
+        "answer": "Merrni një makinë profesionale Didiesse — 100% Made in Italy me pompë 15-bar, rezervuar uji 2 litra dhe ndërtim metalik të qëndrueshëm. Është e përputhshme me të gjitha bustinat ESE."
+      },
+      {
+        "question": "A mund të porosis për biznesin tim?",
+        "answer": "Sigurisht. Ofrojmë paketa biznesi nga 1 deri në 10+ kuti në muaj, të përshtatura për hotele, zyra, sallone, restorante dhe më shumë. Çdo paketë përfshin një makinë espresso falas."
+      },
+      {
+        "question": "A mund ta provoj para se të abonohem?",
+        "answer": "Po! Rezervoni një mostër falas nga faqja jonë kryesore. Do të dorëzojmë një kit mostër me bustina dhe mund ta provoni makinën e espressos pa kosto dhe pa detyrim."
+      },
+      {
+        "question": "Si mund të bëj ose menaxhoj porositë e mia?",
+        "answer": "Mund të porosisni përmes faqes tonë ose thjesht na shkruani në WhatsApp. Pasi të keni një llogari, mund të shikoni historinë e porosive dhe të menaxhoni profilin tuaj nga faqja e llogarisë."
+      }
+    ]
   },
   "auth": {
     "login": "Hyr",
@@ -676,6 +746,44 @@
     "close": "Mbyll"
   },
   "admin": {
+    "calendar": {
+      "title": "Kalendari i ndjekjes",
+      "subtitle": "Porosia e fundit për çdo biznes dhe rikujtues pas 30 ditësh.",
+      "loadError": "Të dhënat nuk u ngarkuan",
+      "prevMonth": "Muaji i mëparshëm",
+      "nextMonth": "Muaji i ardhshëm",
+      "dotLastOrder": "Porosia e fundit",
+      "dotFollowUp": "Rikujtues ndjekjeje",
+      "legendLastOrder": "Porosia e fundit",
+      "legendFollowUp": "Ndjekje (+30 ditë)",
+      "filterSearch": "Kërko biznesin",
+      "filterSearchPlaceholder": "Emër, telefon, email…",
+      "filterBusinessType": "Lloji i biznesit",
+      "filterAllTypes": "Të gjitha llojet",
+      "filterOrderStatus": "Porositë që numërohen",
+      "statusNonCancelled": "E fundit jo e anuluar",
+      "statusAll": "E fundit me çdo status",
+      "filterEventType": "Shfaq në kalendar",
+      "eventBoth": "Porosi e fundit + ndjekje",
+      "eventLastOrder": "Vetëm porosia e fundit",
+      "eventFollowUp": "Vetëm ndjekja",
+      "filterDateScope": "Intervali i datës",
+      "scopeAll": "Të gjitha (pa filtër date)",
+      "scopeOverdue": "Ndjekje të vonuara",
+      "scopeThisWeek": "Këtë javë",
+      "scopeThisMonth": "Muaji i dukshëm",
+      "scopeNext30": "30 ditët e ardhshme",
+      "panelSelectDay": "Zgjidh një ditë",
+      "panelDayTitle": "Më {date}",
+      "panelHint": "Kliko një ditë në kalendar për bizneset dhe lidhjet.",
+      "panelEmpty": "Asnjë biznes nuk përputhet me filtrat për këtë ditë.",
+      "typeLabel": "Lloji",
+      "badgeLastOrder": "Porosia e fundit",
+      "badgeFollowUp": "Ndjekja",
+      "openOrder": "Hap porosinë",
+      "listFilteredTitle": "Bizneset e filtruara",
+      "listTruncated": "…dhe të tjera (përmirëso filtrat)"
+    },
     "products": {
       "costPrice": "Çmimi i Blerjes",
       "stockQuantity": "Sasia në Stok",

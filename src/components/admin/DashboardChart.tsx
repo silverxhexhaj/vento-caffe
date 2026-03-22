@@ -21,6 +21,39 @@ interface DashboardChartProps {
 
 const PERIODS = [7, 14, 30] as const;
 
+function formatChartDate(dateStr: string, withYear = false) {
+  const d = new Date(dateStr + "T00:00:00");
+  return d.toLocaleDateString("en-GB", withYear
+    ? { day: "2-digit", month: "short", year: "numeric" }
+    : { day: "2-digit", month: "short" });
+}
+
+function DashboardChartTooltip({
+  active,
+  payload,
+  label,
+}: {
+  active?: boolean;
+  payload?: Array<{ name: string; value: number; color: string }>;
+  label?: string;
+}) {
+  if (!active || !payload?.length || !label) return null;
+  return (
+    <div className="bg-white border border-neutral-200 rounded-lg shadow-lg p-3 text-sm">
+      <p className="font-medium text-neutral-900 mb-2">
+        {formatChartDate(label, true)}
+      </p>
+      <p className="text-neutral-600">
+        Orders: <span className="font-medium">{payload[0]?.value ?? 0}</span>
+      </p>
+      <p className="text-neutral-600">
+        Revenue:{" "}
+        <span className="font-medium">{formatPrice(payload[1]?.value ?? 0)}</span>
+      </p>
+    </div>
+  );
+}
+
 export default function DashboardChart({ initialData }: DashboardChartProps) {
   const [period, setPeriod] = useState<number>(7);
   const [data, setData] = useState<OrdersChartDataPoint[]>(initialData);
@@ -38,46 +71,6 @@ export default function DashboardChart({ initialData }: DashboardChartProps) {
     }
   };
 
-  const formatDate = (dateStr: string) => {
-    const d = new Date(dateStr + "T00:00:00");
-    return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
-  };
-
-  const formatTooltipDate = (dateStr: string) => {
-    const d = new Date(dateStr + "T00:00:00");
-    return d.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  const CustomTooltip = ({
-    active,
-    payload,
-    label,
-  }: {
-    active?: boolean;
-    payload?: Array<{ name: string; value: number; color: string }>;
-    label?: string;
-  }) => {
-    if (!active || !payload?.length || !label) return null;
-    return (
-      <div className="bg-white border border-neutral-200 rounded-lg shadow-lg p-3 text-sm">
-        <p className="font-medium text-neutral-900 mb-2">
-          {formatTooltipDate(label)}
-        </p>
-        <p className="text-neutral-600">
-          Orders: <span className="font-medium">{payload[0]?.value ?? 0}</span>
-        </p>
-        <p className="text-neutral-600">
-          Revenue:{" "}
-          <span className="font-medium">{formatPrice(payload[1]?.value ?? 0)}</span>
-        </p>
-      </div>
-    );
-  };
-
   return (
     <div className="bg-white rounded-xl border border-neutral-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 border-b border-neutral-200">
@@ -86,7 +79,7 @@ export default function DashboardChart({ initialData }: DashboardChartProps) {
             Orders & Revenue
           </h2>
           <p className="text-sm text-neutral-500 mt-1">
-            Daily trends over selected period
+            Daily non-cancelled totals over the selected period
           </p>
         </div>
         <div className="flex gap-1 shrink-0">
@@ -140,7 +133,7 @@ export default function DashboardChart({ initialData }: DashboardChartProps) {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" />
                 <XAxis
                   dataKey="date"
-                  tickFormatter={formatDate}
+                  tickFormatter={(value) => formatChartDate(value)}
                   stroke="#a3a3a3"
                   fontSize={12}
                 />
@@ -157,7 +150,7 @@ export default function DashboardChart({ initialData }: DashboardChartProps) {
                   fontSize={12}
                   tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
                 />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip content={<DashboardChartTooltip />} />
                 <Legend />
                 <Line
                   yAxisId="left"

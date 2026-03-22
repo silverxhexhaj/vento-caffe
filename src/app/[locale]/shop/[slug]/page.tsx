@@ -5,6 +5,7 @@ import { locales } from "@/i18n/config";
 import { getProductBySlug, getProducts, PRODUCT_SLUGS } from "@/lib/data/products";
 import { formatPrice } from "@/lib/utils";
 import ProductDetail from "./ProductDetail";
+import TrustBadges from "@/components/shop/TrustBadges";
 
 interface ProductPageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -62,5 +63,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const allProducts = await getProducts(locale);
   const otherProducts = allProducts.filter((p) => p.slug !== slug);
 
-  return <ProductDetail product={product} otherProducts={otherProducts} />;
+  return (
+    <>
+      <ProductDetail product={product} otherProducts={otherProducts} />
+      <TrustBadges />
+    </>
+  );
 }

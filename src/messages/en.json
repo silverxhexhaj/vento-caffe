@@ -635,9 +635,20 @@
     "selectDate": "Select a delivery date",
     "fullName": "Full Name",
     "phone": "Phone Number",
+    "email": "Email (optional)",
     "businessType": "Business Type",
     "address": "Address",
     "city": "City",
+    "businessSizePlaceholder": "Business size",
+    "businessSizeOptions": ["1-5 employees", "6-20 employees", "21-50 employees", "50+ employees"],
+    "monthlyUsagePlaceholder": "Est. monthly cups",
+    "monthlyUsageOptions": ["Up to 100", "100-300", "300-600", "600+"],
+    "contactMethodOptions": [
+      { "value": "phone", "label": "Prefer phone" },
+      { "value": "email", "label": "Prefer email" },
+      { "value": "whatsapp", "label": "Prefer WhatsApp" }
+    ],
+    "notesPlaceholder": "Anything else we should know? (optional)",
     "submit": "Book Free Sample",
     "submitting": "Booking...",
     "successTitle": "Booking Confirmed!",
@@ -650,6 +661,65 @@
     "todayNote": "Delivery available from tomorrow onwards",
     "freeBadge": "FREE",
     "includes": "Machine + cialde sample kit"
+  },
+  "testimonials": {
+    "heading": "What Our Customers Say",
+    "subtitle": "Trusted by businesses and homes across Albania.",
+    "items": [
+      {
+        "quote": "We switched to Vento Caffè six months ago and our guests love it. The machine was free, the cialde arrive like clockwork, and the espresso is genuinely excellent. It is one less thing to worry about.",
+        "name": "Arta M.",
+        "role": "Hotel Owner, Tirana"
+      },
+      {
+        "quote": "I was skeptical about the free machine offer, but it is real. We now have premium espresso in our salon every day and our clients always comment on it. Reordering via WhatsApp takes 30 seconds.",
+        "name": "Dritan K.",
+        "role": "Salon Owner, Durrës"
+      },
+      {
+        "quote": "As a small office, one box a month is perfect for us. The delivery is always on time, the coffee quality is consistent, and we did not have to spend anything on the machine. Highly recommend.",
+        "name": "Elona B.",
+        "role": "Studio Manager, Vlorë"
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our coffee subscription and free machine offer.",
+    "items": [
+      {
+        "question": "How does the free espresso machine work?",
+        "answer": "When you commit to ordering at least 1 box of cialde per month, we include a professional espresso machine completely free. There is no upfront cost for the machine — just keep your monthly order active."
+      },
+      {
+        "question": "Is there a long-term contract or commitment?",
+        "answer": "No long-term contracts. You simply commit to ordering at least 1 box per month. You can cancel at any time — if you cancel, we ask that you return the machine."
+      },
+      {
+        "question": "What is included in each cialde box?",
+        "answer": "Each box contains 150 premium ESE coffee pods plus a kit with cups, sugar, and stirrers. Everything you need for great espresso, delivered to your door."
+      },
+      {
+        "question": "How often is delivery and how long does it take?",
+        "answer": "We deliver monthly. Standard delivery takes 2-3 business days within Albania. You can reorder anytime via our website or WhatsApp."
+      },
+      {
+        "question": "What kind of espresso machine do I receive?",
+        "answer": "You receive a Didiesse professional espresso pod machine — 100% Made in Italy with 15-bar pump pressure, 2-liter water tank, and durable metal construction. It is compatible with all ESE pods."
+      },
+      {
+        "question": "Can I order for my business?",
+        "answer": "Absolutely. We offer business packages from 1 to 10+ boxes per month, tailored for hotels, offices, salons, restaurants, and more. Each package includes a free espresso machine."
+      },
+      {
+        "question": "Can I try before I subscribe?",
+        "answer": "Yes! Book a free sample from our homepage. We will deliver a sample kit with cialde and let you try the espresso machine at no cost and no obligation."
+      },
+      {
+        "question": "How do I place or manage my orders?",
+        "answer": "You can order through our website or simply message us on WhatsApp. Once you have an account, you can view your order history and manage your profile from your account page."
+      }
+    ]
   },
   "auth": {
     "login": "Login",
@@ -677,6 +747,44 @@
     "close": "Close"
   },
   "admin": {
+    "calendar": {
+      "title": "Follow-up calendar",
+      "subtitle": "Latest order per business and a 30-day follow-up reminder.",
+      "loadError": "Failed to load data",
+      "prevMonth": "Previous month",
+      "nextMonth": "Next month",
+      "dotLastOrder": "Last order",
+      "dotFollowUp": "Follow-up reminder",
+      "legendLastOrder": "Last order",
+      "legendFollowUp": "Follow-up (+30 days)",
+      "filterSearch": "Search business",
+      "filterSearchPlaceholder": "Name, phone, email…",
+      "filterBusinessType": "Business type",
+      "filterAllTypes": "All types",
+      "filterOrderStatus": "Orders counted",
+      "statusNonCancelled": "Latest non-cancelled",
+      "statusAll": "Latest any status",
+      "filterEventType": "Show on calendar",
+      "eventBoth": "Last order + follow-up",
+      "eventLastOrder": "Last order only",
+      "eventFollowUp": "Follow-up only",
+      "filterDateScope": "Date scope",
+      "scopeAll": "All (no date filter)",
+      "scopeOverdue": "Overdue follow-ups",
+      "scopeThisWeek": "This week",
+      "scopeThisMonth": "Visible month",
+      "scopeNext30": "Next 30 days",
+      "panelSelectDay": "Select a day",
+      "panelDayTitle": "On {date}",
+      "panelHint": "Click a day on the calendar to see businesses and quick links.",
+      "panelEmpty": "No businesses match the current filters for this day.",
+      "typeLabel": "Type",
+      "badgeLastOrder": "Last order",
+      "badgeFollowUp": "Follow-up",
+      "openOrder": "Open order",
+      "listFilteredTitle": "Filtered businesses",
+      "listTruncated": "…and more (refine filters)"
+    },
     "products": {
       "costPrice": "Cost Price",
       "stockQuantity": "Stock Quantity",

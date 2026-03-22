@@ -28,9 +28,14 @@ export default function SampleBookingForm({ currentCategoryIndex }: SampleBookin
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [businessType, setBusinessType] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
+  const [businessSize, setBusinessSize] = useState("");
+  const [estimatedMonthlyUsage, setEstimatedMonthlyUsage] = useState("");
+  const [preferredContactMethod, setPreferredContactMethod] = useState("phone");
+  const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -82,10 +87,15 @@ export default function SampleBookingForm({ currentCategoryIndex }: SampleBookin
     const result = await bookSample({
       fullName: fullName.trim(),
       phone: phone.trim(),
+      email: email.trim() || undefined,
       businessType: effectiveBusinessType,
       address: address.trim(),
       city: city.trim(),
       bookingDate: bookingDateStr,
+      businessSize: businessSize || undefined,
+      estimatedMonthlyUsage: estimatedMonthlyUsage || undefined,
+      preferredContactMethod: preferredContactMethod || undefined,
+      notes: notes.trim() || undefined,
     });
 
     setIsSubmitting(false);
@@ -178,6 +188,15 @@ export default function SampleBookingForm({ currentCategoryIndex }: SampleBookin
             />
           </div>
 
+          {/* Email */}
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={sampleBooking.email}
+            className="w-full bg-white/10 border border-white/20 text-white placeholder:text-white/40 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 transition-colors"
+          />
+
           {/* Business Type */}
           <select
             value={effectiveBusinessType}
@@ -212,6 +231,63 @@ export default function SampleBookingForm({ currentCategoryIndex }: SampleBookin
               className="w-full bg-white/10 border border-white/20 text-white placeholder:text-white/40 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 transition-colors"
             />
           </div>
+
+          {/* Business Size & Monthly Usage row */}
+          <div className="grid grid-cols-2 gap-2">
+            <select
+              value={businessSize}
+              onChange={(e) => setBusinessSize(e.target.value)}
+              className="w-full bg-white/10 border border-white/20 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer"
+              style={{ colorScheme: "dark" }}
+            >
+              <option value="" className="bg-neutral-900 text-white">
+                {sampleBooking.businessSizePlaceholder}
+              </option>
+              {(sampleBooking.businessSizeOptions as unknown as string[]).map((opt: string) => (
+                <option key={opt} value={opt} className="bg-neutral-900 text-white">
+                  {opt}
+                </option>
+              ))}
+            </select>
+            <select
+              value={estimatedMonthlyUsage}
+              onChange={(e) => setEstimatedMonthlyUsage(e.target.value)}
+              className="w-full bg-white/10 border border-white/20 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer"
+              style={{ colorScheme: "dark" }}
+            >
+              <option value="" className="bg-neutral-900 text-white">
+                {sampleBooking.monthlyUsagePlaceholder}
+              </option>
+              {(sampleBooking.monthlyUsageOptions as unknown as string[]).map((opt: string) => (
+                <option key={opt} value={opt} className="bg-neutral-900 text-white">
+                  {opt}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Preferred Contact Method */}
+          <select
+            value={preferredContactMethod}
+            onChange={(e) => setPreferredContactMethod(e.target.value)}
+            className="w-full bg-white/10 border border-white/20 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer"
+            style={{ colorScheme: "dark" }}
+          >
+            {(sampleBooking.contactMethodOptions as unknown as { value: string; label: string }[]).map((opt: { value: string; label: string }) => (
+              <option key={opt.value} value={opt.value} className="bg-neutral-900 text-white">
+                {opt.label}
+              </option>
+            ))}
+          </select>
+
+          {/* Notes */}
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder={sampleBooking.notesPlaceholder}
+            rows={2}
+            className="w-full bg-white/10 border border-white/20 text-white placeholder:text-white/40 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 transition-colors resize-none"
+          />
         </div>
 
         {/* Error */}
