@@ -1,8 +1,13 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const FROM_EMAIL = process.env.EMAIL_FROM || "Vento Caffè <orders@ventocaffe.al>";
+
+/** Avoid `new Resend()` at module load — Next/Vercel evaluates importers during build without secrets. */
+function getResendClient(): Resend | null {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return null;
+  return new Resend(key);
+}
 
 interface OrderItem {
   name: string;
@@ -31,7 +36,8 @@ export async function sendOrderConfirmationEmail(params: {
   isSubscription: boolean;
   shippingAddress: ShippingAddress;
 }) {
-  if (!process.env.RESEND_API_KEY) return;
+  const resend = getResendClient();
+  if (!resend) return;
 
   const { to, orderId, items, total, isSubscription, shippingAddress } = params;
   const shortId = orderId.slice(0, 8).toUpperCase();
@@ -112,7 +118,8 @@ export async function sendOrderStatusUpdateEmail(params: {
   newStatus: string;
   total: number;
 }) {
-  if (!process.env.RESEND_API_KEY) return;
+  const resend = getResendClient();
+  if (!resend) return;
 
   const { to, orderId, newStatus, total } = params;
   const shortId = orderId.slice(0, 8).toUpperCase();
