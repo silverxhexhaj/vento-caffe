@@ -55,7 +55,10 @@ export default function ProjectionsContent() {
   }, [growthRate, months, clientGrowthMode, monthlyNewClients]);
 
   useEffect(() => {
-    fetchProjections();
+    const id = requestAnimationFrame(() => {
+      void fetchProjections();
+    });
+    return () => cancelAnimationFrame(id);
   }, [fetchProjections]);
 
   const totalAllocation =

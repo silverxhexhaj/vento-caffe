@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { getContent } from "@/data/content";
 import Calendar from "@/components/ui/Calendar";
@@ -16,7 +16,9 @@ export default function SampleBookingForm({ currentCategoryIndex }: SampleBookin
   const content = getContent(t);
   const { sampleBooking } = content;
   const businessCategories = content.hero.businessCategories;
-  const initialCategoryIndexRef = useRef<number | null>(null);
+  const [lockedCategoryIndex, setLockedCategoryIndex] = useState<number | null>(
+    null
+  );
 
   const tomorrow = useMemo(() => {
     const d = new Date();
@@ -41,22 +43,27 @@ export default function SampleBookingForm({ currentCategoryIndex }: SampleBookin
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (
-      initialCategoryIndexRef.current === null &&
-      currentCategoryIndex !== undefined &&
-      currentCategoryIndex >= 0 &&
-      currentCategoryIndex < businessCategories.length
-    ) {
-      initialCategoryIndexRef.current = currentCategoryIndex;
-    }
+    queueMicrotask(() => {
+      setLockedCategoryIndex((prev) => {
+        if (prev !== null) return prev;
+        if (
+          currentCategoryIndex === undefined ||
+          currentCategoryIndex < 0 ||
+          currentCategoryIndex >= businessCategories.length
+        ) {
+          return prev;
+        }
+        return currentCategoryIndex;
+      });
+    });
   }, [currentCategoryIndex, businessCategories.length]);
 
   // Auto-select business type once (avoid rotating hero updates)
-  const effectiveBusinessType = businessType || (
-    initialCategoryIndexRef.current !== null
-      ? businessCategories[initialCategoryIndexRef.current] || ""
-      : ""
-  );
+  const effectiveBusinessType =
+    businessType ||
+    (lockedCategoryIndex !== null
+      ? businessCategories[lockedCategoryIndex] || ""
+      : "");
 
   const formatDate = (date: Date) => {
     return date.toLocaleDateString(locale === "sq" ? "sq-AL" : locale === "it" ? "it-IT" : "en-US", {

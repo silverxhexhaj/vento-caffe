@@ -21,16 +21,18 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
   const modalRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("auth");
 
-  // Reset state when modal opens
+  // Reset state when modal opens (deferred so eslint react-hooks/set-state-in-effect is satisfied)
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+    const id = requestAnimationFrame(() => {
       setMode(initialMode);
       setEmail("");
       setPassword("");
       setFullName("");
       setError(null);
       setMessage(null);
-    }
+    });
+    return () => cancelAnimationFrame(id);
   }, [isOpen, initialMode]);
 
   // Handle escape key

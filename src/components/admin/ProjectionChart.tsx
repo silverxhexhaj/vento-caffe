@@ -17,36 +17,36 @@ interface ProjectionChartProps {
   data: ProjectionMonth[];
 }
 
-export default function ProjectionChart({ data }: ProjectionChartProps) {
-  const CustomTooltip = ({
-    active,
-    payload,
-    label,
-  }: {
-    active?: boolean;
-    payload?: Array<{ name: string; value: number; color: string }>;
-    label?: string;
-  }) => {
-    if (!active || !payload?.length || !label) return null;
-    return (
-      <div className="bg-white border border-neutral-200 rounded-lg shadow-lg p-3 text-sm">
-        <p className="font-medium text-neutral-900 mb-2">{label}</p>
-        <p className="text-neutral-600">
-          Orders: <span className="font-medium">{payload[0]?.value ?? 0}</span>
-        </p>
-        <p className="text-neutral-600">
-          Revenue:{" "}
-          <span className="font-medium">
-            {formatPrice(payload[1]?.value ?? 0)}
-          </span>
-        </p>
-        <p className="text-neutral-600">
-          Clients: <span className="font-medium">{payload[2]?.value ?? 0}</span>
-        </p>
-      </div>
-    );
-  };
+function ProjectionTooltip({
+  active,
+  payload,
+  label,
+}: {
+  active?: boolean;
+  payload?: Array<{ name: string; value: number; color: string }>;
+  label?: string;
+}) {
+  if (!active || !payload?.length || !label) return null;
+  return (
+    <div className="bg-white border border-neutral-200 rounded-lg shadow-lg p-3 text-sm">
+      <p className="font-medium text-neutral-900 mb-2">{label}</p>
+      <p className="text-neutral-600">
+        Orders: <span className="font-medium">{payload[0]?.value ?? 0}</span>
+      </p>
+      <p className="text-neutral-600">
+        Revenue:{" "}
+        <span className="font-medium">
+          {formatPrice(payload[1]?.value ?? 0)}
+        </span>
+      </p>
+      <p className="text-neutral-600">
+        Clients: <span className="font-medium">{payload[2]?.value ?? 0}</span>
+      </p>
+    </div>
+  );
+}
 
+export default function ProjectionChart({ data }: ProjectionChartProps) {
   return (
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%" minHeight={256} minWidth={300}>
@@ -74,7 +74,7 @@ export default function ProjectionChart({ data }: ProjectionChartProps) {
             fontSize={12}
             tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<ProjectionTooltip />} />
           <Legend />
           <Bar
             yAxisId="left"
