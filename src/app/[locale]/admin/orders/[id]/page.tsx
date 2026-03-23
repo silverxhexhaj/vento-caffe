@@ -8,6 +8,7 @@ import StatusBadge from "@/components/admin/StatusBadge";
 import OrderStatusControl from "@/components/admin/OrderStatusControl";
 import OrderItemsEditor from "@/components/admin/OrderItemsEditor";
 import OrderTotalOverride from "@/components/admin/OrderTotalOverride";
+import OrderDateEditor from "@/components/admin/OrderDateEditor";
 
 interface OrderDetailPageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -66,15 +67,11 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
                 Subscription
               </span>
             )}
-            <span className="text-sm text-neutral-500">
-              {new Date(order.created_at).toLocaleDateString("en-GB", {
-                day: "2-digit",
-                month: "long",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </span>
+            <OrderDateEditor
+              orderId={order.id}
+              currentDate={order.created_at}
+              canEdit={!["delivered", "cancelled"].includes(order.status)}
+            />
           </div>
         </div>
       </div>

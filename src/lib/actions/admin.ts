@@ -1050,6 +1050,62 @@ export async function updateOrderTotalOverride(
   }
 }
 
+export async function updateOrderDate(
+  orderId: string,
+  newDate: string
+): Promise<{ success: boolean; error: string | null }> {
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin) return { success: false, error: authError };
+
+  const parsed = new Date(newDate);
+  if (Number.isNaN(parsed.getTime())) {
+    return { success: false, error: "Invalid date" };
+  }
+
+  const now = new Date();
+  if (parsed.getTime() > now.getTime()) {
+    return { success: false, error: "Order date cannot be in the future" };
+  }
+
+  try {
+    const supabase = await createAdminClient();
+
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .select("id, status")
+      .eq("id", orderId)
+      .single();
+
+    if (orderError || !order) {
+      return { success: false, error: orderError?.message ?? "Order not found" };
+    }
+
+    const orderStatus = (order as { status: string }).status;
+    if (["delivered", "cancelled"].includes(orderStatus)) {
+      return {
+        success: false,
+        error: `Cannot edit order with status: ${orderStatus}`,
+      };
+    }
+
+    const { error } = await supabase
+      .from("orders")
+      .update({ created_at: parsed.toISOString() })
+      .eq("id", orderId);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath("/admin/orders");
+    revalidatePath(`/admin/orders/${orderId}`);
+    revalidatePath("/admin/calendar");
+    return { success: true, error: null };
+  } catch {
+    return { success: false, error: "Failed to update order date" };
+  }
+}
+
 // ============================================
 // ORDER ITEMS EDITING
 // ============================================
