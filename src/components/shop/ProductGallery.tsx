@@ -17,9 +17,9 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
   const displayImages = images.length > 0 ? images : ["/images/placeholder.svg"];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 bg-red-500">
       {/* Main Image */}
-      <div className="relative aspect-video bg-[var(--border)] overflow-hidden">
+      <div className="relative aspect-square bg-[var(--border)] overflow-hidden">
         <Image
           src={displayImages[selectedIndex]}
           alt={t("productGallery.imageAlt", {

@@ -4,7 +4,6 @@ import { getCialdeProducts, getMachineProduct } from "@/lib/data/products";
 import { BUSINESS_PACKAGES } from "@/lib/data/businessPackages";
 import ProductCard from "@/components/shop/ProductCard";
 import BusinessPackageCard from "@/components/shop/BusinessPackageCard";
-import TrustBadges from "@/components/shop/TrustBadges";
 
 interface ShopPageProps {
   params: Promise<{ locale: string }>;
@@ -39,7 +38,6 @@ export default async function ShopPage({ params }: ShopPageProps) {
           <h1 className="text-h1 font-serif mb-4">{t("shopPage.title")}</h1>
         </div>
 
-        <TrustBadges />
 
         {/* Products Grid */}
         <div className="mb-16">
