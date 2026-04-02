@@ -4,7 +4,7 @@ import ProductPreview from "@/components/home/ProductPreview";
 import BusinessPackagesPreview from "@/components/home/BusinessPackagesPreview";
 import TrustBadges from "@/components/shop/TrustBadges";
 import HowItWorks from "@/components/home/HowItWorks";
-import FreeMachineOffer from "@/components/home/FreeMachineOffer";
+// import FreeMachineOffer from "@/components/home/FreeMachineOffer";
 import FAQ from "@/components/home/FAQ";
 import Testimonials from "@/components/home/Testimonials";
 import { getFeaturedProducts, getCialdeProducts } from "@/lib/data/products";
@@ -30,7 +30,7 @@ export default async function Home({ params }: HomeProps) {
       <ProductPreview products={featuredProducts} />
       <BusinessPackagesPreview classicCialde={classicCialde} locale={locale} />
       <HowItWorks />
-      <FreeMachineOffer />
+      {/* <FreeMachineOffer /> */}
       <ProductShowcase />
       <Testimonials />
       <FAQ />
