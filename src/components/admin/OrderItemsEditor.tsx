@@ -44,7 +44,7 @@ export default function OrderItemsEditor({
   const getItemPrice = (item: AdminOrderItem): number => {
     const override = editedPrices.get(item.id);
     if (override !== undefined) return override;
-    return item.products?.price ?? item.price_at_purchase;
+    return item.price_at_purchase;
   };
 
   const getItemQuantity = (item: AdminOrderItem): number => {
@@ -82,7 +82,7 @@ export default function OrderItemsEditor({
       const qty = editedItems.get(item.id);
       if (qty !== undefined && qty !== item.quantity) return true;
       const price = editedPrices.get(item.id);
-      const originalPrice = item.products?.price ?? item.price_at_purchase;
+      const originalPrice = item.price_at_purchase;
       if (price !== undefined && price !== originalPrice) return true;
     }
     if (addedItems.some((a) => a.priceOverride !== undefined)) return true;
@@ -219,19 +219,23 @@ export default function OrderItemsEditor({
     setError(null);
   };
 
-  const effectiveTotal = (order as { total_override?: number | null }).total_override ?? order.total;
-  const displayTotal = isEditing ? calculateTotal() : Number(effectiveTotal);
+  const displayTotal = isEditing ? calculateTotal() : order.total;
 
   return (
     <div className="bg-white rounded-xl border border-neutral-200">
-      <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-neutral-900">Order Items</h2>
+      <div className="p-6 border-b border-neutral-200 flex items-center justify-between gap-4">
+        <div>
+          <h2 className="text-lg font-semibold text-neutral-900">Order Items</h2>
+          <p className="text-xs text-neutral-500 mt-1">
+            Use Edit to change quantities and unit prices (Leke).
+          </p>
+        </div>
         {canEdit && !isEditing && (
           <button
             onClick={() => setIsEditing(true)}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline"
+            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline shrink-0"
           >
-            Edit Items
+            {"Edit items & prices"}
           </button>
         )}
         {canEdit && isEditing && (
@@ -450,19 +454,9 @@ export default function OrderItemsEditor({
           <p className="text-xl font-bold text-neutral-900">
             {formatPrice(displayTotal)}
           </p>
-          {isEditing && hasChanges() && (order as { total_override?: number | null }).total_override == null && (
+          {isEditing && hasChanges() && (
             <p className="text-xs text-amber-600 mt-1">
               Total will update when saved
-            </p>
-          )}
-          {isEditing && (order as { total_override?: number | null }).total_override != null && (
-            <p className="text-xs text-amber-600 mt-1">
-              Custom total is set – saved total will not follow items (see sidebar to reset)
-            </p>
-          )}
-          {!isEditing && (order as { total_override?: number | null }).total_override != null && (
-            <p className="text-xs text-amber-600 mt-1">
-              Custom total is set (see sidebar to reset)
             </p>
           )}
         </div>

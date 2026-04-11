@@ -7,7 +7,6 @@ import {
 import StatusBadge from "@/components/admin/StatusBadge";
 import OrderStatusControl from "@/components/admin/OrderStatusControl";
 import OrderItemsEditor from "@/components/admin/OrderItemsEditor";
-import OrderTotalOverride from "@/components/admin/OrderTotalOverride";
 import OrderDateEditor from "@/components/admin/OrderDateEditor";
 
 interface OrderDetailPageProps {
@@ -103,14 +102,6 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
             </h3>
             <OrderStatusControl orderId={order.id} currentStatus={order.status} />
           </div>
-
-          {/* Order Total Override */}
-          <OrderTotalOverride
-            orderId={order.id}
-            total={order.total}
-            totalOverride={order.total_override ?? null}
-            canEdit={!["delivered", "cancelled"].includes(order.status)}
-          />
 
           {/* Client / Business Info */}
           <div className="bg-white rounded-xl border border-neutral-200 p-6">

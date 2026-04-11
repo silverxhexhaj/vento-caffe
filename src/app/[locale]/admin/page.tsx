@@ -103,7 +103,7 @@ export default async function AdminDashboard({ params }: AdminDashboardProps) {
               View all
             </Link>
           </div>
-          <OrdersTable orders={stats.recentOrders} compact />
+          <OrdersTable orders={stats.recentOrders} compact showLineItemSummary />
         </div>
       </div>
     </div>

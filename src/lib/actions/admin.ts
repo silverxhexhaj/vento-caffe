@@ -971,85 +971,6 @@ export async function updateOrderStatus(
   }
 }
 
-export async function updateOrderTotalOverride(
-  orderId: string,
-  value: number | null
-): Promise<{ success: boolean; error: string | null }> {
-  const { isAdmin, error: authError } = await verifyAdmin();
-  if (!isAdmin) return { success: false, error: authError };
-
-  if (value != null && value < 0) {
-    return { success: false, error: "Total cannot be negative" };
-  }
-
-  try {
-    const supabase = await createAdminClient();
-
-    const { data: order, error: orderError } = await supabase
-      .from("orders")
-      .select("id, status")
-      .eq("id", orderId)
-      .single();
-
-    if (orderError || !order) {
-      return { success: false, error: orderError?.message ?? "Order not found" };
-    }
-
-    const orderStatus = (order as { status: string }).status;
-    if (["delivered", "cancelled"].includes(orderStatus)) {
-      return {
-        success: false,
-        error: `Cannot edit order with status: ${orderStatus}`,
-      };
-    }
-
-    if (value === null) {
-      const { data: items } = await supabase
-        .from("order_items")
-        .select("quantity, price_at_purchase, is_free")
-        .eq("order_id", orderId);
-
-      const calculatedTotal = (items ?? []).reduce(
-        (sum: number, i: { quantity: number; price_at_purchase: number; is_free: boolean }) =>
-          i.is_free ? sum : sum + i.quantity * i.price_at_purchase,
-        0
-      );
-
-      const { error: updateError } = await supabase
-        .from("orders")
-        .update({
-          total: calculatedTotal,
-          total_override: null,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", orderId);
-
-      if (updateError) {
-        return { success: false, error: updateError.message };
-      }
-    } else {
-      const { error: updateError } = await supabase
-        .from("orders")
-        .update({
-          total: value,
-          total_override: value,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", orderId);
-
-      if (updateError) {
-        return { success: false, error: updateError.message };
-      }
-    }
-
-    revalidatePath("/admin/orders");
-    revalidatePath(`/admin/orders/${orderId}`);
-    return { success: true, error: null };
-  } catch {
-    return { success: false, error: "Failed to update order total" };
-  }
-}
-
 export async function updateOrderDate(
   orderId: string,
   newDate: string
@@ -1166,7 +1087,7 @@ export async function saveOrderItems(
     // 1. Fetch order and validate editable
     const { data: order, error: orderError } = await supabase
       .from("orders")
-      .select("id, status, total_override")
+      .select("id, status")
       .eq("id", orderId)
       .single();
 
@@ -1396,14 +1317,13 @@ export async function saveOrderItems(
       0
     );
 
-    const orderWithOverride = order as { total_override?: number | null };
-    const total = orderWithOverride.total_override != null
-      ? orderWithOverride.total_override
-      : calculatedTotal;
-
     const { error: totalError } = await supabase
       .from("orders")
-      .update({ total, updated_at: new Date().toISOString() })
+      .update({
+        total: calculatedTotal,
+        total_override: null,
+        updated_at: new Date().toISOString(),
+      })
       .eq("id", orderId);
 
     if (totalError) {
