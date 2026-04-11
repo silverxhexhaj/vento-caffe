@@ -42,7 +42,15 @@ export default function OrdersTable({ orders, compact = false }: OrdersTableProp
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {orders.map((order) => {
+            const unitCount = (order.order_items ?? []).reduce(
+              (sum, item) => sum + (Number(item.quantity) || 0),
+              0
+            );
+            const itemsLabel =
+              unitCount === 1 ? "1 item" : `${unitCount} items`;
+
+            return (
             <tr
               key={order.id}
               className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors"
@@ -78,7 +86,7 @@ export default function OrdersTable({ orders, compact = false }: OrdersTableProp
               </td>
               {!compact && (
                 <td className="py-3 px-4 text-neutral-500">
-                  {order.order_items?.length ?? 0} items
+                  {itemsLabel}
                 </td>
               )}
               <td className="py-3 px-4 text-neutral-500">
@@ -97,7 +105,8 @@ export default function OrdersTable({ orders, compact = false }: OrdersTableProp
                 </Link>
               </td>
             </tr>
-          ))}
+            );
+          })}
         </tbody>
       </table>
     </div>
