@@ -27,15 +27,16 @@ export default async function AdminDashboard({ params }: AdminDashboardProps) {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Dashboard</h1>
-        <p className="text-sm text-neutral-500 mt-1">
-          Overview of orders, revenue, and customer activity
-        </p>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-neutral-900">Dashboard</h1>
+          <p className="text-sm text-neutral-500 mt-1">
+            Overview of orders, revenue, and customer activity
+          </p>
+        </div>
+        <QuickActions variant="compact" />
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatsCard
           title="Orders"
@@ -79,32 +80,22 @@ export default async function AdminDashboard({ params }: AdminDashboardProps) {
         />
       </div>
 
-      {/* Quick Actions */}
-      <div>
-        <h2 className="text-lg font-semibold text-neutral-900 mb-4">Quick Actions</h2>
-        <QuickActions />
-      </div>
+      <DashboardChart initialData={chartData} />
 
-      {/* Orders & Revenue Chart + Recent Orders - side by side on lg, stacked on mobile */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="min-w-0">
-          <DashboardChart initialData={chartData} />
-        </div>
-        <div className="min-w-0 bg-white rounded-xl border border-neutral-200 flex flex-col overflow-hidden">
-          <div className="flex items-center justify-between p-6 border-b border-neutral-200 shrink-0">
-            <div>
-              <h2 className="text-lg font-semibold text-neutral-900">Recent Orders</h2>
-              <p className="text-sm text-neutral-500">Latest 10 orders</p>
-            </div>
-            <Link
-              href={`/${locale}/admin/orders`}
-              className="text-sm font-medium text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline shrink-0"
-            >
-              View all
-            </Link>
+      <div className="w-full bg-white rounded-xl border border-neutral-200 flex flex-col overflow-hidden">
+        <div className="flex items-center justify-between p-6 border-b border-neutral-200 shrink-0">
+          <div>
+            <h2 className="text-lg font-semibold text-neutral-900">Recent Orders</h2>
+            <p className="text-sm text-neutral-500">Latest 10 orders</p>
           </div>
-          <OrdersTable orders={stats.recentOrders} compact showLineItemSummary />
+          <Link
+            href={`/${locale}/admin/orders`}
+            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 underline-offset-2 hover:underline shrink-0"
+          >
+            View all
+          </Link>
         </div>
+        <OrdersTable orders={stats.recentOrders} />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { cloneElement, isValidElement, type ReactElement } from "react";
 import Link from "next/link";
 import { useLocale } from "next-intl";
 
@@ -46,8 +47,55 @@ const actions = [
   },
 ];
 
-export default function QuickActions() {
+function sizedIcon(
+  icon: (typeof actions)[number]["icon"],
+  variant: "default" | "compact"
+) {
+  const sizeClass = variant === "compact" ? "w-4 h-4 shrink-0" : "w-5 h-5";
+  if (isValidElement<{ className?: string }>(icon)) {
+    return cloneElement(icon as ReactElement<{ className?: string }>, {
+      className: sizeClass,
+    });
+  }
+  return icon;
+}
+
+interface QuickActionsProps {
+  variant?: "default" | "compact";
+}
+
+export default function QuickActions({ variant = "default" }: QuickActionsProps) {
   const locale = useLocale();
+
+  if (variant === "compact") {
+    return (
+      <div className="flex flex-wrap justify-end gap-2">
+        {actions.map((action) => (
+          <Link
+            key={action.label}
+            href={`/${locale}${action.href}`}
+            title={action.description}
+            className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-neutral-900 bg-white rounded-lg border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 transition-colors group"
+          >
+            <span className="p-1.5 bg-neutral-100 rounded-md text-neutral-600 group-hover:bg-neutral-200 group-hover:text-neutral-900 transition-colors">
+              {sizedIcon(action.icon, "compact")}
+            </span>
+            <span>{action.label}</span>
+            <svg
+              className="w-3.5 h-3.5 text-neutral-400 group-hover:text-neutral-600 shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              aria-hidden
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </Link>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -58,7 +106,7 @@ export default function QuickActions() {
           className="flex items-center gap-4 p-4 bg-white rounded-xl border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 transition-colors group"
         >
           <div className="p-2.5 bg-neutral-100 rounded-lg text-neutral-600 group-hover:bg-neutral-200 group-hover:text-neutral-900 transition-colors">
-            {action.icon}
+            {sizedIcon(action.icon, "default")}
           </div>
           <div className="min-w-0 flex-1">
             <p className="font-medium text-neutral-900 group-hover:text-neutral-700">
