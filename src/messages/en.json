@@ -785,6 +785,145 @@
       "listFilteredTitle": "Filtered businesses",
       "listTruncated": "…and more (refine filters)"
     },
+    "marketing": {
+      "metaTitle": "Social Studio - Admin",
+      "title": "Social Studio",
+      "subtitle": "Plan social content, organize marketing assets, and generate Albanian campaign drafts.",
+      "generateCampaign": "Generate campaign",
+      "comingSoonTitle": "Coming soon",
+      "wireframeNote": "Wireframe — no backend yet",
+      "aiPowered": "AI generation enabled",
+      "stats": {
+        "draftPosts": "Draft posts",
+        "draftPostsSubtitle": "Ideas needing copy polish",
+        "libraryAssets": "Library assets",
+        "libraryAssetsSubtitle": "Images & templates in library",
+        "scheduledIdeas": "Scheduled ideas",
+        "scheduledIdeasSubtitle": "Queued for publishing",
+        "campaigns": "Campaigns",
+        "campaignsSubtitle": "Active bundles this month"
+      },
+      "planner": {
+        "title": "Content planner",
+        "subtitle": "Saved Albanian drafts, captions, hashtags, and publishing slots",
+        "weekStripTitle": "This week",
+        "weekStripHint": "Static preview — scheduling UI later",
+        "emptyTitle": "No posts in the queue",
+        "emptyHint": "Add a draft or generate a campaign to see it here.",
+        "addPostCta": "New draft",
+        "noAsset": "No linked asset",
+        "rowActions": {
+          "edit": "Edit",
+          "duplicate": "Duplicate",
+          "schedule": "Schedule",
+          "attach": "Attach asset",
+          "save": "Save draft"
+        }
+      },
+      "filters": {
+        "all": "All",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok"
+      },
+      "platforms": {
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok"
+      },
+      "weekdaysShort": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
+      },
+      "assetLibrary": {
+        "title": "Asset library",
+        "subtitle": "Upload reference images and save GPT Image outputs",
+        "upload": "Upload asset",
+        "uploadLabel": "Reference label",
+        "uploadPlaceholder": "e.g. Cialde box on counter",
+        "referenceTitle": "Uploaded references",
+        "generatedTitle": "Generated assets",
+        "generatedLabel": "Generated asset",
+        "emptyTitle": "No assets yet",
+        "emptyHint": "Upload photos or graphics to attach to posts.",
+        "uploadCta": "Upload asset"
+      },
+      "linkedAsset": "Linked: {label}",
+      "status": {
+        "draft": "Draft",
+        "ready": "Ready",
+        "scheduled": "Scheduled"
+      },
+      "brief": {
+        "title": "Campaign brief",
+        "subtitle": "Describe the campaign and generate Albanian social drafts",
+        "campaignLabel": "Campaign",
+        "newCampaign": "New campaign",
+        "nameLabel": "Campaign name",
+        "defaultCampaignName": "Vento Caffè social campaign",
+        "goalLabel": "Goal",
+        "productLabel": "Product focus",
+        "toneLabel": "Tone",
+        "platformsLabel": "Platforms",
+        "outputLabel": "Output",
+        "goalSample": "Drive weekend machine orders + bundle with cialde",
+        "productSample": "Compact espresso machine · medium roast pods",
+        "tones": {
+          "confident": "Confident",
+          "warm": "Warm",
+          "shortHooks": "Short hooks"
+        },
+        "platformOptions": {
+          "instagramFeed": "Instagram Feed",
+          "facebook": "Facebook",
+          "tiktok": "TikTok"
+        },
+        "platformCheckboxLabel": "{platform}",
+        "output": {
+          "captions": "Captions",
+          "hashtags": "Hashtag sets",
+          "imagePrompts": "Image prompts",
+          "storyScripts": "Story scripts"
+        },
+        "generateSticky": "Generate campaign",
+        "generating": "Generating...",
+        "generateStickyHint": "Will run against this brief when live"
+      },
+      "preview": {
+        "title": "Generation preview",
+        "subtitle": "Example outputs once the pipeline is wired",
+        "captionVariant": "Caption variant A",
+        "captionSample": "Weekends deserve a café-quality pour—without leaving the kitchen. Dial in richness with Vento: silky crema, consistent shots, pods that disappear fast (in a good way).",
+        "imagePromptLabel": "Image prompt sketch",
+        "imagePromptSample": "Close-up latte art on rustic wood, steam wisps, warm morning light through blinds, cinematic depth of field, brand-neutral ceramic cup subtle logo.",
+        "feedMock": "1080 × 566 mock",
+        "storyMock": "Story mock",
+        "copyCaption": "Copy caption",
+        "exportBrief": "Export brief",
+        "generateImage": "Generate image asset",
+        "generatingImage": "Generating image..."
+      },
+      "notices": {
+        "draftsGenerated": "Albanian draft posts were generated and saved.",
+        "assetUploaded": "Reference image uploaded.",
+        "imageGenerated": "Generated image asset saved.",
+        "postSaved": "Draft saved.",
+        "postDuplicated": "Draft duplicated.",
+        "captionCopied": "Caption copied."
+      },
+      "errors": {
+        "generateDrafts": "Failed to generate drafts.",
+        "upload": "Failed to upload reference image.",
+        "generateImage": "Failed to generate image asset.",
+        "savePost": "Failed to save draft.",
+        "duplicatePost": "Failed to duplicate draft."
+      }
+    },
     "products": {
       "costPrice": "Cost Price",
       "stockQuantity": "Stock Quantity",

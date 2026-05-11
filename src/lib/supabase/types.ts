@@ -377,6 +377,150 @@ export interface Database {
           created_at?: string;
         };
       };
+      marketing_campaigns: {
+        Row: {
+          id: string;
+          name: string;
+          goal: string;
+          product_focus: string;
+          tone: string[];
+          platforms: Database["public"]["Enums"]["marketing_platform"][];
+          outputs: string[];
+          status: Database["public"]["Enums"]["marketing_campaign_status"];
+          error_message: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          goal: string;
+          product_focus: string;
+          tone?: string[];
+          platforms?: Database["public"]["Enums"]["marketing_platform"][];
+          outputs?: string[];
+          status?: Database["public"]["Enums"]["marketing_campaign_status"];
+          error_message?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          goal?: string;
+          product_focus?: string;
+          tone?: string[];
+          platforms?: Database["public"]["Enums"]["marketing_platform"][];
+          outputs?: string[];
+          status?: Database["public"]["Enums"]["marketing_campaign_status"];
+          error_message?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      marketing_assets: {
+        Row: {
+          id: string;
+          campaign_id: string | null;
+          kind: Database["public"]["Enums"]["marketing_asset_kind"];
+          source: Database["public"]["Enums"]["marketing_asset_source"];
+          label: string;
+          url: string;
+          storage_path: string | null;
+          content_type: string | null;
+          prompt: string | null;
+          metadata: Json;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          campaign_id?: string | null;
+          kind: Database["public"]["Enums"]["marketing_asset_kind"];
+          source: Database["public"]["Enums"]["marketing_asset_source"];
+          label: string;
+          url: string;
+          storage_path?: string | null;
+          content_type?: string | null;
+          prompt?: string | null;
+          metadata?: Json;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          campaign_id?: string | null;
+          kind?: Database["public"]["Enums"]["marketing_asset_kind"];
+          source?: Database["public"]["Enums"]["marketing_asset_source"];
+          label?: string;
+          url?: string;
+          storage_path?: string | null;
+          content_type?: string | null;
+          prompt?: string | null;
+          metadata?: Json;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      marketing_posts: {
+        Row: {
+          id: string;
+          campaign_id: string;
+          linked_asset_id: string | null;
+          platform: Database["public"]["Enums"]["marketing_platform"];
+          title: string;
+          caption: string;
+          hashtags: string[];
+          status: Database["public"]["Enums"]["marketing_post_status"];
+          scheduled_at: string | null;
+          image_prompt: string | null;
+          metadata: Json;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          campaign_id: string;
+          linked_asset_id?: string | null;
+          platform: Database["public"]["Enums"]["marketing_platform"];
+          title: string;
+          caption: string;
+          hashtags?: string[];
+          status?: Database["public"]["Enums"]["marketing_post_status"];
+          scheduled_at?: string | null;
+          image_prompt?: string | null;
+          metadata?: Json;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          campaign_id?: string;
+          linked_asset_id?: string | null;
+          platform?: Database["public"]["Enums"]["marketing_platform"];
+          title?: string;
+          caption?: string;
+          hashtags?: string[];
+          status?: Database["public"]["Enums"]["marketing_post_status"];
+          scheduled_at?: string | null;
+          image_prompt?: string | null;
+          metadata?: Json;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       business_activities: {
         Row: {
           id: string;
@@ -412,6 +556,11 @@ export interface Database {
       product_status: "draft" | "published";
       product_type: "cialde" | "machine";
       booking_status: "pending" | "confirmed" | "delivered" | "cancelled";
+      marketing_asset_kind: "reference" | "generated";
+      marketing_asset_source: "upload" | "gpt_image";
+      marketing_platform: "instagram" | "facebook" | "tiktok";
+      marketing_post_status: "draft" | "ready" | "scheduled";
+      marketing_campaign_status: "draft" | "generating" | "ready" | "failed";
     };
   };
 }

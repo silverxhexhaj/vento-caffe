@@ -785,6 +785,145 @@
       "listFilteredTitle": "Attività filtrate",
       "listTruncated": "…e altre (affina i filtri)"
     },
+    "marketing": {
+      "metaTitle": "Social Studio - Admin",
+      "title": "Social Studio",
+      "subtitle": "Pianifica i social, organizza gli asset e genera bozze campagna in albanese.",
+      "generateCampaign": "Genera campagna",
+      "comingSoonTitle": "Disponibile a breve",
+      "wireframeNote": "Wireframe — ancora senza backend",
+      "aiPowered": "Generazione AI attiva",
+      "stats": {
+        "draftPosts": "Bozze",
+        "draftPostsSubtitle": "Idee da rifinire",
+        "libraryAssets": "Asset in libreria",
+        "libraryAssetsSubtitle": "Immagini e template",
+        "scheduledIdeas": "In programma",
+        "scheduledIdeasSubtitle": "In coda per la pubblicazione",
+        "campaigns": "Campagne",
+        "campaignsSubtitle": "Bundle attivi questo mese"
+      },
+      "planner": {
+        "title": "Pianificazione contenuti",
+        "subtitle": "Bozze salvate in albanese, caption, hashtag e slot di pubblicazione",
+        "weekStripTitle": "Questa settimana",
+        "weekStripHint": "Anteprima statica — calendario in arrivo",
+        "emptyTitle": "Nessun post in coda",
+        "emptyHint": "Aggiungi una bozza o genera una campagna per vederla qui.",
+        "addPostCta": "Nuova bozza",
+        "noAsset": "Nessun asset collegato",
+        "rowActions": {
+          "edit": "Modifica",
+          "duplicate": "Duplica",
+          "schedule": "Programma",
+          "attach": "Collega asset",
+          "save": "Salva bozza"
+        }
+      },
+      "filters": {
+        "all": "Tutti",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok"
+      },
+      "platforms": {
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok"
+      },
+      "weekdaysShort": {
+        "mon": "Lun",
+        "tue": "Mar",
+        "wed": "Mer",
+        "thu": "Gio",
+        "fri": "Ven",
+        "sat": "Sab",
+        "sun": "Dom"
+      },
+      "assetLibrary": {
+        "title": "Libreria asset",
+        "subtitle": "Carica immagini reference e salva gli output di GPT Image",
+        "upload": "Carica asset",
+        "uploadLabel": "Etichetta reference",
+        "uploadPlaceholder": "es. Scatola cialde sul bancone",
+        "referenceTitle": "Reference caricate",
+        "generatedTitle": "Asset generati",
+        "generatedLabel": "Asset generato",
+        "emptyTitle": "Nessun asset",
+        "emptyHint": "Carica foto o grafiche da collegare ai post.",
+        "uploadCta": "Carica asset"
+      },
+      "linkedAsset": "Collegato: {label}",
+      "status": {
+        "draft": "Bozza",
+        "ready": "Pronto",
+        "scheduled": "Programmato"
+      },
+      "brief": {
+        "title": "Brief campagna",
+        "subtitle": "Descrivi la campagna e genera bozze social in albanese",
+        "campaignLabel": "Campagna",
+        "newCampaign": "Nuova campagna",
+        "nameLabel": "Nome campagna",
+        "defaultCampaignName": "Campagna social Vento Caffè",
+        "goalLabel": "Obiettivo",
+        "productLabel": "Focus prodotto",
+        "toneLabel": "Tono",
+        "platformsLabel": "Piattaforme",
+        "outputLabel": "Output",
+        "goalSample": "Spingere ordini weekend macchina + bundle cialde",
+        "productSample": "Macchina espresso compatta · capsule tostatura media",
+        "tones": {
+          "confident": "Sicuro",
+          "warm": "Caldo",
+          "shortHooks": "Hook brevi"
+        },
+        "platformOptions": {
+          "instagramFeed": "Feed Instagram",
+          "facebook": "Facebook",
+          "tiktok": "TikTok"
+        },
+        "platformCheckboxLabel": "{platform}",
+        "output": {
+          "captions": "Caption",
+          "hashtags": "Set hashtag",
+          "imagePrompts": "Prompt immagine",
+          "storyScripts": "Script storie"
+        },
+        "generateSticky": "Genera campagna",
+        "generating": "Generazione...",
+        "generateStickyHint": "Eseguirà su questo brief quando sarà attivo"
+      },
+      "preview": {
+        "title": "Anteprima generazione",
+        "subtitle": "Esempi quando la pipeline sarà collegata",
+        "captionVariant": "Variante caption A",
+        "captionSample": "Il weekend merita un caffè da bar—senza uscire di casa. Con Vento: crema setosa, estrazioni coerenti, capsule che finiscono in fretta (nel senso giusto).",
+        "imagePromptLabel": "Bozza prompt immagine",
+        "imagePromptSample": "Primo piano latte art su legno rustico, vapore, luce mattutina calda tra le persiane, profondità di campo cinematografica, tazza ceramica neutra con logo discreto.",
+        "feedMock": "Mock 1080 × 566",
+        "storyMock": "Mock storia",
+        "copyCaption": "Copia caption",
+        "exportBrief": "Esporta brief",
+        "generateImage": "Genera asset immagine",
+        "generatingImage": "Generazione immagine..."
+      },
+      "notices": {
+        "draftsGenerated": "Le bozze in albanese sono state generate e salvate.",
+        "assetUploaded": "Immagine reference caricata.",
+        "imageGenerated": "Asset immagine generato e salvato.",
+        "postSaved": "Bozza salvata.",
+        "postDuplicated": "Bozza duplicata.",
+        "captionCopied": "Caption copiata."
+      },
+      "errors": {
+        "generateDrafts": "Generazione bozze non riuscita.",
+        "upload": "Caricamento immagine reference non riuscito.",
+        "generateImage": "Generazione asset immagine non riuscita.",
+        "savePost": "Salvataggio bozza non riuscito.",
+        "duplicatePost": "Duplicazione bozza non riuscita."
+      }
+    },
     "products": {
       "costPrice": "Prezzo di Costo",
       "stockQuantity": "Quantità in Magazzino",

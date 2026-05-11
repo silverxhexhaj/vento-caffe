@@ -784,6 +784,145 @@
       "listFilteredTitle": "Bizneset e filtruara",
       "listTruncated": "…dhe të tjera (përmirëso filtrat)"
     },
+    "marketing": {
+      "metaTitle": "Social Studio - Admin",
+      "title": "Social Studio",
+      "subtitle": "Planifikoni përmbajtjen në rrjete sociale, organizoni asset-et dhe gjeneroni draft-e fushatash në shqip.",
+      "generateCampaign": "Gjenero fushatë",
+      "comingSoonTitle": "Së shpejti",
+      "wireframeNote": "Wireframe — pa backend ende",
+      "aiPowered": "Gjenerimi AI aktiv",
+      "stats": {
+        "draftPosts": "Draft-e postimesh",
+        "draftPostsSubtitle": "Ide që duhen përmirësuar",
+        "libraryAssets": "Asset-e në librari",
+        "libraryAssetsSubtitle": "Foto dhe shablone",
+        "scheduledIdeas": "Të planifikuara",
+        "scheduledIdeasSubtitle": "Në radhë për publikim",
+        "campaigns": "Fushata",
+        "campaignsSubtitle": "Paketa aktive këtë muaj"
+      },
+      "planner": {
+        "title": "Planifikues përmbajtjeje",
+        "subtitle": "Draft-e të ruajtura në shqip, përshkrime, hashtag-e dhe orare publikimi",
+        "weekStripTitle": "Kjo javë",
+        "weekStripHint": "Parapamje statike — kalendar më vonë",
+        "emptyTitle": "Asnjë post në radhë",
+        "emptyHint": "Shtoni një draft ose gjeneroni një fushatë për ta parë këtu.",
+        "addPostCta": "Draft i ri",
+        "noAsset": "Pa asset të lidhur",
+        "rowActions": {
+          "edit": "Ndrysho",
+          "duplicate": "Dyfisho",
+          "schedule": "Planifiko",
+          "attach": "Lidh asset",
+          "save": "Ruaj draft-in"
+        }
+      },
+      "filters": {
+        "all": "Të gjitha",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok"
+      },
+      "platforms": {
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok"
+      },
+      "weekdaysShort": {
+        "mon": "Hën",
+        "tue": "Mar",
+        "wed": "Mër",
+        "thu": "Enj",
+        "fri": "Pre",
+        "sat": "Sht",
+        "sun": "Die"
+      },
+      "assetLibrary": {
+        "title": "Libraria e asset-eve",
+        "subtitle": "Ngarkoni imazhe reference dhe ruani rezultatet nga GPT Image",
+        "upload": "Ngarko asset",
+        "uploadLabel": "Etiketa e references",
+        "uploadPlaceholder": "p.sh. Kutia cialde mbi banak",
+        "referenceTitle": "Referenca të ngarkuara",
+        "generatedTitle": "Asset-e të gjeneruara",
+        "generatedLabel": "Asset i gjeneruar",
+        "emptyTitle": "Ende pa asset-e",
+        "emptyHint": "Ngarkoni foto ose grafikë për t'i lidhur me postimet.",
+        "uploadCta": "Ngarko asset"
+      },
+      "linkedAsset": "E lidhur: {label}",
+      "status": {
+        "draft": "Draft",
+        "ready": "Gati",
+        "scheduled": "E planifikuar"
+      },
+      "brief": {
+        "title": "Brief i fushatës",
+        "subtitle": "Përshkruani fushatën dhe gjeneroni draft-e sociale në shqip",
+        "campaignLabel": "Fushata",
+        "newCampaign": "Fushatë e re",
+        "nameLabel": "Emri i fushatës",
+        "defaultCampaignName": "Fushatë sociale Vento Caffè",
+        "goalLabel": "Qëllimi",
+        "productLabel": "Fokusi i produktit",
+        "toneLabel": "Ton-i",
+        "platformsLabel": "Platformat",
+        "outputLabel": "Dalja",
+        "goalSample": "Rritje porosish fundjavë për makinë + paketë me cialde",
+        "productSample": "Makinë espresso kompakte · kapsula pjekje mesatare",
+        "tones": {
+          "confident": "I sigurt",
+          "warm": "I ngrohtë",
+          "shortHooks": "Hapa të shkurtër"
+        },
+        "platformOptions": {
+          "instagramFeed": "Instagram Feed",
+          "facebook": "Facebook",
+          "tiktok": "TikTok"
+        },
+        "platformCheckboxLabel": "{platform}",
+        "output": {
+          "captions": "Përshkrimet",
+          "hashtags": "Setet hashtag",
+          "imagePrompts": "Prompt-e për imazh",
+          "storyScripts": "Skripte story"
+        },
+        "generateSticky": "Gjenero fushatë",
+        "generating": "Duke gjeneruar...",
+        "generateStickyHint": "Do të ekzekutohet mbi këtë brief kur të jetë aktiv"
+      },
+      "preview": {
+        "title": "Parapamje gjenerimi",
+        "subtitle": "Shembuj kur tubacioni të jetë i lidhur",
+        "captionVariant": "Varianti A i përshkrimit",
+        "captionSample": "Fundjava e meriton një kafe bar-i—pa dalë nga kuzhina. Me Vento: kremë i butë, ekstraktim i qëndrueshëm, kapsula që mbarojnë shpejt (në kuptimin e mirë).",
+        "imagePromptLabel": "Skicë prompt imazhi",
+        "imagePromptSample": "Plan i afërt latte art mbi dru rustik, avull, dritë mëngjesi e ngrohtë nga gravesat, thellësi fushë kinematike, filxhan qeramike neutrale me logo të lehtë.",
+        "feedMock": "Mock 1080 × 566",
+        "storyMock": "Mock story",
+        "copyCaption": "Kopjo përshkrimin",
+        "exportBrief": "Eksporto brief-in",
+        "generateImage": "Gjenero asset imazhi",
+        "generatingImage": "Duke gjeneruar imazhin..."
+      },
+      "notices": {
+        "draftsGenerated": "Draft-et e postimeve në shqip u gjeneruan dhe u ruajtën.",
+        "assetUploaded": "Imazhi referencë u ngarkua.",
+        "imageGenerated": "Asset-i i gjeneruar u ruajt.",
+        "postSaved": "Draft-i u ruajt.",
+        "postDuplicated": "Draft-i u dyfishua.",
+        "captionCopied": "Përshkrimi u kopjua."
+      },
+      "errors": {
+        "generateDrafts": "Gjenerimi i draft-eve dështoi.",
+        "upload": "Ngarkimi i imazhit referencë dështoi.",
+        "generateImage": "Gjenerimi i asset-it të imazhit dështoi.",
+        "savePost": "Ruajtja e draft-it dështoi.",
+        "duplicatePost": "Dyfishimi i draft-it dështoi."
+      }
+    },
     "products": {
       "costPrice": "Çmimi i Blerjes",
       "stockQuantity": "Sasia në Stok",
