@@ -11,8 +11,15 @@ Metrics on **Finance** (`/admin/finance`) combine Supabase **orders**, **catalog
 | Gross profit | Revenue − estimated COGS. |
 | Supplier receipt expenses | Sum of `supplier_receipts.total` for rows with `status = reviewed` and a non-null `total`. Draft and archived receipts are excluded. Monthly buckets use **UTC** month from `receipt_date` when set, otherwise `created_at`. |
 | Net profit (after supplier receipts) | Gross profit − supplier receipt expenses (all-time or per month on the chart). |
+| Cash balance | Sum of **cash in** minus **cash out** on `cash_ledger_entries` — real movements you record; not derived from order totals. |
 | Monthly order series | Orders bucketed by **UTC calendar month** of `orders.created_at`. |
 | Monthly receipt series | Same UTC calendar months; receipt amounts use `receipt_date` (noon UTC) or `created_at`. |
+
+### Cash ledger
+
+- Table: `cash_ledger_entries` (migration `022_cash_ledger.sql`). Admins only (RLS via `is_admin()`).
+- Each row: `direction` (`in` / `out`), `source` (`order_payment`, `supplier_payment`, `manual_adjustment`, `opening_balance`), positive integer `amount` (LEK), optional link to `orders.id` or `supplier_receipts.id`, `occurred_at`, note.
+- **Supplier receipt totals** (reviewed) are separate from **cash paid**: finance charts still use invoice totals; cash balance only changes when you add ledger entries (Finance page or “Record cash paid” on Receipts).
 
 Promotional lines marked `is_free` contribute **zero line revenue** but still count toward COGS via quantity × cost.
 

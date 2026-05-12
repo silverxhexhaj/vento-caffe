@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState, useTransition } from "react";
 
 import type { Database } from "@/lib/supabase/types";
 import type { SupplierReceiptListItem } from "@/lib/actions/receipts";
+import { createCashLedgerEntry } from "@/lib/actions/cash-ledger";
 import {
   analyzeSupplierReceipt,
   deleteSupplierReceipt,
@@ -212,6 +213,38 @@ export default function ReceiptsAdminClient({
     });
   }
 
+  async function handleRecordCashPaid() {
+    if (!selectedId) return;
+    resetMessages();
+    if (header.status !== "reviewed") {
+      setError("Mark the receipt as reviewed before recording a supplier cash payment.");
+      return;
+    }
+    const total = parseOptionalIntInput(header.total);
+    if (total == null || total <= 0) {
+      setError("Set a receipt total before recording cash paid.");
+      return;
+    }
+    startTransition(async () => {
+      const res = await createCashLedgerEntry({
+        locale,
+        direction: "out",
+        source: "supplier_payment",
+        amount: total,
+        occurred_at: header.receipt_date.trim() || null,
+        note: `Supplier payment · ${header.supplier_name.trim() || "receipt"}`,
+        order_id: null,
+        supplier_receipt_id: selectedId,
+      });
+      if (res.error) {
+        setError(res.error);
+        return;
+      }
+      setMessage("Cash-out saved to the finance cash ledger.");
+      reloadList();
+    });
+  }
+
   async function handleDelete() {
     if (!selectedId) return;
     if (!confirm("Delete this receipt and image permanently?")) return;
@@ -386,7 +419,21 @@ export default function ReceiptsAdminClient({
               >
                 Mark reviewed
               </button>
+              <button
+                type="button"
+                disabled={isBusy}
+                onClick={() => void handleRecordCashPaid()}
+                className="px-4 py-2 rounded-lg border border-emerald-600 bg-emerald-50 text-emerald-900 text-sm font-medium hover:bg-emerald-100 disabled:opacity-50"
+                title="Adds a cash-out entry linked to this receipt on the Finance page ledger"
+              >
+                Record cash paid
+              </button>
             </div>
+
+            <p className="text-xs text-neutral-500">
+              Supplier invoice totals on this page feed <strong>finance expenses</strong> when marked reviewed.{" "}
+              <strong>Cash paid</strong> is separate — use “Record cash paid” or the cash register on Finance.
+            </p>
 
             {detailMeta.extraction_error ? (
               <div className="text-sm rounded-lg border border-amber-200 bg-amber-50 text-amber-950 p-4">

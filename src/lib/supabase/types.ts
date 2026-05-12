@@ -629,6 +629,48 @@ export interface Database {
         };
         Relationships: [];
       };
+      cash_ledger_entries: {
+        Row: {
+          id: string;
+          direction: "in" | "out";
+          source: "order_payment" | "supplier_payment" | "manual_adjustment" | "opening_balance";
+          amount: number;
+          occurred_at: string;
+          note: string | null;
+          order_id: string | null;
+          supplier_receipt_id: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          direction: "in" | "out";
+          source: "order_payment" | "supplier_payment" | "manual_adjustment" | "opening_balance";
+          amount: number;
+          occurred_at?: string;
+          note?: string | null;
+          order_id?: string | null;
+          supplier_receipt_id?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          direction?: "in" | "out";
+          source?: "order_payment" | "supplier_payment" | "manual_adjustment" | "opening_balance";
+          amount?: number;
+          occurred_at?: string;
+          note?: string | null;
+          order_id?: string | null;
+          supplier_receipt_id?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       business_activities: {
         Row: {
           id: string;
@@ -670,6 +712,12 @@ export interface Database {
       marketing_post_status: "draft" | "ready" | "scheduled";
       marketing_campaign_status: "draft" | "generating" | "ready" | "failed";
       supplier_receipt_status: "draft" | "reviewed" | "archived";
+      cash_ledger_direction: "in" | "out";
+      cash_ledger_source:
+        | "order_payment"
+        | "supplier_payment"
+        | "manual_adjustment"
+        | "opening_balance";
     };
   };
 }
