@@ -595,11 +595,21 @@ export interface FinanceOverview {
   grossProfit: number;
   /** 0–100, or null if no revenue */
   grossMarginPercent: number | null;
+  /** Real supplier spend: sum of `total` on `reviewed` receipts (null totals excluded). */
+  receiptExpenses: number;
+  /** `grossProfit - receiptExpenses` (not net of other operating costs). */
+  netProfit: number;
+  /** 0–100 vs revenue, or null if no revenue */
+  netMarginPercent: number | null;
   /** Calendar month buckets use UTC dates from `created_at`. */
   thisMonthRevenue: number;
   thisMonthEstimatedCogs: number;
   thisMonthGrossProfit: number;
   thisMonthGrossMarginPercent: number | null;
+  /** Reviewed receipts with totals in the current UTC month (`receipt_date` noon UTC, else `created_at`). */
+  thisMonthReceiptExpenses: number;
+  thisMonthNetProfit: number;
+  thisMonthNetMarginPercent: number | null;
 }
 
 export interface FinanceMonthPoint {
@@ -610,6 +620,10 @@ export interface FinanceMonthPoint {
   revenue: number;
   estimatedCogs: number;
   grossProfit: number;
+  /** Reviewed receipt totals in this month (same bucketing as overview). */
+  receiptExpenses: number;
+  /** `grossProfit - receiptExpenses` */
+  netProfit: number;
 }
 
 export interface ProductProfitRow {
@@ -645,6 +659,51 @@ function monthLabelUtc(year: number, month: number): string {
     month: "short",
     year: "numeric",
   });
+}
+
+function reviewedReceiptBucketIso(row: {
+  receipt_date: string | null;
+  created_at: string;
+}): string {
+  const rd = row.receipt_date;
+  if (rd && /^\d{4}-\d{2}-\d{2}$/.test(rd)) {
+    return `${rd}T12:00:00.000Z`;
+  }
+  return row.created_at;
+}
+
+function aggregateReviewedReceiptExpenses(
+  rows: Array<{
+    total: number | null;
+    receipt_date: string | null;
+    created_at: string;
+  }>,
+  ty: number,
+  tm: number,
+  mk: (y: number, mo: number) => string
+): {
+  receiptExpensesAll: number;
+  receiptsByMonth: Map<string, number>;
+  thisMonthReceiptExpenses: number;
+} {
+  const receiptsByMonth = new Map<string, number>();
+  let receiptExpensesAll = 0;
+  let thisMonthReceiptExpenses = 0;
+  const tmKey = mk(ty, tm);
+
+  for (const r of rows) {
+    if (r.total == null) continue;
+    const amt = Number(r.total);
+    if (!Number.isFinite(amt)) continue;
+    receiptExpensesAll += amt;
+    const iso = reviewedReceiptBucketIso(r);
+    const { year, month } = utcYearMonth(iso);
+    const key = mk(year, month);
+    receiptsByMonth.set(key, (receiptsByMonth.get(key) ?? 0) + amt);
+    if (key === tmKey) thisMonthReceiptExpenses += amt;
+  }
+
+  return { receiptExpensesAll, receiptsByMonth, thisMonthReceiptExpenses };
 }
 
 async function fetchAllOrderItemsForOrders(
@@ -749,6 +808,40 @@ export async function getFinanceDashboard(input?: {
 
   try {
     const supabase = await createAdminClient();
+    const now = new Date();
+    const ty = now.getUTCFullYear();
+    const tm = now.getUTCMonth();
+    const mk = (y: number, mo: number) =>
+      `${y}-${String(mo + 1).padStart(2, "0")}`;
+
+    const { data: reviewedReceiptData, error: reviewedReceiptError } =
+      await supabase
+        .from("supplier_receipts")
+        .select("total,receipt_date,created_at")
+        .eq("status", "reviewed");
+
+    if (reviewedReceiptError) {
+      return {
+        overview: null,
+        monthly: [],
+        products: [],
+        error: reviewedReceiptError.message,
+      };
+    }
+
+    const receiptRows = (reviewedReceiptData ?? []) as Array<{
+      total: number | null;
+      receipt_date: string | null;
+      created_at: string;
+    }>;
+
+    const { receiptExpensesAll, receiptsByMonth, thisMonthReceiptExpenses } =
+      aggregateReviewedReceiptExpenses(receiptRows, ty, tm, mk);
+
+    function marginPct(profit: number, revenueSum: number): number | null {
+      return revenueSum > 0 ? (profit / revenueSum) * 100 : null;
+    }
+
     const { data: ordersData, error: ordersError } = await supabase
       .from("orders")
       .select("id, created_at, status, total, total_override")
@@ -771,26 +864,14 @@ export async function getFinanceDashboard(input?: {
       total_override?: number | null;
     }>;
 
-    const emptyOverview: FinanceOverview = {
-      totalRevenue: 0,
-      estimatedCogs: 0,
-      grossProfit: 0,
-      grossMarginPercent: null,
-      thisMonthRevenue: 0,
-      thisMonthEstimatedCogs: 0,
-      thisMonthGrossProfit: 0,
-      thisMonthGrossMarginPercent: null,
-    };
-
     if (orders.length === 0) {
       const monthly: FinanceMonthPoint[] = [];
-      const today = new Date();
-      const y = today.getUTCFullYear();
-      const m = today.getUTCMonth();
       for (let offset = months - 1; offset >= 0; offset--) {
-        const d = new Date(Date.UTC(y, m, 1));
-        d.setUTCMonth(d.getUTCMonth() - offset);
-        const ym = utcYearMonth(d.toISOString());
+        const anchor = new Date(Date.UTC(ty, tm, 1));
+        anchor.setUTCMonth(anchor.getUTCMonth() - offset);
+        const ym = utcYearMonth(anchor.toISOString());
+        const key = mk(ym.year, ym.month);
+        const rec = receiptsByMonth.get(key) ?? 0;
         monthly.push({
           year: ym.year,
           month: ym.month,
@@ -798,10 +879,30 @@ export async function getFinanceDashboard(input?: {
           revenue: 0,
           estimatedCogs: 0,
           grossProfit: 0,
+          receiptExpenses: rec,
+          netProfit: -rec,
         });
       }
+
+      const overview: FinanceOverview = {
+        totalRevenue: 0,
+        estimatedCogs: 0,
+        grossProfit: 0,
+        grossMarginPercent: null,
+        receiptExpenses: receiptExpensesAll,
+        netProfit: -receiptExpensesAll,
+        netMarginPercent: null,
+        thisMonthRevenue: 0,
+        thisMonthEstimatedCogs: 0,
+        thisMonthGrossProfit: 0,
+        thisMonthGrossMarginPercent: null,
+        thisMonthReceiptExpenses,
+        thisMonthNetProfit: -thisMonthReceiptExpenses,
+        thisMonthNetMarginPercent: null,
+      };
+
       return {
-        overview: emptyOverview,
+        overview,
         monthly,
         products: [],
         error: null,
@@ -817,9 +918,6 @@ export async function getFinanceDashboard(input?: {
     }
 
     const items = await fetchAllOrderItemsForOrders(supabase, orderIds);
-
-    const mk = (y: number, mo: number) =>
-      `${y}-${String(mo + 1).padStart(2, "0")}`;
 
     const ordersByMonth = new Map<
       string,
@@ -894,15 +992,8 @@ export async function getFinanceDashboard(input?: {
       }
     }
 
-    function marginPct(profit: number, revenueSum: number): number | null {
-      return revenueSum > 0 ? (profit / revenueSum) * 100 : null;
-    }
-
     const grossProfit = totalRevenue - estimatedCogsAll;
 
-    const now = new Date();
-    const ty = now.getUTCFullYear();
-    const tm = now.getUTCMonth();
     const tmKey = mk(ty, tm);
     const thisMonthRevenue = ordersByMonth.get(tmKey)?.revenue ?? 0;
     const thisMonthEstimatedCogs =
@@ -910,16 +1001,28 @@ export async function getFinanceDashboard(input?: {
     const thisMonthGrossProfit =
       thisMonthRevenue - thisMonthEstimatedCogs;
 
+    const netProfit = grossProfit - receiptExpensesAll;
+    const thisMonthNetProfit = thisMonthGrossProfit - thisMonthReceiptExpenses;
+
     const overview: FinanceOverview = {
       totalRevenue,
       estimatedCogs: estimatedCogsAll,
       grossProfit,
       grossMarginPercent: marginPct(grossProfit, totalRevenue),
+      receiptExpenses: receiptExpensesAll,
+      netProfit,
+      netMarginPercent: marginPct(netProfit, totalRevenue),
       thisMonthRevenue,
       thisMonthEstimatedCogs,
       thisMonthGrossProfit,
       thisMonthGrossMarginPercent: marginPct(
         thisMonthGrossProfit,
+        thisMonthRevenue
+      ),
+      thisMonthReceiptExpenses,
+      thisMonthNetProfit,
+      thisMonthNetMarginPercent: marginPct(
+        thisMonthNetProfit,
         thisMonthRevenue
       ),
     };
@@ -932,13 +1035,17 @@ export async function getFinanceDashboard(input?: {
       const key = mk(ym.year, ym.month);
       const rev = ordersByMonth.get(key)?.revenue ?? 0;
       const cog = cogsByMonth.get(key)?.estimatedCogs ?? 0;
+      const rec = receiptsByMonth.get(key) ?? 0;
+      const gPr = rev - cog;
       monthly.push({
         year: ym.year,
         month: ym.month,
         label: monthLabelUtc(ym.year, ym.month),
         revenue: rev,
         estimatedCogs: cog,
-        grossProfit: rev - cog,
+        grossProfit: gPr,
+        receiptExpenses: rec,
+        netProfit: gPr - rec,
       });
     }
 

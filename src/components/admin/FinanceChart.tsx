@@ -36,6 +36,8 @@ function FinanceTooltip({
     revenue: "Revenue",
     estimatedCogs: "Estimated product spend (COGS)",
     grossProfit: "Gross profit",
+    receiptExpenses: "Reviewed supplier receipts",
+    netProfit: "Net profit (after supplier receipts)",
   };
 
   return (
@@ -47,7 +49,7 @@ function FinanceTooltip({
           (key && labelByKey[key]) || entry.name || key || "";
         const isMoney =
           entry.dataKey !== undefined &&
-          ["revenue", "estimatedCogs", "grossProfit"].includes(
+          ["revenue", "estimatedCogs", "grossProfit", "receiptExpenses", "netProfit"].includes(
             entry.dataKey as string
           );
         return (
@@ -73,7 +75,8 @@ export default function FinanceChart({ data }: FinanceChartProps) {
           Monthly earnings
         </h2>
         <p className="text-sm text-neutral-500 mt-1">
-          Revenue, estimated product spend, and gross profit by calendar month (UTC bucket from order timestamps)
+          Orders by <code className="text-xs bg-neutral-100 px-1 rounded">created_at</code>; supplier receipts by{" "}
+          <code className="text-xs bg-neutral-100 px-1 rounded">receipt_date</code> (UTC) or upload time.
         </p>
       </div>
       <div className="p-6">
@@ -129,6 +132,24 @@ export default function FinanceChart({ data }: FinanceChartProps) {
                   stroke="#2563eb"
                   strokeWidth={2}
                   dot={{ fill: "#2563eb", r: 3 }}
+                  activeDot={{ r: 5 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="receiptExpenses"
+                  name="Supplier receipts (reviewed)"
+                  stroke="#57534e"
+                  strokeWidth={2}
+                  dot={{ fill: "#57534e", r: 3 }}
+                  activeDot={{ r: 5 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="netProfit"
+                  name="Net profit (after receipts)"
+                  stroke="#7c3aed"
+                  strokeWidth={2}
+                  dot={{ fill: "#7c3aed", r: 3 }}
                   activeDot={{ r: 5 }}
                 />
               </LineChart>

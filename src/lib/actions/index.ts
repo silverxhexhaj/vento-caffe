@@ -36,6 +36,7 @@ export {
 
 export {
   getSupplierReceipts,
+  getSupplierReceiptSummary,
   getSupplierReceiptById,
   refreshSupplierReceiptImageUrl,
   uploadSupplierReceiptImage,
@@ -44,6 +45,7 @@ export {
   saveSupplierReceiptReview,
   deleteSupplierReceipt,
   type SupplierReceiptListItem,
+  type SupplierReceiptSummary,
   type SupplierReceiptWithLines,
   type SaveSupplierReceiptLineInput,
   type SaveSupplierReceiptReviewInput,

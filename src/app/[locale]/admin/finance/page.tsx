@@ -14,7 +14,7 @@ function formatPct(value: number | null): string {
   return `${value.toFixed(1)}%`;
 }
 
-function FinanceAccuracyNote() {
+function FinanceAccuracyNote({ locale }: { locale: string }) {
   return (
     <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 text-sm text-amber-950 space-y-2">
       <h3 className="font-semibold text-amber-900">How these numbers work</h3>
@@ -33,11 +33,27 @@ function FinanceAccuracyNote() {
           <strong>Monthly buckets</strong> use the UTC month of each order&apos;s{" "}
           <code className="text-xs bg-amber-100 px-1 rounded">created_at</code>.
         </li>
+        <li>
+          <strong>Supplier receipt expenses</strong> sum the <code className="text-xs bg-amber-100 px-1 rounded">total</code>{" "}
+          field on receipts with status <strong>reviewed</strong> only (drafts and archived receipts are excluded). Receipts
+          without a total are omitted from expense sums—add a total on the Receipts page before relying on finance.
+        </li>
+        <li>
+          Receipts are bucketed by UTC month using <code className="text-xs bg-amber-100 px-1 rounded">receipt_date</code>{" "}
+          when set, otherwise <code className="text-xs bg-amber-100 px-1 rounded">created_at</code>.
+        </li>
+        <li>
+          <strong>Net profit (after supplier receipts)</strong> is gross profit (revenue − estimated COGS) minus reviewed
+          supplier receipt totals. Estimated COGS from catalog cost prices and real invoice totals can overlap conceptually;
+          use one lens for trend analysis until you track cost-at-sale on order lines.
+        </li>
       </ul>
       <p className="text-amber-900/85 pt-1">
-        <strong>For financial accuracy:</strong> track purchase totals (e.g. add{" "}
-        <code className="text-xs bg-amber-100 px-1 rounded">unit_cost</code> / invoices on inventory
-        purchases) and optionally store cost at checkout on each order line.
+        <strong>For financial accuracy:</strong> confirm receipt totals on{" "}
+        <Link href={`/${locale}/admin/receipts`} className="font-medium underline-offset-2 hover:underline">
+          Receipts
+        </Link>{" "}
+        before marking them reviewed; consider persisting line-level cost at purchase on orders to tighten COGS.
       </p>
     </div>
   );
@@ -132,7 +148,7 @@ export default async function AdminFinancePage({
         <div>
           <h1 className="text-2xl font-bold text-neutral-900">Finance</h1>
           <p className="text-sm text-neutral-500 mt-1">
-            Revenue versus estimated cost of goods (from current product cost prices).
+            Revenue, estimated COGS from catalog costs, and reviewed supplier receipt expenses.
           </p>
           <p className="text-xs text-neutral-400 mt-2">
             Daily order and revenue trends are on the{" "}
@@ -228,6 +244,54 @@ export default async function AdminFinancePage({
             </svg>
           }
         />
+        <StatsCard
+          title="Reviewed supplier spend"
+          value={formatPrice(overview.receiptExpenses)}
+          subtitle="From supplier receipts marked reviewed (has total)"
+          icon={
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+              />
+            </svg>
+          }
+        />
+        <StatsCard
+          title="Reviewed supplier spend (month)"
+          value={formatPrice(overview.thisMonthReceiptExpenses)}
+          subtitle="Receipt-date month (UTC), else uploaded at"
+          icon={
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+              />
+            </svg>
+          }
+        />
+        <StatsCard
+          title="Net profit (after supplier receipts)"
+          value={formatPrice(overview.netProfit)}
+          subtitle={`Gross profit minus supplier receipts · margin ${formatPct(overview.netMarginPercent)}`}
+          icon={
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 15h19.5m-16.5-5.25v6.75m4.5-6.75v6.75m4.5-6.75v6.75m4.5-6.75v6.75" />
+            </svg>
+          }
+        />
+        <StatsCard
+          title="This month net profit (after receipts)"
+          value={formatPrice(overview.thisMonthNetProfit)}
+          subtitle={`Margin ${formatPct(overview.thisMonthNetMarginPercent)} vs monthly revenue`}
+          icon={
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625Z" />
+            </svg>
+          }
+        />
       </div>
 
       <FinanceChart data={monthly} />
@@ -246,7 +310,7 @@ export default async function AdminFinancePage({
         </div>
       </div>
 
-      <FinanceAccuracyNote />
+      <FinanceAccuracyNote locale={locale} />
     </div>
   );
 }

@@ -30,6 +30,133 @@ export interface SupplierReceiptListItem extends ReceiptRow {
   line_count: number;
 }
 
+/** Dashboard metrics for supplier receipts (reviewed-only totals align with finance). */
+export interface SupplierReceiptSummary {
+  /** Sum of `total` for receipts with status `reviewed` and a non-null total. */
+  totalReviewedExpenses: number;
+  /** Same sums, receipts whose fiscal month (UTC) matches the current UTC calendar month. */
+  thisMonthReviewedExpenses: number;
+  /** Count of `reviewed` receipts. */
+  reviewedReceiptCount: number;
+  /** Count of `draft` receipts (still need review). */
+  draftReceiptCount: number;
+  /** `reviewed` receipts missing a `total` (excluded from expense sums; fix in UI). */
+  reviewedMissingTotalCount: number;
+}
+
+function receiptBucketDateIso(row: Pick<ReceiptRow, "receipt_date" | "created_at">): string {
+  const rd = row.receipt_date;
+  if (rd && /^\d{4}-\d{2}-\d{2}$/.test(rd)) {
+    return `${rd}T12:00:00.000Z`;
+  }
+  return row.created_at;
+}
+
+export async function getSupplierReceiptSummary(): Promise<{
+  summary: SupplierReceiptSummary;
+  error: string | null;
+}> {
+  const auth = await ensureAdmin();
+  if (auth.error) {
+    return {
+      summary: {
+        totalReviewedExpenses: 0,
+        thisMonthReviewedExpenses: 0,
+        reviewedReceiptCount: 0,
+        draftReceiptCount: 0,
+        reviewedMissingTotalCount: 0,
+      },
+      error: auth.error,
+    };
+  }
+
+  try {
+    const supabase = await getReceiptsDb();
+    const { data: rows, error } = await supabase
+      .from("supplier_receipts")
+      .select("status,total,receipt_date,created_at");
+
+    if (error) {
+      return {
+        summary: {
+          totalReviewedExpenses: 0,
+          thisMonthReviewedExpenses: 0,
+          reviewedReceiptCount: 0,
+          draftReceiptCount: 0,
+          reviewedMissingTotalCount: 0,
+        },
+        error: error.message,
+      };
+    }
+
+    const list = (rows ?? []) as Pick<ReceiptRow, "status" | "total" | "receipt_date" | "created_at">[];
+
+    let totalReviewedExpenses = 0;
+    let thisMonthReviewedExpenses = 0;
+    let reviewedReceiptCount = 0;
+    let draftReceiptCount = 0;
+    let reviewedMissingTotalCount = 0;
+
+    const now = new Date();
+    const ty = now.getUTCFullYear();
+    const tm = now.getUTCMonth();
+
+    for (const r of list) {
+      if (r.status === "draft") {
+        draftReceiptCount += 1;
+      }
+      if (r.status !== "reviewed") continue;
+
+      reviewedReceiptCount += 1;
+      const t = r.total;
+      if (t == null) {
+        reviewedMissingTotalCount += 1;
+        continue;
+      }
+      const amt = Number(t);
+      if (!Number.isFinite(amt)) continue;
+      totalReviewedExpenses += amt;
+
+      const bucketIso = receiptBucketDateIso(r);
+      const { year, month } = utcYearMonthFromIso(bucketIso);
+      if (year === ty && month === tm) {
+        thisMonthReviewedExpenses += amt;
+      }
+    }
+
+    return {
+      summary: {
+        totalReviewedExpenses,
+        thisMonthReviewedExpenses,
+        reviewedReceiptCount,
+        draftReceiptCount,
+        reviewedMissingTotalCount,
+      },
+      error: null,
+    };
+  } catch (e) {
+    return {
+      summary: {
+        totalReviewedExpenses: 0,
+        thisMonthReviewedExpenses: 0,
+        reviewedReceiptCount: 0,
+        draftReceiptCount: 0,
+        reviewedMissingTotalCount: 0,
+      },
+      error: e instanceof Error ? e.message : "Failed to load receipt summary",
+    };
+  }
+}
+
+/** UTC year/month from an ISO timestamp (same idea as finance `utcYearMonth`). */
+function utcYearMonthFromIso(isoDate: string): { year: number; month: number } {
+  const d = new Date(isoDate);
+  return {
+    year: d.getUTCFullYear(),
+    month: d.getUTCMonth(),
+  };
+}
+
 export interface SupplierReceiptWithLines extends ReceiptRow {
   lines: ReceiptLineRow[];
 }
@@ -716,6 +843,7 @@ export async function saveSupplierReceiptReview(
     }
 
     revalidatePath(`/${locale}/admin/receipts`);
+    revalidatePath(`/${locale}/admin/finance`);
     return { error: null };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Save failed" };
@@ -745,6 +873,7 @@ export async function deleteSupplierReceipt(input: {
     await supabase.storage.from(SUPPLIER_RECEIPTS_BUCKET).remove([path]).catch(() => undefined);
 
     revalidatePath(`/${input.locale}/admin/receipts`);
+    revalidatePath(`/${input.locale}/admin/finance`);
     return { error: null };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Delete failed" };
