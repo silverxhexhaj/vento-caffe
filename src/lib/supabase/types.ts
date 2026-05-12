@@ -521,6 +521,114 @@ export interface Database {
         };
         Relationships: [];
       };
+      supplier_receipts: {
+        Row: {
+          id: string;
+          status: "draft" | "reviewed" | "archived";
+          supplier_name: string | null;
+          receipt_number: string | null;
+          receipt_date: string | null;
+          currency: string;
+          subtotal: number | null;
+          tax: number | null;
+          total: number | null;
+          extraction_confidence: number | null;
+          image_storage_path: string;
+          image_content_type: string;
+          image_size: number;
+          extracted_json: Json | null;
+          extraction_error: string | null;
+          notes: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          status?: "draft" | "reviewed" | "archived";
+          supplier_name?: string | null;
+          receipt_number?: string | null;
+          receipt_date?: string | null;
+          currency?: string;
+          subtotal?: number | null;
+          tax?: number | null;
+          total?: number | null;
+          extraction_confidence?: number | null;
+          image_storage_path: string;
+          image_content_type: string;
+          image_size: number;
+          extracted_json?: Json | null;
+          extraction_error?: string | null;
+          notes?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          status?: "draft" | "reviewed" | "archived";
+          supplier_name?: string | null;
+          receipt_number?: string | null;
+          receipt_date?: string | null;
+          currency?: string;
+          subtotal?: number | null;
+          tax?: number | null;
+          total?: number | null;
+          extraction_confidence?: number | null;
+          image_storage_path?: string;
+          image_content_type?: string;
+          image_size?: number;
+          extracted_json?: Json | null;
+          extraction_error?: string | null;
+          notes?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      supplier_receipt_lines: {
+        Row: {
+          id: string;
+          receipt_id: string;
+          line_order: number;
+          description_raw: string;
+          quantity: number;
+          unit_amount: number | null;
+          line_total: number | null;
+          suggested_product_id: string | null;
+          suggested_match_confidence: number | null;
+          confirmed_product_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          receipt_id: string;
+          line_order?: number;
+          description_raw?: string;
+          quantity?: number;
+          unit_amount?: number | null;
+          line_total?: number | null;
+          suggested_product_id?: string | null;
+          suggested_match_confidence?: number | null;
+          confirmed_product_id?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          receipt_id?: string;
+          line_order?: number;
+          description_raw?: string;
+          quantity?: number;
+          unit_amount?: number | null;
+          line_total?: number | null;
+          suggested_product_id?: string | null;
+          suggested_match_confidence?: number | null;
+          confirmed_product_id?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       business_activities: {
         Row: {
           id: string;
@@ -561,6 +669,7 @@ export interface Database {
       marketing_platform: "instagram" | "facebook" | "tiktok";
       marketing_post_status: "draft" | "ready" | "scheduled";
       marketing_campaign_status: "draft" | "generating" | "ready" | "failed";
+      supplier_receipt_status: "draft" | "reviewed" | "archived";
     };
   };
 }

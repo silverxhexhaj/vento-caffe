@@ -31,6 +31,7 @@ The platform includes a customer-facing storefront, a lead generation system via
 - Dashboard with KPIs: total orders, revenue, active accounts, subscription orders
 - Order management with status control, item editing, and total overrides
 - Product management with images, pricing, stock, and publish controls
+- Supplier receipt uploads with AI extraction (private storage; phase 1 does not adjust stock)
 - Business CRM with pipeline stages, activity timeline, and agent assignment
 - Agent management
 - Sample booking review and conversion to business records
@@ -76,7 +77,7 @@ src/
 └── proxy.ts                   # Middleware (i18n + Supabase session)
 
 supabase/
-└── migrations/                # SQL migrations (001–019)
+└── migrations/                # SQL migrations (001+, apply in order)
 ```
 
 ## Getting Started
@@ -94,6 +95,9 @@ Create a `.env.local` file:
 ```
 NEXT_PUBLIC_SUPABASE_URL=<your-supabase-url>
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+OPENAI_API_KEY=<optional-for-marketing-studio-and-receipt-ai>
+# Optional; default is gpt-4o-mini for receipt image extraction
+OPENAI_RECEIPT_MODEL=gpt-4o-mini
 ```
 
 ### Installation
@@ -107,7 +111,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Database Setup
 
-Run the SQL migrations in `supabase/migrations/` in order (001 through 019) against your Supabase project. These create all tables, indexes, RLS policies, triggers, and enums.
+Run the SQL migrations in `supabase/migrations/` in order against your Supabase project. These create all tables, indexes, RLS policies, triggers, storage buckets, and enums.
 
 ### Build for Production
 
@@ -130,6 +134,7 @@ npm start
 | `agents` / `business_agents` | Sales agents and assignments |
 | `admin_notifications` | Internal admin alerts |
 | `stock_movements` | Inventory tracking |
+| `supplier_receipts` / `supplier_receipt_lines` | Supplier receipt images + AI extraction (admin) |
 | `newsletter_subscribers` | Newsletter signups |
 
 ## License
