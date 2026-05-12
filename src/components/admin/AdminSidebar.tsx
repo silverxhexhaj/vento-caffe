@@ -88,6 +88,15 @@ const navItems = [
     ),
   },
   {
+    label: "Finance",
+    href: "/admin/finance",
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 3.071-.879 4.243 0M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16" />
+      </svg>
+    ),
+  },
+  {
     label: "Marketing",
     href: "/admin/marketing",
     icon: (

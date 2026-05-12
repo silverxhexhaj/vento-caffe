@@ -585,6 +585,393 @@ export async function getOrdersChartData(days: number): Promise<{
 }
 
 // ============================================
+// FINANCE (revenue vs estimated COGS from current product costs)
+// ============================================
+
+export interface FinanceOverview {
+  /** Sum of effective order totals (`total_override ?? total`), non-cancelled only */
+  totalRevenue: number;
+  estimatedCogs: number;
+  grossProfit: number;
+  /** 0–100, or null if no revenue */
+  grossMarginPercent: number | null;
+  /** Calendar month buckets use UTC dates from `created_at`. */
+  thisMonthRevenue: number;
+  thisMonthEstimatedCogs: number;
+  thisMonthGrossProfit: number;
+  thisMonthGrossMarginPercent: number | null;
+}
+
+export interface FinanceMonthPoint {
+  year: number;
+  /** 0–11 */
+  month: number;
+  label: string;
+  revenue: number;
+  estimatedCogs: number;
+  grossProfit: number;
+}
+
+export interface ProductProfitRow {
+  product_id: string;
+  name_key: string;
+  slug: string;
+  unitsSold: number;
+  revenue: number;
+  estimatedCogs: number;
+  grossProfit: number;
+  marginPercent: number | null;
+}
+
+function effectiveOrderTotal(order: {
+  total: number;
+  total_override?: number | null;
+}): number {
+  const t =
+    order.total_override != null ? order.total_override : order.total;
+  return Number(t ?? 0);
+}
+
+function utcYearMonth(isoDate: string): { year: number; month: number } {
+  const d = new Date(isoDate);
+  return {
+    year: d.getUTCFullYear(),
+    month: d.getUTCMonth(),
+  };
+}
+
+function monthLabelUtc(year: number, month: number): string {
+  return new Date(Date.UTC(year, month, 15)).toLocaleDateString("en-GB", {
+    month: "short",
+    year: "numeric",
+  });
+}
+
+async function fetchAllOrderItemsForOrders(
+  supabase: Awaited<ReturnType<typeof createAdminClient>>,
+  orderIds: string[]
+): Promise<
+  Array<{
+    order_id: string;
+    product_id: string;
+    quantity: number;
+    price_at_purchase: number;
+    is_free: boolean;
+    products?:
+      | { name_key?: string | null; slug?: string | null; cost_price?: number | null }
+      | Array<{
+          name_key?: string | null;
+          slug?: string | null;
+          cost_price?: number | null;
+        }>
+      | null;
+  }>
+> {
+  const chunkSize = 400;
+  const all: Array<{
+    order_id: string;
+    product_id: string;
+    quantity: number;
+    price_at_purchase: number;
+    is_free: boolean;
+    products?:
+      | { name_key?: string | null; slug?: string | null; cost_price?: number | null }
+      | Array<{
+          name_key?: string | null;
+          slug?: string | null;
+          cost_price?: number | null;
+        }>
+      | null;
+  }> = [];
+
+  for (let i = 0; i < orderIds.length; i += chunkSize) {
+    const chunk = orderIds.slice(i, i + chunkSize);
+    const { data, error } = await supabase
+      .from("order_items")
+      .select(
+        `
+        order_id,
+        product_id,
+        quantity,
+        price_at_purchase,
+        is_free,
+        products (name_key, slug, cost_price)
+      `
+      )
+      .in("order_id", chunk);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const rows =
+      (data ?? []) as Array<{
+        order_id: string;
+        product_id: string;
+        quantity: number;
+        price_at_purchase: number;
+        is_free: boolean;
+        products?:
+          | { name_key?: string | null; slug?: string | null; cost_price?: number | null }
+          | Array<{
+              name_key?: string | null;
+              slug?: string | null;
+              cost_price?: number | null;
+            }>
+          | null;
+      }>;
+
+    all.push(...rows);
+  }
+
+  return all;
+}
+
+export async function getFinanceDashboard(input?: {
+  /** Number of past calendar months including the current month (default 12). */
+  months?: number;
+  topProductsLimit?: number;
+}): Promise<{
+  overview: FinanceOverview | null;
+  monthly: FinanceMonthPoint[];
+  products: ProductProfitRow[];
+  error: string | null;
+}> {
+  const months = Math.min(36, Math.max(1, Math.floor(input?.months ?? 12)));
+  const topProductsLimit = Math.min(
+    100,
+    Math.max(1, Math.floor(input?.topProductsLimit ?? 15))
+  );
+
+  const { isAdmin, error: authError } = await verifyAdmin();
+  if (!isAdmin)
+    return { overview: null, monthly: [], products: [], error: authError };
+
+  try {
+    const supabase = await createAdminClient();
+    const { data: ordersData, error: ordersError } = await supabase
+      .from("orders")
+      .select("id, created_at, status, total, total_override")
+      .not("status", "eq", "cancelled");
+
+    if (ordersError) {
+      return {
+        overview: null,
+        monthly: [],
+        products: [],
+        error: ordersError.message,
+      };
+    }
+
+    const orders = (ordersData ?? []) as Array<{
+      id: string;
+      created_at: string;
+      status: string;
+      total: number;
+      total_override?: number | null;
+    }>;
+
+    const emptyOverview: FinanceOverview = {
+      totalRevenue: 0,
+      estimatedCogs: 0,
+      grossProfit: 0,
+      grossMarginPercent: null,
+      thisMonthRevenue: 0,
+      thisMonthEstimatedCogs: 0,
+      thisMonthGrossProfit: 0,
+      thisMonthGrossMarginPercent: null,
+    };
+
+    if (orders.length === 0) {
+      const monthly: FinanceMonthPoint[] = [];
+      const today = new Date();
+      const y = today.getUTCFullYear();
+      const m = today.getUTCMonth();
+      for (let offset = months - 1; offset >= 0; offset--) {
+        const d = new Date(Date.UTC(y, m, 1));
+        d.setUTCMonth(d.getUTCMonth() - offset);
+        const ym = utcYearMonth(d.toISOString());
+        monthly.push({
+          year: ym.year,
+          month: ym.month,
+          label: monthLabelUtc(ym.year, ym.month),
+          revenue: 0,
+          estimatedCogs: 0,
+          grossProfit: 0,
+        });
+      }
+      return {
+        overview: emptyOverview,
+        monthly,
+        products: [],
+        error: null,
+      };
+    }
+
+    const orderIds = orders.map((o) => o.id);
+    const orderCreatedAt = new Map(orders.map((o) => [o.id, o.created_at]));
+
+    let totalRevenue = 0;
+    for (const o of orders) {
+      totalRevenue += effectiveOrderTotal(o);
+    }
+
+    const items = await fetchAllOrderItemsForOrders(supabase, orderIds);
+
+    const mk = (y: number, mo: number) =>
+      `${y}-${String(mo + 1).padStart(2, "0")}`;
+
+    const ordersByMonth = new Map<
+      string,
+      { year: number; month: number; revenue: number }
+    >();
+    for (const o of orders) {
+      const { year, month } = utcYearMonth(o.created_at);
+      const key = mk(year, month);
+      const rev = effectiveOrderTotal(o);
+      const cur = ordersByMonth.get(key);
+      if (!cur) {
+        ordersByMonth.set(key, { year, month, revenue: rev });
+      } else {
+        cur.revenue += rev;
+      }
+    }
+
+    let estimatedCogsAll = 0;
+    const cogsByMonth = new Map<
+      string,
+      { year: number; month: number; estimatedCogs: number }
+    >();
+
+    const productAgg = new Map<
+      string,
+      {
+        name_key: string;
+        slug: string;
+        unitsSold: number;
+        revenue: number;
+        estimatedCogs: number;
+      }
+    >();
+
+    for (const row of items) {
+      const createdAt = orderCreatedAt.get(row.order_id);
+      if (!createdAt) continue;
+
+      const prod = Array.isArray(row.products) ? row.products[0] : row.products;
+      const cost = Number(prod?.cost_price ?? 0);
+      const qty = Number(row.quantity ?? 0);
+      const lineCogs = qty * cost;
+      const lineRevenue = row.is_free
+        ? 0
+        : qty * Number(row.price_at_purchase ?? 0);
+
+      estimatedCogsAll += lineCogs;
+
+      const { year, month } = utcYearMonth(createdAt);
+      const key = mk(year, month);
+      const c = cogsByMonth.get(key);
+      if (!c) {
+        cogsByMonth.set(key, { year, month, estimatedCogs: lineCogs });
+      } else {
+        c.estimatedCogs += lineCogs;
+      }
+
+      const pid = row.product_id;
+      const existing = productAgg.get(pid);
+      if (existing) {
+        existing.unitsSold += qty;
+        existing.revenue += lineRevenue;
+        existing.estimatedCogs += lineCogs;
+      } else {
+        productAgg.set(pid, {
+          name_key: prod?.name_key?.trim() || "Unknown",
+          slug: prod?.slug?.trim() || pid,
+          unitsSold: qty,
+          revenue: lineRevenue,
+          estimatedCogs: lineCogs,
+        });
+      }
+    }
+
+    function marginPct(profit: number, revenueSum: number): number | null {
+      return revenueSum > 0 ? (profit / revenueSum) * 100 : null;
+    }
+
+    const grossProfit = totalRevenue - estimatedCogsAll;
+
+    const now = new Date();
+    const ty = now.getUTCFullYear();
+    const tm = now.getUTCMonth();
+    const tmKey = mk(ty, tm);
+    const thisMonthRevenue = ordersByMonth.get(tmKey)?.revenue ?? 0;
+    const thisMonthEstimatedCogs =
+      cogsByMonth.get(tmKey)?.estimatedCogs ?? 0;
+    const thisMonthGrossProfit =
+      thisMonthRevenue - thisMonthEstimatedCogs;
+
+    const overview: FinanceOverview = {
+      totalRevenue,
+      estimatedCogs: estimatedCogsAll,
+      grossProfit,
+      grossMarginPercent: marginPct(grossProfit, totalRevenue),
+      thisMonthRevenue,
+      thisMonthEstimatedCogs,
+      thisMonthGrossProfit,
+      thisMonthGrossMarginPercent: marginPct(
+        thisMonthGrossProfit,
+        thisMonthRevenue
+      ),
+    };
+
+    const monthly: FinanceMonthPoint[] = [];
+    for (let offset = months - 1; offset >= 0; offset--) {
+      const anchor = new Date(Date.UTC(ty, tm, 1));
+      anchor.setUTCMonth(anchor.getUTCMonth() - offset);
+      const ym = utcYearMonth(anchor.toISOString());
+      const key = mk(ym.year, ym.month);
+      const rev = ordersByMonth.get(key)?.revenue ?? 0;
+      const cog = cogsByMonth.get(key)?.estimatedCogs ?? 0;
+      monthly.push({
+        year: ym.year,
+        month: ym.month,
+        label: monthLabelUtc(ym.year, ym.month),
+        revenue: rev,
+        estimatedCogs: cog,
+        grossProfit: rev - cog,
+      });
+    }
+
+    const products: ProductProfitRow[] = [...productAgg.entries()]
+      .map(([product_id, p]) => {
+        const gPr = p.revenue - p.estimatedCogs;
+        return {
+          product_id,
+          name_key: p.name_key,
+          slug: p.slug,
+          unitsSold: p.unitsSold,
+          revenue: p.revenue,
+          estimatedCogs: p.estimatedCogs,
+          grossProfit: gPr,
+          marginPercent: p.revenue > 0 ? (gPr / p.revenue) * 100 : null,
+        };
+      })
+      .sort((a, b) => b.grossProfit - a.grossProfit)
+      .slice(0, topProductsLimit);
+
+    return { overview, monthly, products, error: null };
+  } catch (e) {
+    return {
+      overview: null,
+      monthly: [],
+      products: [],
+      error:
+        e instanceof Error ? e.message : "Failed to fetch finance dashboard",
+    };
+  }
+}
+
+// ============================================
 // PROJECTIONS
 // ============================================
 
