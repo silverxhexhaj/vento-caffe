@@ -812,6 +812,7 @@
         "emptyHint": "Aggiungi una bozza o genera una campagna per vederla qui.",
         "addPostCta": "Nuova bozza",
         "noAsset": "Nessun asset collegato",
+        "filteredCount": "{count} post",
         "rowActions": {
           "edit": "Modifica",
           "duplicate": "Duplica",
@@ -822,9 +823,36 @@
       },
       "filters": {
         "all": "Tutti",
+        "allStatuses": "Tutti gli stati",
         "instagram": "Instagram",
         "facebook": "Facebook",
         "tiktok": "TikTok"
+      },
+      "calendar": {
+        "title": "Calendario marketing",
+        "subtitle": "Clicca una data per pianificare post e bozze campagna.",
+        "prevMonth": "Mese precedente",
+        "nextMonth": "Mese successivo",
+        "postCount": "{count} post",
+        "legendScheduled": "Post programmati",
+        "legendReady": "Bozze pronte"
+      },
+      "agenda": {
+        "selectedDay": "Giorno selezionato",
+        "context": "Vista {campaign}",
+        "emptyTitle": "Nessun post programmato",
+        "emptyHint": "Crea una bozza rapida o programma un post esistente per questa data.",
+        "scheduleExistingTitle": "Programma bozza esistente",
+        "scheduleExistingHint": "Scegli una bozza salvata e inseriscila nel giorno selezionato.",
+        "noDrafts": "Nessuna bozza non programmata",
+        "scheduleCta": "Programma in questo giorno"
+      },
+      "quickDraft": {
+        "title": "Bozza rapida",
+        "subtitle": "Crea un post manuale programmato senza usare l'AI.",
+        "titlePlaceholder": "Titolo post",
+        "captionPlaceholder": "Scrivi la caption per questa data",
+        "createCta": "Crea per {day}"
       },
       "platforms": {
         "instagram": "Instagram",
@@ -910,6 +938,7 @@
       },
       "notices": {
         "draftsGenerated": "Le bozze in albanese sono state generate e salvate.",
+        "postCreated": "Bozza programmata creata.",
         "assetUploaded": "Immagine reference caricata.",
         "imageGenerated": "Asset immagine generato e salvato.",
         "postSaved": "Bozza salvata.",
@@ -918,6 +947,7 @@
       },
       "errors": {
         "generateDrafts": "Generazione bozze non riuscita.",
+        "createDraft": "Creazione bozza non riuscita.",
         "upload": "Caricamento immagine reference non riuscito.",
         "generateImage": "Generazione asset immagine non riuscita.",
         "savePost": "Salvataggio bozza non riuscito.",

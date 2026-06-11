@@ -812,6 +812,7 @@
         "emptyHint": "Add a draft or generate a campaign to see it here.",
         "addPostCta": "New draft",
         "noAsset": "No linked asset",
+        "filteredCount": "{count} posts",
         "rowActions": {
           "edit": "Edit",
           "duplicate": "Duplicate",
@@ -822,9 +823,36 @@
       },
       "filters": {
         "all": "All",
+        "allStatuses": "All statuses",
         "instagram": "Instagram",
         "facebook": "Facebook",
         "tiktok": "TikTok"
+      },
+      "calendar": {
+        "title": "Marketing calendar",
+        "subtitle": "Click a date to plan posts and campaign drafts.",
+        "prevMonth": "Previous month",
+        "nextMonth": "Next month",
+        "postCount": "{count} posts",
+        "legendScheduled": "Scheduled posts",
+        "legendReady": "Ready drafts"
+      },
+      "agenda": {
+        "selectedDay": "Selected day",
+        "context": "Showing {campaign}",
+        "emptyTitle": "No posts scheduled",
+        "emptyHint": "Create a quick draft or schedule an existing post for this date.",
+        "scheduleExistingTitle": "Schedule existing draft",
+        "scheduleExistingHint": "Pick a saved draft and place it on the selected day.",
+        "noDrafts": "No unscheduled drafts",
+        "scheduleCta": "Schedule on this day"
+      },
+      "quickDraft": {
+        "title": "Quick draft",
+        "subtitle": "Create a manual scheduled post without running AI.",
+        "titlePlaceholder": "Post title",
+        "captionPlaceholder": "Write the caption for this date",
+        "createCta": "Create for {day}"
       },
       "platforms": {
         "instagram": "Instagram",
@@ -910,6 +938,7 @@
       },
       "notices": {
         "draftsGenerated": "Albanian draft posts were generated and saved.",
+        "postCreated": "Scheduled draft created.",
         "assetUploaded": "Reference image uploaded.",
         "imageGenerated": "Generated image asset saved.",
         "postSaved": "Draft saved.",
@@ -918,6 +947,7 @@
       },
       "errors": {
         "generateDrafts": "Failed to generate drafts.",
+        "createDraft": "Failed to create draft.",
         "upload": "Failed to upload reference image.",
         "generateImage": "Failed to generate image asset.",
         "savePost": "Failed to save draft.",

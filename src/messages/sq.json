@@ -811,6 +811,7 @@
         "emptyHint": "Shtoni një draft ose gjeneroni një fushatë për ta parë këtu.",
         "addPostCta": "Draft i ri",
         "noAsset": "Pa asset të lidhur",
+        "filteredCount": "{count} postime",
         "rowActions": {
           "edit": "Ndrysho",
           "duplicate": "Dyfisho",
@@ -821,9 +822,36 @@
       },
       "filters": {
         "all": "Të gjitha",
+        "allStatuses": "Të gjitha statuset",
         "instagram": "Instagram",
         "facebook": "Facebook",
         "tiktok": "TikTok"
+      },
+      "calendar": {
+        "title": "Kalendari i marketingut",
+        "subtitle": "Klikoni një datë për të planifikuar postime dhe draft-e fushatash.",
+        "prevMonth": "Muaji i mëparshëm",
+        "nextMonth": "Muaji tjetër",
+        "postCount": "{count} postime",
+        "legendScheduled": "Postime të planifikuara",
+        "legendReady": "Draft-e gati"
+      },
+      "agenda": {
+        "selectedDay": "Dita e zgjedhur",
+        "context": "Shfaqet {campaign}",
+        "emptyTitle": "Asnjë post i planifikuar",
+        "emptyHint": "Krijoni një draft të shpejtë ose planifikoni një post ekzistues për këtë datë.",
+        "scheduleExistingTitle": "Planifiko draft ekzistues",
+        "scheduleExistingHint": "Zgjidhni një draft të ruajtur dhe vendoseni në ditën e zgjedhur.",
+        "noDrafts": "Nuk ka draft-e pa planifikim",
+        "scheduleCta": "Planifiko në këtë ditë"
+      },
+      "quickDraft": {
+        "title": "Draft i shpejtë",
+        "subtitle": "Krijoni një post manual të planifikuar pa përdorur AI.",
+        "titlePlaceholder": "Titulli i postimit",
+        "captionPlaceholder": "Shkruani përshkrimin për këtë datë",
+        "createCta": "Krijo për {day}"
       },
       "platforms": {
         "instagram": "Instagram",
@@ -909,6 +937,7 @@
       },
       "notices": {
         "draftsGenerated": "Draft-et e postimeve në shqip u gjeneruan dhe u ruajtën.",
+        "postCreated": "Draft-i i planifikuar u krijua.",
         "assetUploaded": "Imazhi referencë u ngarkua.",
         "imageGenerated": "Asset-i i gjeneruar u ruajt.",
         "postSaved": "Draft-i u ruajt.",
@@ -917,6 +946,7 @@
       },
       "errors": {
         "generateDrafts": "Gjenerimi i draft-eve dështoi.",
+        "createDraft": "Krijimi i draft-it dështoi.",
         "upload": "Ngarkimi i imazhit referencë dështoi.",
         "generateImage": "Gjenerimi i asset-it të imazhit dështoi.",
         "savePost": "Ruajtja e draft-it dështoi.",

@@ -44,6 +44,15 @@ export interface MarketingBriefInput {
   referenceAssetIds: string[];
 }
 
+export interface CreateMarketingPostDraftInput extends MarketingBriefInput {
+  platform: MarketingPlatform;
+  title: string;
+  caption: string;
+  hashtags: string[];
+  scheduledAt: string;
+  linkedAssetId?: string | null;
+}
+
 export interface GeneratedPostDraft {
   platform: MarketingPlatform;
   title: string;
@@ -127,7 +136,11 @@ async function ensureAdmin() {
   return { userId: auth.userId, error: null };
 }
 
-async function saveCampaign(input: MarketingBriefInput, userId: string) {
+async function saveCampaign(
+  input: MarketingBriefInput,
+  userId: string,
+  status: Database["public"]["Enums"]["marketing_campaign_status"] = "generating"
+) {
   const supabase = await createMarketingClient();
   const payload = {
     name: input.name.trim(),
@@ -136,7 +149,7 @@ async function saveCampaign(input: MarketingBriefInput, userId: string) {
     tone: input.tone.filter(Boolean),
     platforms: normalizePlatforms(input.platforms),
     outputs: input.outputs.length > 0 ? input.outputs : DEFAULT_OUTPUTS,
-    status: "generating" as const,
+    status,
     error_message: null,
     created_by: userId,
   };
@@ -394,6 +407,73 @@ export async function generateMarketingDrafts(
       .eq("id", campaign.id);
 
     return { campaign, posts: [], error: message };
+  }
+}
+
+export async function createMarketingPostDraft(
+  input: CreateMarketingPostDraftInput
+): Promise<{
+  campaign: MarketingCampaign | null;
+  post: MarketingPost | null;
+  error: string | null;
+}> {
+  const auth = await ensureAdmin();
+  if (auth.error || !auth.userId) return { campaign: null, post: null, error: auth.error };
+
+  const platforms = normalizePlatforms(input.platforms);
+  if (!SUPPORTED_PLATFORMS.includes(input.platform)) {
+    return { campaign: null, post: null, error: "Choose a supported platform." };
+  }
+  if (platforms.length === 0) {
+    return { campaign: null, post: null, error: "Choose at least one platform." };
+  }
+  if (!input.goal.trim() || !input.productFocus.trim()) {
+    return { campaign: null, post: null, error: "Goal and product focus are required." };
+  }
+  if (!input.title.trim() || !input.caption.trim()) {
+    return { campaign: null, post: null, error: "Title and caption are required." };
+  }
+  if (!input.scheduledAt || Number.isNaN(new Date(input.scheduledAt).getTime())) {
+    return { campaign: null, post: null, error: "Choose a valid schedule date." };
+  }
+
+  const { campaign, error: campaignError } = await saveCampaign(
+    { ...input, platforms: platforms.includes(input.platform) ? platforms : [...platforms, input.platform] },
+    auth.userId,
+    "ready"
+  );
+  if (campaignError || !campaign) {
+    return {
+      campaign: null,
+      post: null,
+      error: campaignError?.message ?? "Failed to save campaign",
+    };
+  }
+
+  try {
+    const supabase = await createMarketingClient();
+    const { data, error } = await supabase
+      .from(MARKETING_POSTS_TABLE)
+      .insert({
+        campaign_id: campaign.id,
+        linked_asset_id: input.linkedAssetId || null,
+        platform: input.platform,
+        title: input.title.trim().slice(0, 140),
+        caption: input.caption.trim().slice(0, 2200),
+        hashtags: sanitizeHashtags(input.hashtags),
+        status: "scheduled",
+        scheduled_at: input.scheduledAt,
+        metadata: { source: "manual" },
+        created_by: auth.userId,
+      })
+      .select("*")
+      .single();
+
+    if (error) return { campaign, post: null, error: error.message };
+    revalidatePath("/admin/marketing");
+    return { campaign, post: data as MarketingPost, error: null };
+  } catch {
+    return { campaign, post: null, error: "Failed to create post draft" };
   }
 }
 
