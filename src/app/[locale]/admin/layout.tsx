@@ -23,7 +23,7 @@ export default async function AdminLayout({
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    redirect(`/${locale}`);
+    redirect(`/${locale}/login`);
   }
 
   // Verify admin role
@@ -34,7 +34,7 @@ export default async function AdminLayout({
     .single();
 
   if (!profile || (profile as { role: string }).role !== "admin") {
-    redirect(`/${locale}`);
+    redirect(`/${locale}/login`);
   }
 
   const { count: unreadNotificationsCount } = await supabase

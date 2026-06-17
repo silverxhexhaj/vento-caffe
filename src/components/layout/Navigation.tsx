@@ -6,7 +6,6 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { mainNavItems } from "@/data/navigation";
-import { AuthButton } from "@/components/auth";
 import { useCart } from "@/lib/cart";
 
 export default function Navigation() {
@@ -161,10 +160,6 @@ export default function Navigation() {
               </span>
               <span className="hidden sm:inline">{t("navigation.cartButton", { totalItems })}</span>
             </button>
-            {/* Auth Button - Desktop only (on mobile it's in bottom nav) */}
-            <div className="hidden md:block">
-              <AuthButton />
-            </div>
           </div>
         </nav>
       </header>

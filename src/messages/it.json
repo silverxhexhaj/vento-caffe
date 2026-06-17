@@ -25,7 +25,7 @@
   "languages": {
     "en": "EN",
     "it": "IT",
-    "sq": "SQ"  
+    "sq": "SQ"
   },
   "navigation": {
     "home": "Home",
@@ -34,7 +34,8 @@
     "skipToContent": "Vai al contenuto",
     "openMenu": "Apri menu",
     "closeMenu": "Chiudi menu",
-    "cartButton": "Carrello ({totalItems})"
+    "cartButton": "Carrello ({totalItems})",
+    "cart": "Carrello"
   },
   "common": {
     "shopNow": "Acquista ora",
@@ -85,7 +86,10 @@
     },
     "hero": {
       "badge": "Caffè Premium",
-      "mainText": ["Caffè + Espresso", "per il tuo"],
+      "mainText": [
+        "Caffè + Espresso",
+        "per il tuo"
+      ],
       "businessCategories": [
         "HOTEL",
         "UFFICIO",
@@ -162,7 +166,10 @@
       ],
       "founders": {
         "heading": "Fondatori",
-        "names": ["Marco Bianchi", "Lucia Rossi"]
+        "names": [
+          "Marco Bianchi",
+          "Lucia Rossi"
+        ]
       }
     },
     "newsletter": {
@@ -176,16 +183,41 @@
       "tagline": "Cialde di caffè premium consegnate mensilmente. Macchina gratuita con abbonamento.",
       "bottomLine": "Prenditi il tuo tempo. Goditi il tuo espresso.",
       "legal": [
-        { "label": "Informativa sulla privacy", "href": "/legal/privacy" },
-        { "label": "Termini e condizioni", "href": "/legal/terms" },
-        { "label": "Spedizioni e resi", "href": "/legal/shipping" }
+        {
+          "label": "Informativa sulla privacy",
+          "href": "/legal/privacy"
+        },
+        {
+          "label": "Termini e condizioni",
+          "href": "/legal/terms"
+        },
+        {
+          "label": "Spedizioni e resi",
+          "href": "/legal/shipping"
+        }
       ]
     },
     "trustBadges": [
-      { "icon": "gift", "label": "Macchina gratis", "description": "Con abbonamento" },
-      { "icon": "truck", "label": "Consegna mensile", "description": "Direttamente a casa tua" },
-      { "icon": "star", "label": "Cialde premium", "description": "Qualità italiana" },
-      { "icon": "refresh", "label": "Riordino facile", "description": "WhatsApp o online" }
+      {
+        "icon": "gift",
+        "label": "Macchina gratis",
+        "description": "Con abbonamento"
+      },
+      {
+        "icon": "truck",
+        "label": "Consegna mensile",
+        "description": "Direttamente a casa tua"
+      },
+      {
+        "icon": "star",
+        "label": "Cialde premium",
+        "description": "Qualità italiana"
+      },
+      {
+        "icon": "refresh",
+        "label": "Riordino facile",
+        "description": "WhatsApp o online"
+      }
     ],
     "subscription": {
       "heading": "Come funziona",
@@ -519,7 +551,12 @@
     "subscription": "Abbonamento mensile",
     "oneTime": "Acquisto singolo",
     "items": "{count} articoli",
-    "freeItem": "GRATIS"
+    "freeItem": "GRATIS",
+    "whatsappIntroNote": "Aggiungi i tuoi dati qui sotto e apriremo WhatsApp con il tuo ordine pronto da inviare. Confermiamo la disponibilità e organizziamo la consegna direttamente in chat — senza bisogno di un account.",
+    "sendOrder": "Invia Ordine su WhatsApp",
+    "whatsappSuccessTitle": "Quasi fatto!",
+    "whatsappSuccessMessage": "Il tuo ordine si è aperto su WhatsApp. Invia il messaggio e confermeremo a breve il tuo ordine e la consegna.",
+    "openWhatsapp": "Apri di nuovo WhatsApp"
   },
   "productPage": {
     "notFoundTitle": "Prodotto non trovato",
@@ -640,13 +677,32 @@
     "address": "Indirizzo",
     "city": "Città",
     "businessSizePlaceholder": "Dimensione attività",
-    "businessSizeOptions": ["1-5 dipendenti", "6-20 dipendenti", "21-50 dipendenti", "50+ dipendenti"],
+    "businessSizeOptions": [
+      "1-5 dipendenti",
+      "6-20 dipendenti",
+      "21-50 dipendenti",
+      "50+ dipendenti"
+    ],
     "monthlyUsagePlaceholder": "Tazze mensili stimate",
-    "monthlyUsageOptions": ["Fino a 100", "100-300", "300-600", "600+"],
+    "monthlyUsageOptions": [
+      "Fino a 100",
+      "100-300",
+      "300-600",
+      "600+"
+    ],
     "contactMethodOptions": [
-      { "value": "phone", "label": "Preferisco telefono" },
-      { "value": "email", "label": "Preferisco email" },
-      { "value": "whatsapp", "label": "Preferisco WhatsApp" }
+      {
+        "value": "phone",
+        "label": "Preferisco telefono"
+      },
+      {
+        "value": "email",
+        "label": "Preferisco email"
+      },
+      {
+        "value": "whatsapp",
+        "label": "Preferisco WhatsApp"
+      }
     ],
     "notesPlaceholder": "Altro che dovremmo sapere? (opzionale)",
     "submit": "Prenota Campione Gratuito",
@@ -744,7 +800,9 @@
     "signOut": "Esci",
     "account": "Account",
     "loading": "Caricamento...",
-    "close": "Chiudi"
+    "close": "Chiudi",
+    "adminOnly": "Questo account non ha accesso da amministratore.",
+    "adminAreaNote": "Area riservata. Solo personale autorizzato."
   },
   "admin": {
     "calendar": {

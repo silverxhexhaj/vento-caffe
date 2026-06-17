@@ -34,7 +34,8 @@
     "skipToContent": "Skip to content",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "cartButton": "Cart ({totalItems})" 
+    "cartButton": "Cart ({totalItems})",
+    "cart": "Cart"
   },
   "common": {
     "shopNow": "Shop Now",
@@ -85,7 +86,10 @@
     },
     "hero": {
       "badge": "Premium Coffee",
-      "mainText": ["Coffee + Espresso Machine", "for your"],
+      "mainText": [
+        "Coffee + Espresso Machine",
+        "for your"
+      ],
       "businessCategories": [
         "HOTEL",
         "OFFICE",
@@ -162,11 +166,14 @@
       ],
       "founders": {
         "heading": "Founders",
-        "names": ["Marco Bianchi", "Lucia Rossi"]
+        "names": [
+          "Marco Bianchi",
+          "Lucia Rossi"
+        ]
       }
     },
     "newsletter": {
-      "heading": "Newsletter", 
+      "heading": "Newsletter",
       "subHeading": "Stay in touch",
       "placeholder": "Enter your email",
       "buttonText": "Go",
@@ -176,16 +183,41 @@
       "tagline": "Premium coffee cialde delivered monthly. Free machine with subscription.",
       "bottomLine": "Take your time. Enjoy your espresso.",
       "legal": [
-        { "label": "Privacy Policy", "href": "/legal/privacy" },
-        { "label": "Terms & Conditions", "href": "/legal/terms" },
-        { "label": "Shipping & Returns", "href": "/legal/shipping" }
+        {
+          "label": "Privacy Policy",
+          "href": "/legal/privacy"
+        },
+        {
+          "label": "Terms & Conditions",
+          "href": "/legal/terms"
+        },
+        {
+          "label": "Shipping & Returns",
+          "href": "/legal/shipping"
+        }
       ]
     },
     "trustBadges": [
-      { "icon": "gift", "label": "Free Machine", "description": "With subscription" },
-      { "icon": "truck", "label": "Monthly Delivery", "description": "Right to your door" },
-      { "icon": "star", "label": "Premium Cialde", "description": "Italian quality" },
-      { "icon": "refresh", "label": "Easy Reorder", "description": "WhatsApp or online" }
+      {
+        "icon": "gift",
+        "label": "Free Machine",
+        "description": "With subscription"
+      },
+      {
+        "icon": "truck",
+        "label": "Monthly Delivery",
+        "description": "Right to your door"
+      },
+      {
+        "icon": "star",
+        "label": "Premium Cialde",
+        "description": "Italian quality"
+      },
+      {
+        "icon": "refresh",
+        "label": "Easy Reorder",
+        "description": "WhatsApp or online"
+      }
     ],
     "subscription": {
       "heading": "How It Works",
@@ -243,7 +275,7 @@
       "name": "Didiesse Espresso Pod Machine",
       "description": "Designed for true coffee lovers who want authentic Italian espresso with maximum simplicity. Compatible with ESE pods, delivering perfect aroma, creamy texture, and consistent performance—all while respecting the environment.",
       "contents": "Enjoy real Italian espresso every day.",
-      "highlights": [ 
+      "highlights": [
         "Authentic Italian espresso",
         "Easy to use",
         "Fast heating time",
@@ -519,7 +551,12 @@
     "subscription": "Monthly subscription",
     "oneTime": "One-time purchase",
     "items": "{count} items",
-    "freeItem": "FREE"
+    "freeItem": "FREE",
+    "whatsappIntroNote": "Add your details below and we will open WhatsApp with your order ready to send. We confirm availability and arrange delivery directly in the chat — no account needed.",
+    "sendOrder": "Send Order via WhatsApp",
+    "whatsappSuccessTitle": "Almost done!",
+    "whatsappSuccessMessage": "Your order has opened in WhatsApp. Just send the message and we will confirm your order and delivery shortly.",
+    "openWhatsapp": "Open WhatsApp again"
   },
   "productPage": {
     "notFoundTitle": "Product Not Found",
@@ -640,13 +677,32 @@
     "address": "Address",
     "city": "City",
     "businessSizePlaceholder": "Business size",
-    "businessSizeOptions": ["1-5 employees", "6-20 employees", "21-50 employees", "50+ employees"],
+    "businessSizeOptions": [
+      "1-5 employees",
+      "6-20 employees",
+      "21-50 employees",
+      "50+ employees"
+    ],
     "monthlyUsagePlaceholder": "Est. monthly cups",
-    "monthlyUsageOptions": ["Up to 100", "100-300", "300-600", "600+"],
+    "monthlyUsageOptions": [
+      "Up to 100",
+      "100-300",
+      "300-600",
+      "600+"
+    ],
     "contactMethodOptions": [
-      { "value": "phone", "label": "Prefer phone" },
-      { "value": "email", "label": "Prefer email" },
-      { "value": "whatsapp", "label": "Prefer WhatsApp" }
+      {
+        "value": "phone",
+        "label": "Prefer phone"
+      },
+      {
+        "value": "email",
+        "label": "Prefer email"
+      },
+      {
+        "value": "whatsapp",
+        "label": "Prefer WhatsApp"
+      }
     ],
     "notesPlaceholder": "Anything else we should know? (optional)",
     "submit": "Book Free Sample",
@@ -744,7 +800,9 @@
     "signOut": "Sign out",
     "account": "Account",
     "loading": "Loading...",
-    "close": "Close"
+    "close": "Close",
+    "adminOnly": "This account does not have admin access.",
+    "adminAreaNote": "Restricted area. Authorized staff only."
   },
   "admin": {
     "calendar": {

@@ -34,7 +34,8 @@
     "skipToContent": "Shko te përmbajtja",
     "openMenu": "Hap menunë",
     "closeMenu": "Mbyll menunë",
-    "cartButton": "Shporta ({totalItems})"
+    "cartButton": "Shporta ({totalItems})",
+    "cart": "Shporta"
   },
   "common": {
     "shopNow": "Bli tani",
@@ -85,7 +86,10 @@
     },
     "hero": {
       "badge": "Kafe Premium",
-      "mainText": ["Kafe + Espresso", "për"],
+      "mainText": [
+        "Kafe + Espresso",
+        "për"
+      ],
       "businessCategories": [
         "HOTEL",
         "ZYRË",
@@ -162,7 +166,10 @@
       ],
       "founders": {
         "heading": "Themeluesit",
-        "names": ["Marco Bianchi", "Lucia Rossi"]
+        "names": [
+          "Marco Bianchi",
+          "Lucia Rossi"
+        ]
       }
     },
     "newsletter": {
@@ -176,16 +183,41 @@
       "tagline": "Bustina kafeje premium me dorëzim mujor. Makinë falas me abonim.",
       "bottomLine": "Merrni kohën tuaj. Shijoni espresson.",
       "legal": [
-        { "label": "Politika e privatësisë", "href": "/legal/privacy" },
-        { "label": "Kushtet dhe termat", "href": "/legal/terms" },
-        { "label": "Dërgesa dhe kthime", "href": "/legal/shipping" }
+        {
+          "label": "Politika e privatësisë",
+          "href": "/legal/privacy"
+        },
+        {
+          "label": "Kushtet dhe termat",
+          "href": "/legal/terms"
+        },
+        {
+          "label": "Dërgesa dhe kthime",
+          "href": "/legal/shipping"
+        }
       ]
     },
     "trustBadges": [
-      { "icon": "gift", "label": "Makinë falas", "description": "Me abonim" },
-      { "icon": "truck", "label": "Dorëzim mujor", "description": "Deri te dera juaj" },
-      { "icon": "star", "label": "Bustina premium", "description": "Cilësi italiane" },
-      { "icon": "refresh", "label": "Rirenditje e lehtë", "description": "WhatsApp ose online" }
+      {
+        "icon": "gift",
+        "label": "Makinë falas",
+        "description": "Me abonim"
+      },
+      {
+        "icon": "truck",
+        "label": "Dorëzim mujor",
+        "description": "Deri te dera juaj"
+      },
+      {
+        "icon": "star",
+        "label": "Bustina premium",
+        "description": "Cilësi italiane"
+      },
+      {
+        "icon": "refresh",
+        "label": "Rirenditje e lehtë",
+        "description": "WhatsApp ose online"
+      }
     ],
     "subscription": {
       "heading": "Si funksionon",
@@ -217,7 +249,7 @@
   },
   "products": {
     "classicCialde": {
-      "name": "Kuti Bustina Klasike",  
+      "name": "Kuti Bustina Klasike",
       "description": "Përzierja jonë ekskluzive e kafesë italiane premium, e përzgjedhur me kujdes dhe e pjekur në përsosmëri. Çdo bustina ofron një espresso të pasur dhe të plotë. Kafeja e përditshme perfekte për dashamirësit e vërtetë të espressos.",
       "contents": "150 bustina + kit",
       "highlights": [
@@ -518,7 +550,12 @@
     "subscription": "Abonim mujor",
     "oneTime": "Blerje një herë",
     "items": "{count} artikuj",
-    "freeItem": "FALAS"
+    "freeItem": "FALAS",
+    "whatsappIntroNote": "Shtoni të dhënat tuaja më poshtë dhe ne do të hapim WhatsApp me porosinë tuaj gati për dërgim. Ne konfirmojmë disponueshmërinë dhe organizojmë dorëzimin direkt në bisedë — pa nevojë për llogari.",
+    "sendOrder": "Dërgo Porosinë në WhatsApp",
+    "whatsappSuccessTitle": "Gati!",
+    "whatsappSuccessMessage": "Porosia juaj u hap në WhatsApp. Thjesht dërgoni mesazhin dhe ne do të konfirmojmë porosinë dhe dorëzimin së shpejti.",
+    "openWhatsapp": "Hap përsëri WhatsApp"
   },
   "productPage": {
     "notFoundTitle": "Produkti nuk u gjet",
@@ -639,13 +676,32 @@
     "address": "Adresa",
     "city": "Qyteti",
     "businessSizePlaceholder": "Madhësia e biznesit",
-    "businessSizeOptions": ["1-5 punonjës", "6-20 punonjës", "21-50 punonjës", "50+ punonjës"],
+    "businessSizeOptions": [
+      "1-5 punonjës",
+      "6-20 punonjës",
+      "21-50 punonjës",
+      "50+ punonjës"
+    ],
     "monthlyUsagePlaceholder": "Filxhanë mujore",
-    "monthlyUsageOptions": ["Deri në 100", "100-300", "300-600", "600+"],
+    "monthlyUsageOptions": [
+      "Deri në 100",
+      "100-300",
+      "300-600",
+      "600+"
+    ],
     "contactMethodOptions": [
-      { "value": "phone", "label": "Preferoj telefonin" },
-      { "value": "email", "label": "Preferoj emailin" },
-      { "value": "whatsapp", "label": "Preferoj WhatsApp" }
+      {
+        "value": "phone",
+        "label": "Preferoj telefonin"
+      },
+      {
+        "value": "email",
+        "label": "Preferoj emailin"
+      },
+      {
+        "value": "whatsapp",
+        "label": "Preferoj WhatsApp"
+      }
     ],
     "notesPlaceholder": "Ndonjë gjë tjetër që duhet ta dimë? (opsionale)",
     "submit": "Rezervo Mostrën Falas",
@@ -743,7 +799,9 @@
     "signOut": "Dil",
     "account": "Llogaria",
     "loading": "Duke u ngarkuar...",
-    "close": "Mbyll"
+    "close": "Mbyll",
+    "adminOnly": "Kjo llogari nuk ka qasje administratori.",
+    "adminAreaNote": "Zonë e kufizuar. Vetëm për stafin e autorizuar."
   },
   "admin": {
     "calendar": {
